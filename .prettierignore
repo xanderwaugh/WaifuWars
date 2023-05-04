@@ -1,0 +1,28 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+package-lock.json
+yarn.lock
+
+prisma/migrations/*
+*.sqlite
+migration_lock.toml
+migration.sql
+
+# build and product
+.next/
+
+# Testing
+coverage/
+__snapshots__/
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+
+# database
+/prisma/db.sqlite
+/prisma/db.sqlite-journal

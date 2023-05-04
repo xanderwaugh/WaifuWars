@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* :root {} */
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-in-out;
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+  body {
+    @apply min-h-screen bg-primary font-normal text-white antialiased scrollbar-thin scrollbar-track-gray-400/20 scrollbar-thumb-zinc-500;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeSpeed;
+    -webkit-text-size-adjust: 100%;
+    -ms-font-feature-settings: "kern" 1;
+    font-feature-settings: "kern";
+  }
+  input[type="file"] {
+    @apply hidden;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 0.75rem;
+    background: #888;
+  }
+  img {
+    content-visibility: auto;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply relative cursor-pointer rounded-md border border-[#eaeaea] px-10 py-2 text-lg font-bold uppercase tracking-widest text-white antialiased transition-all hover:border-slate-500/60 hover:text-slate-500;
+  }
+  .link {
+    @apply text-white antialiased transition-all hover:text-slate-500;
+  }
+}
+
+@layer utilities {
+  .safe-top {
+    padding-top: calc(env(safe-area-inset-top));
+  }
+  .safe-bottom {
+    padding-bottom: calc(env(safe-area-inset-bottom) + 20px);
+  }
+}

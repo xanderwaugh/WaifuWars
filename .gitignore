@@ -1,0 +1,46 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# database
+/prisma/db.sqlite
+/prisma/db.sqlite-journal
+/prisma/backup.sql
+/prisma/backupdb.txt
+
+# next.js
+/.next/
+/out/
+
+/analyze/*
+
+# misc
+.DS_Store
+*.pem
+/.vscode/settings.json
+/*.code-workspace
+
+# production
+/public/robots.txt
+/public/sitemap-0.xml
+/public/sitemap.xml
+
+# local env files
+.env
+.env*.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+
+*.zip
+*.todo
+
+public/sw.js
+public/workbox-*.js
+
+
+*.code-workspace
