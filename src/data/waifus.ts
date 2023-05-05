@@ -204,6 +204,10 @@ export const ALL_WAIFUS: number[] = [
   182976, // Anko_Uguisu
   177826, // Nazuna_Nanakusa
   177822, // Kabura_Honda
+  170734, // Makima
+  170733, // Power
+  170765, // Himeno
+  174751, // Reze
 ];
 
 export const getRandomWaifu = () => {
