@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { type GetServerSideProps, type NextPage } from "next";
 
 // Server
@@ -50,7 +50,9 @@ const ResultsPage: NextPage<RPageProps> = ({ waifus }) => {
         </div>
       </div>
 
-      <SortedResults waifus={waifus} sortedBy={sortedBy} />
+      <Suspense fallback={null}>
+        {waifus && <SortedResults waifus={waifus} sortedBy={sortedBy} />}
+      </Suspense>
     </div>
   );
 };
@@ -70,7 +72,7 @@ const getWaifuOrder = async () => {
   });
 };
 
-export const getStaticProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const waifuOrdered = await getWaifuOrder();
 
   // const DAY_IN_SECONDS = 60 * 60 * 24;
