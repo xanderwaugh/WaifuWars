@@ -12,6 +12,7 @@ const ResultListing: React.FC<ResultListingProps> = ({ waifu, rank }) => {
     <li>
       <Link
         href={waifu.url ?? "/"}
+        prefetch={false}
         className="relative flex items-center justify-between border-b p-1 pr-6"
       >
         <div className="flex items-center">

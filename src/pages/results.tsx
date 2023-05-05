@@ -1,5 +1,4 @@
-import { Suspense, useState } from "react";
-import { type GetServerSideProps, type NextPage } from "next";
+import { type GetStaticProps, type NextPage } from "next";
 
 // Server
 import { prisma } from "~/server/db";
@@ -18,41 +17,15 @@ interface RPageProps {
 }
 
 const ResultsPage: NextPage<RPageProps> = ({ waifus }) => {
-  const [sortedBy, setSortedBy] = useState<"perc" | "votes">("perc");
-
   return (
-    <div className="flex h-screen flex-col items-center justify-between gap-8 py-16">
+    <div className="flex min-h-screen flex-col items-center justify-between gap-8 py-16">
       <Head>
         <title>Waifu Wars - Results</title>
       </Head>
 
       <Header />
 
-      <div className="flex flex-col items-center justify-center gap-2">
-        <div className="text-center text-4xl">Results</div>
-        <div className="text-center text-lg">
-          Sorted by{" "}
-          <span
-            onClick={() => setSortedBy("perc")}
-            style={{ textDecoration: sortedBy === "perc" ? "underline" : "" }}
-            className="cursor-pointer text-blue-500 hover:underline"
-          >
-            percentage
-          </span>
-          {" or "}
-          <span
-            onClick={() => setSortedBy("votes")}
-            style={{ textDecoration: sortedBy === "votes" ? "underline" : "" }}
-            className="cursor-pointer text-blue-500 hover:underline"
-          >
-            votes
-          </span>
-        </div>
-      </div>
-
-      <Suspense fallback={null}>
-        {waifus && <SortedResults waifus={waifus} sortedBy={sortedBy} />}
-      </Suspense>
+      {waifus && <SortedResults waifus={waifus} />}
     </div>
   );
 };
@@ -72,7 +45,7 @@ const getWaifuOrder = async () => {
   });
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const waifuOrdered = await getWaifuOrder();
 
   // const DAY_IN_SECONDS = 60 * 60 * 24;
