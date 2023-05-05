@@ -1,5 +1,5 @@
-import { type AppType, type NextWebVitalsMetric } from "next/app";
-import Script from "next/script";
+import { type AppType } from "next/app";
+// import Script from "next/script";
 
 import { DefaultSeo } from "next-seo";
 import { SEOConfig } from "~/utils/seoConfig";
@@ -23,24 +23,24 @@ const MyApp: AppType = ({ Component, pageProps }) => {
 
       <Component {...pageProps} />
 
-      <Script
+      {/* <Script
         strategy="afterInteractive"
         src="https://www.googletagmanager.com/gtag/js?id=G-PNL6BCD0QW"
-      />
+      /> */}
     </main>
   );
 };
 
 export default api.withTRPC(MyApp);
 
-export function reportWebVitals(props: NextWebVitalsMetric) {
-  if (typeof window === "undefined") return;
-  const { id, name, label, value } = props;
-  window.gtag("event", name, {
-    event_category:
-      label === "web-vital" ? "Web Vitals" : "Next.js custom metric",
-    value: Math.round(name === "CLS" ? value * 1000 : value),
-    event_label: id,
-    non_interaction: true,
-  });
-}
+// export function reportWebVitals(props: NextWebVitalsMetric) {
+//   if (typeof window === "undefined") return;
+//   const { id, name, label, value } = props;
+//   window.gtag("event", name, {
+//     event_category:
+//       label === "web-vital" ? "Web Vitals" : "Next.js custom metric",
+//     value: Math.round(name === "CLS" ? value * 1000 : value),
+//     event_label: id,
+//     non_interaction: true,
+//   });
+// }
