@@ -12,6 +12,8 @@ const ResultListing: React.FC<ResultListingProps> = ({ waifu, rank }) => {
     <li>
       <Link
         href={waifu.url ?? "/"}
+        target="_blank"
+        rel="noopener noreferrer"
         prefetch={false}
         className="relative flex items-center justify-between border-b p-1 pr-6"
       >

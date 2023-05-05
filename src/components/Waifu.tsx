@@ -18,6 +18,9 @@ const WaifuListing: React.FC<{
 
       <Link
         href={props.waifu.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        prefetch={false}
         className="relative max-w-lg transition-all duration-300 ease-in-out hover:-translate-y-2 hover:scale-105"
       >
         <Image
