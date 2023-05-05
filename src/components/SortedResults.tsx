@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import ResultListing from "./ResultListing";
 
-// Sort by VoteFor
+// * Sort by VoteFor
 function sortByVoteFor(waifus: WaifusQueryResult): WaifusQueryResult {
   return [...waifus].sort((a, b) => b._count.VoteFor - a._count.VoteFor);
 }
 
-// Sort by percentage of votes for
+// * Sort by percentage of votes for
 function sortByVotePercentage(waifus: WaifusQueryResult): WaifusQueryResult {
   return [...waifus].sort(
     (a, b) =>
@@ -22,10 +22,12 @@ interface SortedResultsProps {
 const SortedResults: React.FC<SortedResultsProps> = ({ waifus }) => {
   const [sortedBy, setSortedBy] = useState<"perc" | "votes">("perc");
 
-  // const byVotes = useMemo(() => sortByVoteFor(waifus), [waifus]);
-  // const byPercent = useMemo(() => sortByVotePercentage(waifus), [waifus]);
-  const byVotes = sortByVoteFor(waifus ?? []);
-  const byPercent = sortByVotePercentage(waifus ?? []);
+  const byVotes = useMemo(() => sortByVoteFor(waifus ?? []), [waifus]);
+  const byPercent = useMemo(() => sortByVotePercentage(waifus ?? []), [waifus]);
+  // const byVotes = sortByVoteFor(waifus ?? []);
+  // const byPercent = sortByVotePercentage(waifus ?? []);
+
+  // if (typeof window === "undefined") return null;
 
   return (
     <>
@@ -51,23 +53,25 @@ const SortedResults: React.FC<SortedResultsProps> = ({ waifus }) => {
         </div>
       </div>
 
-      <ul className="flex w-full max-w-2xl flex-col border">
-        {sortedBy === "perc"
-          ? byPercent.map((curWaifu, idx) => (
-              <ResultListing
-                waifu={curWaifu}
-                key={curWaifu.id}
-                rank={idx + 1}
-              />
-            ))
-          : byVotes.map((curWaifu, idx) => (
-              <ResultListing
-                waifu={curWaifu}
-                key={curWaifu.id}
-                rank={idx + 1}
-              />
-            ))}
-      </ul>
+      <div className="flex w-full items-center justify-center px-4">
+        <ul className="flex w-full max-w-2xl flex-col border">
+          {sortedBy === "perc"
+            ? byPercent.map((curWaifu, idx) => (
+                <ResultListing
+                  key={curWaifu.id.toString() + "perc"}
+                  waifu={curWaifu}
+                  rank={idx + 1}
+                />
+              ))
+            : byVotes.map((curWaifu, idx) => (
+                <ResultListing
+                  key={curWaifu.id.toString() + "votes"}
+                  waifu={curWaifu}
+                  rank={idx + 1}
+                />
+              ))}
+        </ul>
+      </div>
     </>
   );
 };

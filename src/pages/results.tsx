@@ -5,12 +5,8 @@ import { prisma } from "~/server/db";
 
 // Client
 import Head from "next/head";
-import dynamic from "next/dynamic";
 import Header from "~/components/Header";
-// import SortedResults from "~/components/SortedResults";
-const SortedResults = dynamic(() => import("~/components/SortedResults"), {
-  ssr: false,
-});
+import SortedResults from "~/components/SortedResults";
 
 interface RPageProps {
   waifus: WaifusQueryResult;
@@ -32,8 +28,8 @@ const ResultsPage: NextPage<RPageProps> = ({ waifus }) => {
 
 export default ResultsPage;
 
-const getWaifuOrder = async () => {
-  return await prisma.waifu.findMany({
+export const getStaticProps: GetStaticProps = async () => {
+  const waifuOrdered = await prisma.waifu.findMany({
     orderBy: { VoteFor: { _count: "desc" } },
     select: {
       id: true,
@@ -43,10 +39,6 @@ const getWaifuOrder = async () => {
       _count: { select: { VoteFor: true, VoteAgainst: true } },
     },
   });
-};
-
-export const getStaticProps: GetStaticProps = async () => {
-  const waifuOrdered = await getWaifuOrder();
 
   // const DAY_IN_SECONDS = 60 * 60 * 24;
   const HOUR_IN_SECONDS = 60 * 60;

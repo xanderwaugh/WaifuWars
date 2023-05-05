@@ -11,11 +11,11 @@ const AboutPage: NextPage = () => {
         <title>Waifu Wars - About</title>
       </Head>
 
-      <Header />
-
       <div className="flex flex-col items-center justify-center gap-2">
         <div className="text-center text-4xl">About</div>
       </div>
+
+      <Header />
     </div>
   );
 };
