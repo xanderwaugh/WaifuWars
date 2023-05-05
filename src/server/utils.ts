@@ -1,5 +1,16 @@
 import { axios } from "./axios";
-import { type PrismaClient, type Waifu } from "@prisma/client";
+import { type PrismaClient } from "@prisma/client";
+
+// Prisma Seed
+type Waifu = {
+  id: number;
+  url: string;
+  name: string;
+  name_kanji: string | null;
+  image: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
 
 interface RandomWaifu {
   data: {

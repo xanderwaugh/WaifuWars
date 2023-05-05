@@ -62,7 +62,7 @@ export const ALL_WAIFUS: number[] = [
   23496, // Nymph
   37553, // Daedalus
   4963, // Yuno Gasai
-  // 4964, // Deus Ex Machina *** Troll ! error
+  // ! 4964, // Deus Ex Machina *** Troll ! error
   21960, // Lisa Lisa
   145877, // Echidna
   63, // Winry Rockbell
@@ -70,7 +70,7 @@ export const ALL_WAIFUS: number[] = [
   65229, // Mine
   65227, // Leone
   65233, // Sheele
-  // 65237, // Chelsea ! error
+  // ! 65237, // Chelsea ! error
   734, // Botan && 734, // Botan 2
   669, // Akane Tendou
   2421, // Shampoo
@@ -96,7 +96,7 @@ export const ALL_WAIFUS: number[] = [
   43121, // Morgiana
   82037, // Kurokami no Onna
   128910, //Suzune Horikita
-  // ...
+  // * ...
   130836, // Roxanne
   183430, // Setsuna
   183433, // Kureha Crylet
@@ -104,7 +104,7 @@ export const ALL_WAIFUS: number[] = [
   183432, // Norn Clatalissa Jioral
   183431, // Eve Reese
   33221, // Sora Kasugano
-  // ...
+  // * ...
   111741, // Ghislaine Dedoldia,
   111335, // Eris Boreas Greyrat
   740, // Nana,
@@ -118,7 +118,7 @@ export const ALL_WAIFUS: number[] = [
   68583, // Akane Tsunemori
   115691, // Ayame Kajou
   115699, // Anna Nishikinomiya
-  // 115705, // Hyouka Fuwa ! error
+  // ! 115705, // Hyouka Fuwa ! error
   24515, // Yui
   1038, // Naru Narusegawa
   458, // Revy
@@ -139,6 +139,71 @@ export const ALL_WAIFUS: number[] = [
   52889, // Akio Fudou
   52885, // Levi Kazama
   1251, // Ritsuko Akagi
+  // ? Essa's Contribution
+  31522, // Akashi
+  161471, // Itsuki_Nakano
+  161470, // Ichika_Nakano
+  161469, // Yotsuba_Nakano
+  161472, // Nino_Nakano
+  160603, // Miku_Nakano
+  165851, // Juno
+  218547, // Seika_Ijichi
+  219766, // PA-san
+  130214, // Sachiko_Fujinuma
+  // ! 139042, // Yuu_Takeyama ! error
+  141593, // Nemuri_Kayama
+  132505, // Akiko_Yosano
+  204858, // Liuying_Jiang
+  185667, // Thirteen
+  2735, // Julia
+  213159, // Lucy
+  215033, // Kiwi
+  63845, // Kyouko_Kirigiri
+  65525, // Celestia_Ludenberg
+  73221, // Mikan_Tsumiki
+  65523, // Junko_Enoshima
+  106029, // Hephaistios
+  28331, // Celty_Sturluson
+  136045, // Hibana
+  133768, // Maki_Oze
+  3934, // Olivier_Mira_Armstrong
+  67, // Izumi_Curtis
+  70, // Riza_Hawkeye
+  650, // Lust
+  177628, // Abigail_Jones
+  177629, // Cynthia_Moore
+  508, // Sophie_Hatter
+  // 21960, // Lisa_Lisa Duplicate
+  139512, // Tomoko_Higashikata
+  164472, // Nobara_Kugisaki
+  180766, // Mei_Mei
+  164485, // Kasumi_Miwa
+  194197, // Aurora
+  175269, // Ruka_Sarashina
+  161286, // Chizuru_Ichinose
+  83799, // Satsuki_Kiryuuin
+  206945, // Vermeil
+  22055, // Tsubasa_Hanekawa
+  117285, // Lalatina_Dustiness_Ford
+  123868, // Wiz
+  132771, // Rebecca_Rossellini
+  1047, // Fujiko_Mine
+  81931, // Fubuki
+  116275, // Albedo
+  89339, // Alice_Nakiri
+  78935, // Ikumi_Mito
+  // 166439, // Marin_Kitagawa Duplicate
+  94729, // Scarlett
+  94725, // Honey
+  177511, // Sylvia_Sherwood
+  170329, // Yor_Forger
+  112929, // Malty_Melromarc
+  112927, // Mirelia_Q_Melromarc
+  131937, // Shion
+  713, // Meryl_Stryfe
+  182976, // Anko_Uguisu
+  177826, // Nazuna_Nanakusa
+  177822, // Kabura_Honda
 ];
 
 export const getRandomWaifu = () => {
