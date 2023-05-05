@@ -92,10 +92,12 @@ export const getStaticProps: GetStaticProps = async () => {
     },
   });
 
-  const HOUR_IN_SECONDS = 60 * 60;
+  // const HOUR_IN_SECONDS = 60 * 60;
+  // const FIFTEEN_MINS = 60 * 15;
+  const TEN_MINS = 60 * 10;
 
   return {
     props: { waifus },
-    revalidate: HOUR_IN_SECONDS,
+    revalidate: TEN_MINS,
   };
 };
