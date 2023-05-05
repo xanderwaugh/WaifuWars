@@ -1,18 +1,19 @@
 import { useState } from "react";
-import { type NextPage } from "next";
+import { type GetStaticProps, type NextPage } from "next";
+
+import { prisma } from "~/server/db";
 
 import Head from "next/head";
-
-import { api } from "~/utils/api";
 
 import Header from "~/components/Header";
 import ResultListing from "~/components/ResultListing";
 
-const ResultsPage: NextPage = () => {
+interface ResultsPageProps {
+  waifus: WaifusQueryResult;
+}
+
+const ResultsPage: NextPage<ResultsPageProps> = ({ waifus }) => {
   const [sortedBy, setSortedBy] = useState<"perc" | "votes">("perc");
-  const { data } = api.waifu.results.useQuery({
-    sortedBy,
-  });
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-between gap-8 py-16">
@@ -46,13 +47,31 @@ const ResultsPage: NextPage = () => {
 
       <div className="flex w-full items-center justify-center px-4">
         <ul className="flex w-full max-w-2xl flex-col border">
-          {data?.waifus?.map((curWaifu, idx) => (
-            <ResultListing
-              key={curWaifu.id.toString() + "perc"}
-              waifu={curWaifu}
-              rank={idx + 1}
-            />
-          ))}
+          {sortedBy === "votes"
+            ? waifus
+                .sort((a, b) => b._count.VoteFor - a._count.VoteFor)
+                .map((curWaifu, idx) => (
+                  <ResultListing
+                    key={curWaifu.id.toString() + "perc"}
+                    waifu={curWaifu}
+                    rank={idx + 1}
+                  />
+                ))
+            : waifus
+                ?.sort(
+                  (a, b) =>
+                    b._count.VoteFor /
+                      (b._count.VoteFor + b._count.VoteAgainst) -
+                    a._count.VoteFor /
+                      (a._count.VoteFor + a._count.VoteAgainst),
+                )
+                .map((curWaifu, idx) => (
+                  <ResultListing
+                    key={curWaifu.id.toString() + "perc"}
+                    waifu={curWaifu}
+                    rank={idx + 1}
+                  />
+                ))}
         </ul>
       </div>
     </div>
@@ -60,3 +79,23 @@ const ResultsPage: NextPage = () => {
 };
 
 export default ResultsPage;
+
+export const getStaticProps: GetStaticProps = async () => {
+  const waifus = await prisma.waifu.findMany({
+    orderBy: { VoteFor: { _count: "desc" } },
+    select: {
+      id: true,
+      name: true,
+      image: true,
+      url: true,
+      _count: { select: { VoteFor: true, VoteAgainst: true } },
+    },
+  });
+
+  const HOUR_IN_SECONDS = 60 * 60;
+
+  return {
+    props: { waifus },
+    revalidate: HOUR_IN_SECONDS,
+  };
+};
