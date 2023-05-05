@@ -1,6 +1,4 @@
 import { type AppType } from "next/app";
-import { type Session } from "next-auth";
-import { SessionProvider } from "next-auth/react";
 
 import { DefaultSeo } from "next-seo";
 import { SEOConfig } from "~/utils/seoConfig";
@@ -17,17 +15,12 @@ const mont = Montserrat({
   subsets: ["latin"],
 });
 
-const MyApp: AppType<{ session: Session | null }> = ({
-  Component,
-  pageProps: { session, ...pageProps },
-}) => {
+const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <main className={mont.className}>
       <DefaultSeo {...SEOConfig} />
 
-      <SessionProvider session={session}>
-        <Component {...pageProps} />
-      </SessionProvider>
+      <Component {...pageProps} />
     </main>
   );
 };

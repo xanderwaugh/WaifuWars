@@ -78,22 +78,3 @@ const Home: NextPage = () => {
 };
 
 export default Home;
-
-// const fakeWaifu1 = {
-//   id: 194309,
-//   name: "Nia",
-//   image: "https://cdn.myanimelist.net/images/characters/7/436566.jpg",
-//   name_kanji: null,
-//   url: "https://myanimelist.net/character/194309/Nia",
-//   createdAt: new Date(),
-//   updatedAt: new Date(),
-// };
-// const fakeWaifu2 = {
-//   id: 201758,
-//   name: "Katie",
-//   name_kanji: "ケイテイ",
-//   image: "https://cdn.myanimelist.net/images/characters/4/457451.jpg",
-//   url: "https://myanimelist.net/character/201758/Katie",
-//   createdAt: new Date(),
-//   updatedAt: new Date(),
-// };

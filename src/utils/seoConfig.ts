@@ -19,7 +19,13 @@ export const SEOConfig: NextSeoProps = {
     type: "website",
     description: seoDescription,
     images: [
-      // { url: "https://bebop.xanny.dev/assets/hero.svg",  alt: "Logo", width: 512, height: 512, type: "image/svg" },
+      {
+        url: "https://waifu.xanny.dev/SquareLogo.png",
+        alt: "Logo",
+        width: 512,
+        height: 512,
+        type: "image/png",
+      },
     ],
   },
   twitter: {

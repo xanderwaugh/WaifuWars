@@ -45,6 +45,33 @@ export const ALL_WAIFUS: number[] = [
   112893, // Raphtalia
   146157, // Nezuko Kamado
   558, // Kallen Stadtfeld
+  835, // Misa Amane
+  12305, // Minori Kushieda
+  12307, // Yasuko Takasu
+  9146, // Peach
+  40881, // Mikasa Ackerman
+  3923, // Sayoko Tsukinomori
+  1120, // Shirley Fenette
+  1110, // Nunnally Lamperouge
+  8439, // Maka Albarn
+  8444, //Patricia Thompson
+  8445, //Elizabeth Thompson
+  23491, // Sohara Mitsuki
+  19931, // Saki Morimi
+  21150, // Ikaros
+  23496, // Nymph
+  37553, // Daedalus
+  4963, // Yuno Gasai
+  4964, // Deus Ex Machina *** Troll
+
+  // ...
+  130836, // Roxanne
+  183430, // Setsuna
+  183433, // Kureha Crylet
+  160679, // Flare Arlgrande Jioral
+  183432, // Norn Clatalissa Jioral
+  183431, // Eve Reese
+  33221, // Sora Kasugano
 ];
 
 export const getRandomWaifu = () => {
