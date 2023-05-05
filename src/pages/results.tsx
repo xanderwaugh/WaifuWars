@@ -12,9 +12,7 @@ import ResultListing from "~/components/ResultListing";
 
 const getWaifusInOrder = async () => {
   return await prisma.waifu.findMany({
-    orderBy: {
-      VoteFor: { _count: "desc" },
-    },
+    orderBy: { VoteFor: { _count: "desc" } },
     select: {
       id: true,
       name: true,

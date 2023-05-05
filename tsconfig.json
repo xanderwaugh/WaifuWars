@@ -17,7 +17,7 @@
     "jsx": "preserve",
     "incremental": true,
     "noUncheckedIndexedAccess": true,
-    "types": ["next", "node"], // "vidstack/globals"
+    "types": ["next", "node", "@types/gtag.js"],
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"]

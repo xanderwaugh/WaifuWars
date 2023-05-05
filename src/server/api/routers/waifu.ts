@@ -10,19 +10,18 @@ import {
   addWaifuToDB,
 } from "~/server/utils";
 
-// https://docs.api.jikan.moe/#tag/characters/operation/getCharacterById
-
+// https://docs.api.jikan.moe/
 export const waifuRouter = createTRPCRouter({
   getWaifuPair: publicProcedure.query(async ({ ctx }) => {
     const [r1, r2] = getRandomWaifuPair();
 
-    // Check if waifu1 and waifu2 are in db
-    // If not, add them to db
+    // * Check if waifu1 and waifu2 are in db
     let [waifu1, waifu2] = await Promise.all([
       checkIfWaifuExists(ctx.prisma, r1),
       checkIfWaifuExists(ctx.prisma, r2),
     ]);
 
+    // * If not, add them to db
     if (!waifu1) {
       const waifu = await fetchWaifuById(r1);
       await addWaifuToDB(ctx.prisma, waifu);
