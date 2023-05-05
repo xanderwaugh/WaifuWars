@@ -1,37 +1,24 @@
-import { useState, useMemo } from "react";
-import { type GetStaticProps, type NextPage } from "next";
+import { useState } from "react";
+import { type GetServerSideProps, type NextPage } from "next";
 
 // Server
 import { prisma } from "~/server/db";
 
 // Client
 import Head from "next/head";
+import dynamic from "next/dynamic";
 import Header from "~/components/Header";
-import ResultListing from "~/components/ResultListing";
+// import SortedResults from "~/components/SortedResults";
+const SortedResults = dynamic(() => import("~/components/SortedResults"), {
+  ssr: false,
+});
 
 interface RPageProps {
   waifus: WaifusQueryResult;
 }
 
-// Sort by VoteFor
-function sortByVoteFor(waifus: WaifusQueryResult): WaifusQueryResult {
-  return [...waifus].sort((a, b) => b._count.VoteFor - a._count.VoteFor);
-}
-
-// Sort by percentage of votes for
-function sortByVotePercentage(waifus: WaifusQueryResult): WaifusQueryResult {
-  return [...waifus].sort(
-    (a, b) =>
-      b._count.VoteFor / (b._count.VoteFor + b._count.VoteAgainst) -
-      a._count.VoteFor / (a._count.VoteFor + a._count.VoteAgainst),
-  );
-}
-
 const ResultsPage: NextPage<RPageProps> = ({ waifus }) => {
   const [sortedBy, setSortedBy] = useState<"perc" | "votes">("perc");
-
-  const byVotes = useMemo(() => sortByVoteFor(waifus), [waifus]);
-  const byPercent = useMemo(() => sortByVotePercentage(waifus), [waifus]);
 
   return (
     <div className="flex h-screen flex-col items-center justify-between gap-8 py-16">
@@ -63,31 +50,15 @@ const ResultsPage: NextPage<RPageProps> = ({ waifus }) => {
         </div>
       </div>
 
-      <ul className="flex w-full max-w-2xl flex-col border">
-        {sortedBy === "perc"
-          ? byPercent.map((curWaifu, idx) => (
-              <ResultListing
-                waifu={curWaifu}
-                key={curWaifu.id}
-                rank={idx + 1}
-              />
-            ))
-          : byVotes.map((curWaifu, idx) => (
-              <ResultListing
-                waifu={curWaifu}
-                key={curWaifu.id}
-                rank={idx + 1}
-              />
-            ))}
-      </ul>
+      <SortedResults waifus={waifus} sortedBy={sortedBy} />
     </div>
   );
 };
 
 export default ResultsPage;
 
-export const getStaticProps: GetStaticProps = async () => {
-  const waifuOrdered = await prisma.waifu.findMany({
+const getWaifuOrder = async () => {
+  return await prisma.waifu.findMany({
     orderBy: { VoteFor: { _count: "desc" } },
     select: {
       id: true,
@@ -97,6 +68,10 @@ export const getStaticProps: GetStaticProps = async () => {
       _count: { select: { VoteFor: true, VoteAgainst: true } },
     },
   });
+};
+
+export const getStaticProps: GetServerSideProps = async () => {
+  const waifuOrdered = await getWaifuOrder();
 
   // const DAY_IN_SECONDS = 60 * 60 * 24;
   const HOUR_IN_SECONDS = 60 * 60;
