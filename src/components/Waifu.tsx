@@ -25,6 +25,7 @@ const WaifuListing: React.FC<{
           alt={props.waifu.name}
           width={256}
           height={256}
+          style={{ imageRendering: "pixelated" }}
           // layout="fixed"
           className="animate-fade-in h-full rounded-sm object-cover"
         />

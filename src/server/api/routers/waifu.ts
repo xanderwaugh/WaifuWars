@@ -51,4 +51,40 @@ export const waifuRouter = createTRPCRouter({
       });
       return { success: true, vote: voteInDB };
     }),
+  results: publicProcedure
+    .input(
+      z.object({
+        sortedBy: z.enum(["votes", "perc"]),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const waifuOrdered = await ctx.prisma.waifu.findMany({
+        orderBy: { VoteFor: { _count: "desc" } },
+        select: {
+          id: true,
+          name: true,
+          image: true,
+          url: true,
+          _count: { select: { VoteFor: true, VoteAgainst: true } },
+        },
+      });
+
+      let sorted: WaifusQueryResult = [];
+
+      if (input.sortedBy === "votes") {
+        // * Sort by VoteFor
+        sorted = waifuOrdered.sort(
+          (a, b) => b._count.VoteFor - a._count.VoteFor,
+        );
+      } else if (input.sortedBy === "perc") {
+        // * Sort by Percent
+        sorted = waifuOrdered.sort(
+          (a, b) =>
+            b._count.VoteFor / (b._count.VoteFor + b._count.VoteAgainst) -
+            a._count.VoteFor / (a._count.VoteFor + a._count.VoteAgainst),
+        );
+      }
+
+      return { waifus: sorted };
+    }),
 });
