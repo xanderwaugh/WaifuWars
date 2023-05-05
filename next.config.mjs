@@ -18,7 +18,6 @@ const config = {
     domains: [
       "cdn.discordapp.com",
       "source.unsplash.com",
-      //
       "myanimelist.net",
       "cdn.myanimelist.net",
     ],

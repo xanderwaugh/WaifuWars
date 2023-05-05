@@ -1,16 +1,21 @@
+import { useEffect, useState } from "react";
 import { type NextPage } from "next";
 
 import { api } from "~/utils/api";
 
 import WaifuListing from "~/components/Waifu";
-import Link from "next/link";
+import Header from "~/components/Header";
+import { ImSpinner2 } from "react-icons/im";
 
 const Home: NextPage = () => {
+  const [loading, setLoading] = useState(true);
+
   const {
     data: waifuPair,
     isLoading,
     refetch,
   } = api.waifu.getWaifuPair.useQuery();
+
   const voteMutation = api.waifu.vote.useMutation();
 
   const voteForWaifu = async (selected: number) => {
@@ -36,13 +41,21 @@ const Home: NextPage = () => {
     });
   };
 
-  const loading = isLoading || voteMutation.isLoading;
+  useEffect(() => {
+    setLoading(isLoading || voteMutation.isLoading);
+  }, [isLoading, voteMutation.isLoading]);
 
   return (
-    <div className="flex h-screen flex-col items-center justify-between py-8">
-      <div className="pt-8 text-center text-4xl">Which Waifu is better?</div>
+    <div className="flex min-h-screen flex-col items-center justify-between overflow-hidden py-8">
+      <div className="pt-8 text-center text-3xl md:text-4xl">
+        Which Waifu is better?
+      </div>
 
-      {waifuPair && (
+      {loading || !waifuPair ? (
+        <div className="flex h-full w-full animate-spin flex-col items-center justify-center py-8 text-9xl duration-500 ease-in-out">
+          <ImSpinner2 />
+        </div>
+      ) : (
         <div className="animate-fade-in mx-auto flex flex-col items-center justify-center p-8 md:flex-row md:gap-16">
           <WaifuListing
             waifu={waifuPair.waifu1}
@@ -57,22 +70,11 @@ const Home: NextPage = () => {
           />
         </div>
       )}
+
       {/* {!waifuPair && <img src="/rings.svg" className="w-48" />} */}
 
       {/* Links */}
-      <div className="flex w-full flex-row items-center justify-center gap-8 py-12 text-xl">
-        <Link href="/" className="link">
-          Home
-        </Link>
-        <span> - </span>
-        <Link href="/results" className="link">
-          Results
-        </Link>
-        <span> - </span>
-        <Link href="/about" className="link">
-          About
-        </Link>
-      </div>
+      <Header />
     </div>
   );
 };

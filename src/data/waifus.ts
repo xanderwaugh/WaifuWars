@@ -138,10 +138,11 @@ export const ALL_WAIFUS: number[] = [
   52891, // Mira Yamana
   52889, // Akio Fudou
   52885, // Levi Kazama
+  1251, // Ritsuko Akagi
 ];
 
 export const getRandomWaifu = () => {
-  const randidx = Math.floor(Math.random() * ALL_WAIFUS.length);
+  const randidx = Math.floor(Math.random() * ALL_WAIFUS.length - 1);
   return ALL_WAIFUS[randidx] as number;
 };
 

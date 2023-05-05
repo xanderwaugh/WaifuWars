@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Spinner from "./Spinner";
+import Link from "next/link";
 
 const WaifuListing: React.FC<{
   waifu: Waifu;
@@ -15,7 +16,10 @@ const WaifuListing: React.FC<{
         {props.waifu.name.slice(0, 24)}
       </div>
 
-      <div className="relative w-full max-w-lg">
+      <Link
+        href={props.waifu.url}
+        className="relative max-w-lg transition-all duration-300 ease-in-out hover:-translate-y-2 hover:scale-105"
+      >
         <Image
           src={props.waifu.image}
           alt={props.waifu.name}
@@ -24,7 +28,7 @@ const WaifuListing: React.FC<{
           // layout="fixed"
           className="animate-fade-in h-full rounded-sm object-cover"
         />
-      </div>
+      </Link>
 
       <button
         className="btn"

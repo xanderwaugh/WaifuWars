@@ -15,14 +15,14 @@
  * These allow you to access things when processing a request, like the database, the session, etc.
  */
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
-import { type NextApiRequest, type NextApiResponse } from "next";
+import { type NextApiResponse } from "next";
 
 // import { getServerAuthSession } from "~/server/auth";
 import { prisma } from "~/server/db";
 
 type CreateContextOptions = {
   res?: NextApiResponse;
-  req?: NextApiRequest;
+  // req?: NextApiRequest;
 };
 
 /**
@@ -37,10 +37,10 @@ type CreateContextOptions = {
  */
 const createInnerTRPCContext = (opts: CreateContextOptions) => {
   return {
-    // session: opts.session,
     res: opts.res,
-    req: opts.req,
     prisma,
+    // session: opts.session,
+    // req: opts.req,
   };
 };
 
@@ -52,12 +52,14 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
  */
 // eslint-disable-next-line @typescript-eslint/require-await
 export const createTRPCContext = async (opts: CreateNextContextOptions) => {
-  const { req, res } = opts;
+  const { res } = opts;
 
   // Get the session from the server using the getServerSession wrapper function
   // const session = await getServerAuthSession({ req, res });
 
-  return createInnerTRPCContext({ res, req });
+  return createInnerTRPCContext({
+    res,
+  });
 };
 
 /**
