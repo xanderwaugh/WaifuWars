@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+// import { useMemo } from "react";
 import ResultListing from "./ResultListing";
 
 // Sort by VoteFor
@@ -21,8 +21,10 @@ interface SortedResultsProps {
 }
 
 const SortedResults: React.FC<SortedResultsProps> = ({ waifus, sortedBy }) => {
-  const byVotes = useMemo(() => sortByVoteFor(waifus), [waifus]);
-  const byPercent = useMemo(() => sortByVotePercentage(waifus), [waifus]);
+  // const byVotes = useMemo(() => sortByVoteFor(waifus), [waifus]);
+  // const byPercent = useMemo(() => sortByVotePercentage(waifus), [waifus]);
+  const byVotes = sortByVoteFor(waifus);
+  const byPercent = sortByVotePercentage(waifus);
 
   return (
     <ul className="flex w-full max-w-2xl flex-col border">
