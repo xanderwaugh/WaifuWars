@@ -27,15 +27,19 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         strategy="afterInteractive"
         src="https://www.googletagmanager.com/gtag/js?id=G-PNL6BCD0QW"
       />
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`
+      <Script
+        id="google-analytics"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
           window.dataLayer = window.dataLayer || [];
           function gtag(){window.dataLayer.push(arguments);}
           gtag('js', new Date());
 
-          gtag('config', 'GA_MEASUREMENT_ID');
-        `}
-      </Script>
+          gtag('config', 'G-PNL6BCD0QW');
+        `,
+        }}
+      />
     </main>
   );
 };
@@ -45,6 +49,7 @@ export default api.withTRPC(MyApp);
 export function reportWebVitals(props: NextWebVitalsMetric) {
   if (typeof window === "undefined") return;
   const { id, name, label, value } = props;
+  if (!window.gtag) return;
   window.gtag("event", name, {
     event_category:
       label === "web-vital" ? "Web Vitals" : "Next.js custom metric",
