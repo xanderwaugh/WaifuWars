@@ -14,6 +14,7 @@ const Home: NextPage = () => {
     data: waifuPair,
     isLoading,
     refetch,
+    error,
   } = api.waifu.getWaifuPair.useQuery();
 
   const voteMutation = api.waifu.vote.useMutation();
@@ -37,9 +38,12 @@ const Home: NextPage = () => {
 
     // plausible("cast-vote");
     if (typeof window !== "undefined" && window.gtag) {
-      window.gtag("event", "vote", {
-        event_category: "engagement",
-        event_label: "vote",
+      window.gtag("event", "post_score", {
+        // event_category: "engagement",
+        // event_label: "vote",
+        score: 1,
+        level: 1,
+        character: selected,
       });
     }
 
@@ -57,6 +61,13 @@ const Home: NextPage = () => {
       <div className="pt-8 text-center text-3xl md:text-4xl">
         Which Waifu is better?
       </div>
+
+      {error && (
+        <div className="flex h-full w-full flex-col items-center justify-center py-8 text-9xl duration-500 ease-in-out">
+          <div className="text-3xl text-red-500">Error loading waifu pair</div>
+          <div className="text-3xl text-red-500">{error.message}</div>
+        </div>
+      )}
 
       {loading || !waifuPair ? (
         <div className="flex h-full w-full animate-spin flex-col items-center justify-center py-8 text-9xl duration-500 ease-in-out">

@@ -15,14 +15,13 @@
  * These allow you to access things when processing a request, like the database, the session, etc.
  */
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
-import { type NextApiResponse } from "next";
+import { type NextApiRequest, type NextApiResponse } from "next";
 
-// import { getServerAuthSession } from "~/server/auth";
 import { prisma } from "~/server/db";
 
 type CreateContextOptions = {
   res?: NextApiResponse;
-  // req?: NextApiRequest;
+  req?: NextApiRequest;
 };
 
 /**
@@ -38,9 +37,9 @@ type CreateContextOptions = {
 const createInnerTRPCContext = (opts: CreateContextOptions) => {
   return {
     res: opts.res,
+    req: opts.req,
     prisma,
     // session: opts.session,
-    // req: opts.req,
   };
 };
 
@@ -52,13 +51,14 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
  */
 // eslint-disable-next-line @typescript-eslint/require-await
 export const createTRPCContext = async (opts: CreateNextContextOptions) => {
-  const { res } = opts;
+  const { res, req } = opts;
 
   // Get the session from the server using the getServerSession wrapper function
   // const session = await getServerAuthSession({ req, res });
 
   return createInnerTRPCContext({
     res,
+    req,
   });
 };
 
@@ -69,9 +69,11 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
  * ZodErrors so that you get typesafety on the frontend if your procedure fails due to validation
  * errors on the backend.
  */
-import { initTRPC } from "@trpc/server";
+import { TRPCError, initTRPC } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
+
+export type Context = ReturnType<typeof createTRPCContext>;
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
@@ -109,3 +111,56 @@ export const createTRPCRouter = t.router;
  * are logged in.
  */
 export const publicProcedure = t.procedure;
+
+import { env } from "~/env.mjs";
+import { Redis } from "@upstash/redis";
+import { Ratelimit } from "@upstash/ratelimit";
+
+// * Rate Limiting
+const redis = new Redis({
+  url: env.UPSTASH_URL,
+  token: env.UPSTASH_TOKEN,
+});
+
+const rateLimit = new Ratelimit({
+  redis,
+  limiter: Ratelimit.slidingWindow(20, "1 s"),
+  // analytics: true,
+  timeout: 300,
+});
+
+const getFingerprint = (req: NextApiRequest) => {
+  const forwarded = req.headers["x-forwarded-for"];
+  const ip = forwarded
+    ? (typeof forwarded === "string" ? forwarded : forwarded[0])?.split(/, /)[0]
+    : req.socket.remoteAddress;
+  return ip || "127.0.0.1";
+};
+
+/** Reusable middleware ratelimits users to 20 request per 10 seconds. */
+const enforceRatelimit = t.middleware(async ({ ctx, next }) => {
+  if (!ctx.req) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+
+  const ip = getFingerprint(ctx.req);
+
+  console.time("Rate limit");
+
+  const { success, pending } = await rateLimit.limit(ip);
+
+  await pending;
+
+  console.timeEnd("Rate limit");
+
+  if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
+
+  return next({ ctx: { ...ctx } });
+});
+
+/**
+ * Protected (authenticated) procedure
+ *
+ * This is the base piece you use to build new queries and mutations on your tRPC API. It guarantees rate limiting.
+ *
+ * @see https://trpc.io/docs/procedures
+ */
+export const ratelimitProcedure = t.procedure.use(enforceRatelimit);

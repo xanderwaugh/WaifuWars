@@ -1,6 +1,5 @@
 import { z } from "zod";
-
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, ratelimitProcedure } from "~/server/api/trpc";
 
 import { getRandomWaifuPair } from "~/data/waifus";
 
@@ -12,7 +11,7 @@ import {
 
 // https://docs.api.jikan.moe/
 export const waifuRouter = createTRPCRouter({
-  getWaifuPair: publicProcedure.query(async ({ ctx }) => {
+  getWaifuPair: ratelimitProcedure.query(async ({ ctx }) => {
     const [r1, r2] = getRandomWaifuPair();
 
     // * Check if waifu1 and waifu2 are in db
@@ -35,7 +34,7 @@ export const waifuRouter = createTRPCRouter({
 
     return { waifu1, waifu2 };
   }),
-  vote: publicProcedure
+  vote: ratelimitProcedure
     .input(
       z.object({
         votedFor: z.number(),
@@ -51,40 +50,30 @@ export const waifuRouter = createTRPCRouter({
       });
       return { success: true, vote: voteInDB };
     }),
-  results: publicProcedure
-    .input(
-      z.object({
-        sortedBy: z.enum(["votes", "perc"]),
-      }),
-    )
-    .query(async ({ ctx, input }) => {
-      const waifuOrdered = await ctx.prisma.waifu.findMany({
-        orderBy: { VoteFor: { _count: "desc" } },
-        select: {
-          id: true,
-          name: true,
-          image: true,
-          url: true,
-          _count: { select: { VoteFor: true, VoteAgainst: true } },
-        },
-      });
-
-      let sorted: WaifusQueryResult = [];
-
-      if (input.sortedBy === "votes") {
-        // * Sort by VoteFor
-        sorted = waifuOrdered.sort(
-          (a, b) => b._count.VoteFor - a._count.VoteFor,
-        );
-      } else if (input.sortedBy === "perc") {
-        // * Sort by Percent
-        sorted = waifuOrdered.sort(
-          (a, b) =>
-            b._count.VoteFor / (b._count.VoteFor + b._count.VoteAgainst) -
-            a._count.VoteFor / (a._count.VoteFor + a._count.VoteAgainst),
-        );
-      }
-
-      return { waifus: sorted };
-    }),
 });
+
+// const getResults = async (sortedBy: "votes" | "perc", ctx: Context) => {
+//   const waifuOrdered = await ctx.prisma.waifu.findMany({
+//     orderBy: { VoteFor: { _count: "desc" } },
+//     select: {
+//       id: true,
+//       name: true,
+//       image: true,
+//       url: true,
+//       _count: { select: { VoteFor: true, VoteAgainst: true } },
+//     },
+//   });
+//   let sorted: WaifusQueryResult = [];
+//   if (sortedBy === "votes") {
+//     // * Sort by VoteFor
+//     sorted = waifuOrdered.sort((a, b) => b._count.VoteFor - a._count.VoteFor);
+//   } else if (sortedBy === "perc") {
+//     // * Sort by Percent
+//     sorted = waifuOrdered.sort(
+//       (a, b) =>
+//         b._count.VoteFor / (b._count.VoteFor + b._count.VoteAgainst) -
+//         a._count.VoteFor / (a._count.VoteFor + a._count.VoteAgainst),
+//     );
+//   }
+//   return { waifus: sorted };
+// };

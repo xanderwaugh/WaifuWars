@@ -208,20 +208,24 @@ export const ALL_WAIFUS: number[] = [
   170733, // Power
   170765, // Himeno
   174751, // Reze
+  2767, // Tsunade
 ];
 
-export const getRandomWaifu = () => {
-  const randidx = Math.floor(Math.random() * ALL_WAIFUS.length - 1);
+export const getRandomWaifu: (notThisOne?: number) => number = (
+  notThisOne?: number,
+) => {
+  const randidx = Math.floor(Math.random() * ALL_WAIFUS.length) + 1;
+
+  if (notThisOne && ALL_WAIFUS[randidx] === notThisOne)
+    return getRandomWaifu(notThisOne);
+
   return ALL_WAIFUS[randidx] as number;
 };
 
-export const getRandomWaifuPair: () => [number, number] = () => {
+export const getRandomWaifuPair = () => {
   const r1 = getRandomWaifu();
-  const r2 = getRandomWaifu();
-  if (r1 === r2) {
-    console.log("same waifu, rerolling");
-    return getRandomWaifuPair();
-  }
+  const r2 = getRandomWaifu(r1);
+  // if (r1 === r2) return getRandomWaifuPair();
 
-  return [r1, r2];
+  return [r1, r2] as const;
 };
