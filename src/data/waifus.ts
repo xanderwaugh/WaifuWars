@@ -140,7 +140,7 @@ export const ALL_WAIFUS: number[] = [
   52885, // Levi Kazama
   1251, // Ritsuko Akagi
   // ? Essa's Contribution
-  31522, // Akashi
+  // 31522, // Akashi
   161471, // Itsuki_Nakano
   161470, // Ichika_Nakano
   161469, // Yotsuba_Nakano
@@ -214,7 +214,7 @@ export const ALL_WAIFUS: number[] = [
 // * These Waifus should skip over anilist
 export const BROKEN_WAIFUS = [
   141593, 155679, 177511, 161472, 161469, 150824, 170765, 177822, 133768,
-  177826, 12064, 161471,
+  177826, 12064, 161471, 36828,
 ];
 
 export const getRandomWaifu: (notThisOne?: number) => number = (

@@ -168,6 +168,14 @@ const fixEmptyImages = async () => {
   await prisma.$transaction(transactions);
 };
 
+const customPatches = async () => {
+  // 36828 Picture to /assets/asuna.webp
+  await prisma.waifu.update({
+    where: { id: 36828 },
+    data: { imageLarge: "/assets/asuna.webp" },
+  });
+};
+
 const main = async () => {
   checkDuplicates();
   console.log("====================================\n");
@@ -192,6 +200,9 @@ const main = async () => {
 
   await fixEmptyImages();
   console.log("Done Fixing Empty Images 🎉\n");
+
+  // Custom Patches
+  await customPatches();
 
   // * Happy Emoji Done
   console.log("✅ Done");
