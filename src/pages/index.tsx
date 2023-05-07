@@ -14,7 +14,10 @@ const Home: NextPage = () => {
     refetch,
     error,
     isError,
-  } = api.waifu.getWaifuPair.useQuery();
+  } = api.waifu.getWaifuPair.useQuery(undefined, {
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+  });
 
   const voteMutation = api.waifu.vote.useMutation();
 
@@ -41,11 +44,6 @@ const Home: NextPage = () => {
     }
 
     if (typeof window !== "undefined" && window.gtag) {
-      // window.gtag("event", "post_score", {
-      //   score: 1,
-      //   level: 1,
-      //   character: selected,
-      // });
       window.gtag("event", "vote", {
         event_label: "vote",
         event_category: "waifu",

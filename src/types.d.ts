@@ -20,13 +20,14 @@ interface Waifu {
   name: string;
   name_kanji: string | null;
   image: string;
-  bio?: string;
-  imageLarge?: string;
+  bio: string | null;
+  imageLarge: string | null;
+  imageCustom: string | null;
   createdAt: Date;
   updatedAt: Date;
 }
 
-type WaifusQueryResult = {
+interface PrismaWaifusQuery {
   _count: {
     VoteFor: number;
     VoteAgainst: number;
@@ -35,6 +36,9 @@ type WaifusQueryResult = {
   url: string;
   name: string;
   image: string;
-  imageLarge?: string;
-  bio?: string;
-}[];
+  imageLarge: string | null;
+  bio: string | null;
+  imageCustom: string | null;
+}
+
+export type WaifusQueryResult = PrismaWaifusQuery[];

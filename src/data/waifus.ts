@@ -221,220 +221,6 @@ export const ALL_WAIFUS: number[] = [
 ];
 
 // * These Waifus should skip over anilist
-export const BROKEN_WAIFUS = [
-  141593, 155679, 177511, 161472, 161469, 150824, 170765, 177822, 133768,
-  177826, 12064, 161471, 36828, 117285, 132816, 218547, 115699,
-];
-
-export const getRandomWaifu: (notThisOne?: number) => number = (
-  notThisOne?: number,
-) => {
-  const idx = Math.floor(Math.random() * ALL_WAIFUS.length) + 1;
-
-  if (notThisOne && ALL_WAIFUS[idx] === notThisOne)
-    return getRandomWaifu(notThisOne);
-
-  if (!ALL_WAIFUS[idx]) return getRandomWaifu(notThisOne);
-
-  return ALL_WAIFUS[idx] as number;
-};
-
-export const getRandomWaifuPair = () => {
-  const r1 = getRandomWaifu();
-  const r2 = getRandomWaifu(r1);
-  // if (r1 === r2) return getRandomWaifuPair();
-
-  return [r1, r2] as const;
-};
-
-interface CustomWaifuProps {
-  id: number;
-  data: { image: string };
-}
-
-export const CUSTOM_PROPS: CustomWaifuProps[] = [
-  {
-    id: 36828, // 36828 Asuna
-    data: { image: "/assets/asuna.webp" },
-  },
-  {
-    id: 206945, // 206945 Vermeil
-    data: { image: "/assets/206945.webp" },
-  },
-  {
-    id: 65239, // 65239 Esdeath
-    data: { image: "/assets/esdeath.png" },
-  },
-  {
-    id: 1251, // 1251 Ritsuko
-    data: { image: "/assets/ritsuko.png" },
-  },
-  {
-    id: 1259, // 1259 Misato
-    data: { image: "/assets/misato.gif" },
-  },
-  {
-    id: 2063, // 2063 Yoko
-    data: { image: "/assets/yoko.png" },
-  },
-  {
-    id: 1555, // 1555 Hinata
-    data: { image: "/assets/hinata.jpg" },
-  },
-  {
-    id: 51347, // 51347 Akeno
-    data: { image: "/assets/akeno.jpg" },
-  },
-  {
-    id: 1111, // 1111 C2 c2.png
-    data: { image: "/assets/c2.png" },
-  },
-  {
-    id: 78935, // 78935 Ikumi
-    data: { image: "/assets/78935.webp" },
-  },
-  {
-    id: 94725, // 94725 Honey
-    data: { image: "/assets/honey.png" },
-  },
-  {
-    id: 135798, // 135798 Tamaki Kotatsu
-    data: { image: "/assets/135798.png" },
-  },
-  {
-    id: 133769, // 133769 Iris
-    data: { image: "/assets/133769.png" },
-  },
-  {
-    id: 2174, // 2174 Temari
-    data: { image: "/assets/2174.png" },
-  },
-  {
-    id: 423, // 423 Casca.png
-    data: { image: "/assets/casca.png" },
-  },
-  {
-    id: 2421, // 2421 Shampoo
-    data: { image: "/assets/shampoo.jpg" },
-  },
-  {
-    id: 155679, // 155679 zerotwo.png
-    data: { image: "/assets/zerotwo.png" },
-  },
-  {
-    id: 2909, // 2909 misty.png
-    data: { image: "/assets/misty.png" },
-  },
-  {
-    id: 5186, // 5186 lucy.jpg
-    data: { image: "/assets/lucy.jpg" },
-  },
-  {
-    id: 130836, // 130836 roxanne.webp
-    data: { image: "/assets/roxanne.webp" },
-  },
-  {
-    id: 166439, // 166439, 166439.png
-    data: { image: "/assets/166439.png" },
-  },
-  {
-    id: 13725, //  13725 ami.gif
-    data: { image: "/assets/ami.gif" },
-  },
-  {
-    id: 177826, // 177826, Nazuna 177826.png
-    data: { image: "/assets/177826.png" },
-  },
-  {
-    id: 650, // 650, Lust, 650.png
-    data: { image: "/assets/650.png" },
-  },
-  {
-    id: 1047, // 1047, Fujiko, 1047.png
-    data: { image: "/assets/1047.png" },
-  },
-  {
-    id: 174751, // 174751, Reze,
-    data: { image: "/assets/174751.webp" },
-  },
-  {
-    id: 218547, // Seika, 218547.png
-    data: { image: "/assets/218547.png" },
-  },
-  {
-    id: 835, // 835, Misa, 835.png
-    data: { image: "/assets/835.png" },
-  },
-  {
-    id: 34470, // Kurisu, 34470.png
-    data: { image: "/assets/34470.png" },
-  },
-  {
-    id: 164485, // Kasumi, 164485.png
-    data: { image: "/assets/164485.png" },
-  },
-  {
-    id: 177511, // 177511, Sylvia
-    data: { image: "/assets/177511.webp" },
-  },
-  {
-    id: 2735, // Julia, 2735.png
-    data: { image: "/assets/2735.png" },
-  },
-  {
-    id: 22037, // 22037, Senjougahara, 22037.png
-    data: { image: "/assets/22037.png" },
-  },
-  {
-    id: 83799, // 83799, Satsuki
-    data: { image: "/assets/83799.webp" },
-  },
-  {
-    id: 73221, // 73221, Mikan, 73221.png
-    data: { image: "/assets/73221.png" },
-  },
-  {
-    id: 65523, // 65523, Junko, 65523.png
-    data: { image: "/assets/65523.png" },
-  },
-  {
-    id: 70, // 70, Riza
-    data: { image: "/assets/70.webp" },
-  },
-  {
-    id: 182976, // 182976, Anko, 182976.png
-    data: { image: "/assets/182976.png" },
-  },
-  {
-    id: 63845, // 63845, Kyouko, 63845
-    data: { image: "/assets/63845.webp" },
-  },
-  {
-    id: 65525, // 65525, Celestia, 65525.png
-    data: { image: "/assets/65525.png" },
-  },
-  {
-    id: 170765, // 170765, Himeno, 170765.png
-    data: { image: "/assets/170765.png" },
-  },
-  {
-    id: 81931, // 81931, Fubiki, 81931.webp
-    data: { image: "/assets/81931.webp" },
-  },
-  {
-    id: 713, // 713, Meryl, 713.png
-    data: { image: "/assets/713.png" },
-  },
-  {
-    id: 132505, // 132505, Akiko, 132505.png
-    data: { image: "/assets/132505.png" },
-  },
-  {
-    id: 183430, // 183430, Setsuna
-    data: { image: "/assets/183430.png" },
-  },
-];
-
 export const SKIP_ANILIST = [
   73221, 94725, 94729, 106029, 110743, 111335, 111341, 111741, 112893, 112927,
   112929, 114059, 115691, 115699, 116275, 117223, 117225, 118737, 118739,
@@ -442,5 +228,105 @@ export const SKIP_ANILIST = [
   131937, 132505, 135798, 136045, 136359, 139512, 141354, 145583, 145877,
   146157, 161470, 163452, 164472, 164485, 166439, 174751, 175269, 180766,
   182976, 183430, 183431, 183432, 183433, 194197, 206945, 213159, 219766,
-  117285,
+  117285, 151145, 155679, 141593, 155679, 177511, 161472, 161469, 150824,
+  170765, 177822, 133768, 177826, 12064, 161471, 36828, 117285, 132816, 218547,
+  115699, 132771,
+];
+
+interface CustomWaifuProps {
+  id: number;
+  image: string;
+}
+
+export const CUSTOM_PROPS: CustomWaifuProps[] = [
+  // 36828 Asuna
+  { id: 36828, image: "/assets/asuna.webp" },
+  // 206945 Vermeil
+  { id: 206945, image: "/assets/206945.webp" },
+  // 65239 Esdeath
+  { id: 65239, image: "/assets/esdeath.png" },
+  // 1251 Ritsuko
+  { id: 1251, image: "/assets/ritsuko.png" },
+  // 1259 Misato
+  { id: 1259, image: "/assets/misato.gif" },
+  // 2063 Yoko
+  { id: 2063, image: "/assets/yoko.png" },
+  // 1555 Hinata
+  { id: 1555, image: "/assets/hinata.jpg" },
+  // 51347 Akeno
+  { id: 51347, image: "/assets/akeno.jpg" },
+  // 1111 C2 c2.png
+  { id: 1111, image: "/assets/c2.png" },
+  // 78935 Ikumi
+  { id: 78935, image: "/assets/78935.webp" },
+  // 94725 Honey
+  { id: 94725, image: "/assets/honey.png" },
+  // 135798 Tamaki Kotatsu
+  { id: 135798, image: "/assets/135798.png" },
+  // 133769 Iris
+  { id: 133769, image: "/assets/133769.png" },
+  // 2174 Temari
+  { id: 2174, image: "/assets/2174.png" },
+  // 423 Casca.png
+  { id: 423, image: "/assets/casca.png" },
+  // 2421 Shampoo
+  { id: 2421, image: "/assets/shampoo.jpg" },
+  // 155679 zerotwo.png
+  { id: 155679, image: "/assets/zerotwo.png" },
+  // 2909 misty.png
+  { id: 2909, image: "/assets/misty.png" },
+  // 5186 lucy.jpg
+  { id: 5186, image: "/assets/lucy.jpg" },
+  // 130836 roxanne.webp
+  { id: 130836, image: "/assets/roxanne.webp" },
+  // 166439, 166439.png
+  { id: 166439, image: "/assets/166439.png" },
+  //  13725 ami.gif
+  { id: 13725, image: "/assets/ami.gif" },
+  // 177826, Nazuna 177826.png
+  { id: 177826, image: "/assets/177826.png" },
+  // 650, Lust, 650.png
+  { id: 650, image: "/assets/650.png" },
+  // 1047, Fujiko, 1047.png
+  { id: 1047, image: "/assets/1047.png" },
+  // 174751, Reze,
+  { id: 174751, image: "/assets/174751.webp" },
+  // Seika, 218547.png
+  { id: 218547, image: "/assets/218547.png" },
+  // 835, Misa, 835.png
+  { id: 835, image: "/assets/835.png" },
+  // Kurisu, 34470.png
+  { id: 34470, image: "/assets/34470.png" },
+  // Kasumi, 164485.png
+  { id: 164485, image: "/assets/164485.png" },
+  // 177511, Sylvia
+  { id: 177511, image: "/assets/177511.webp" },
+  // Julia, 2735.png
+  { id: 2735, image: "/assets/2735.png" },
+  // 22037, Senjougahara, 22037.png
+  { id: 22037, image: "/assets/22037.png" },
+  // 83799, Satsuki
+  { id: 83799, image: "/assets/83799.webp" },
+  // 73221, Mikan, 73221.png
+  { id: 73221, image: "/assets/73221.png" },
+  // 65523, Junko, 65523.png
+  { id: 65523, image: "/assets/65523.png" },
+  // 70, Riza
+  { id: 70, image: "/assets/70.webp" },
+  // 182976, Anko, 182976.png
+  { id: 182976, image: "/assets/182976.png" },
+  // 63845, Kyouko, 63845
+  { id: 63845, image: "/assets/63845.webp" },
+  // 65525, Celestia, 65525.png
+  { id: 65525, image: "/assets/65525.png" },
+  // 170765, Himeno, 170765.png
+  { id: 170765, image: "/assets/170765.png" },
+  // 81931, Fubiki, 81931.webp
+  { id: 81931, image: "/assets/81931.webp" },
+  // 713, Meryl, 713.png
+  { id: 713, image: "/assets/713.png" },
+  // 132505, Akiko, 132505.png
+  { id: 132505, image: "/assets/132505.png" },
+  // 183430, Setsuna
+  { id: 183430, image: "/assets/183430.png" },
 ];

@@ -1,19 +1,29 @@
 import { useState } from "react";
-import { type GetStaticProps, type NextPage } from "next";
+import { type NextPage, type GetStaticProps } from "next";
 
+// * Server
 import { prisma } from "~/server/db";
+import { type WaifusQueryResult } from "~/types";
 
 import Head from "next/head";
 
 import Header from "~/components/Header";
 import ResultListing from "~/components/ResultListing";
 
-interface ResultsPageProps {
-  waifus: WaifusQueryResult;
+import { ImSpinner8 } from "react-icons/im";
+import { sortByPerc, sortByVotes } from "~/data/sort";
+
+type Sort = "perc" | "votes";
+
+interface Props {
+  waifus?: WaifusQueryResult;
 }
 
-const ResultsPage: NextPage<ResultsPageProps> = ({ waifus }) => {
-  const [sortedBy, setSortedBy] = useState<"perc" | "votes">("perc");
+const ResultsPage: NextPage<Props> = ({ waifus }) => {
+  const [sort, setSort] = useState<Sort>("votes");
+
+  // const byVote = sortByVotes(waifus ?? []);
+  const byPerc = sortByPerc([...(waifus ?? [])]);
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-between gap-8 py-16">
@@ -26,54 +36,55 @@ const ResultsPage: NextPage<ResultsPageProps> = ({ waifus }) => {
 
       <div className="flex flex-col items-center justify-center gap-2">
         <h1 className="text-center text-4xl">Results</h1>
+
         <div className="text-center text-lg">
           Sorted by{" "}
           <span
-            onClick={() => setSortedBy("perc")}
-            style={{ textDecoration: sortedBy === "perc" ? "underline" : "" }}
-            className="cursor-pointer text-blue-500 hover:underline"
-          >
-            percentage
-          </span>
-          {" or "}
-          <span
-            onClick={() => setSortedBy("votes")}
-            style={{ textDecoration: sortedBy === "votes" ? "underline" : "" }}
+            onClick={() => setSort("votes")}
+            style={{
+              textDecoration: sort === "votes" ? "underline" : undefined,
+            }}
             className="cursor-pointer text-blue-500 hover:underline"
           >
             votes
+          </span>
+          {" or "}
+          <span
+            onClick={() => setSort("perc")}
+            style={{
+              textDecoration: sort === "perc" ? "underline" : undefined,
+            }}
+            className="cursor-pointer text-blue-500 hover:underline"
+          >
+            percentage
           </span>
         </div>
       </div>
 
       <div className="flex w-full items-center justify-center px-4">
-        <ul className="flex w-full max-w-2xl flex-col border">
-          {sortedBy === "votes"
-            ? waifus
-                .sort((a, b) => b._count.VoteFor - a._count.VoteFor)
-                .map((curWaifu, idx) => (
+        {!waifus ? (
+          <div className="flex flex-col items-center justify-center overflow-hidden rounded-full text-9xl">
+            <ImSpinner8 className="animate-spin duration-700 ease-in-out" />
+          </div>
+        ) : (
+          <ul className="flex w-full max-w-2xl flex-col border">
+            {sort === "perc"
+              ? byPerc.map((curWaifu, idx) => (
                   <ResultListing
-                    key={curWaifu.id.toString() + "perc"}
+                    key={`${curWaifu.id}-perc`}
                     waifu={curWaifu}
                     rank={idx + 1}
                   />
                 ))
-            : waifus
-                ?.sort(
-                  (a, b) =>
-                    b._count.VoteFor /
-                      (b._count.VoteFor + b._count.VoteAgainst) -
-                    a._count.VoteFor /
-                      (a._count.VoteFor + a._count.VoteAgainst),
-                )
-                .map((curWaifu, idx) => (
+              : waifus.map((curWaifu, idx) => (
                   <ResultListing
-                    key={curWaifu.id.toString() + "perc"}
+                    key={`${curWaifu.id}-votes`}
                     waifu={curWaifu}
                     rank={idx + 1}
                   />
                 ))}
-        </ul>
+          </ul>
+        )}
       </div>
     </div>
   );
@@ -90,17 +101,18 @@ export const getStaticProps: GetStaticProps = async () => {
       image: true,
       url: true,
       imageLarge: true,
+      imageCustom: true,
       bio: true,
       _count: { select: { VoteFor: true, VoteAgainst: true } },
     },
   });
 
-  // const HOUR_IN_SECONDS = 60 * 60;
-  // const FIFTEEN_MINS = 60 * 15;
+  const sorted = sortByVotes(waifus);
+
   const TEN_MINS = 60 * 10;
 
   return {
-    props: { waifus },
+    props: { waifus: sorted },
     revalidate: TEN_MINS,
   };
 };

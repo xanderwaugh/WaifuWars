@@ -37,6 +37,9 @@ model Waifu {
   bio        String? @db.Text
   imageLarge String?
 
+  // Custom Image
+  imageCustom String?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

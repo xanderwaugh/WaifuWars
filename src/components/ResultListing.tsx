@@ -1,5 +1,5 @@
 import Link from "next/link";
-// import Image from "next/image";
+import { type WaifusQueryResult } from "~/types";
 import { genCountPerc } from "~/utils";
 
 interface ResultListingProps {
@@ -20,7 +20,7 @@ const ResultListing: React.FC<ResultListingProps> = ({ waifu, rank }) => {
         <div className="flex items-center">
           <div className="flex items-center gap-2">
             <img
-              src={waifu.imageLarge ?? waifu.image}
+              src={waifu.imageCustom ?? waifu.imageLarge ?? waifu.image}
               alt={waifu.name}
               width={64}
               height={64}
@@ -34,7 +34,10 @@ const ResultListing: React.FC<ResultListingProps> = ({ waifu, rank }) => {
         </div>
         <div className="flex flex-col items-start">
           <p>{genCountPerc(waifu).toFixed(2) + "%"}</p>
-          <p>{waifu._count.VoteFor} votes</p>
+          <p>
+            {waifu._count.VoteFor} - {waifu._count.VoteAgainst}
+          </p>
+          {/* <p>votes</p> */}
         </div>
         <div className="absolute left-0 top-0 z-20 flex flex-col items-center justify-center rounded-br-md border border-gray-500 bg-gray-600 px-2 font-semibold text-white shadow-lg">
           <p>{rank}</p>

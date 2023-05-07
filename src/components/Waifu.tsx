@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { type Waifu } from "~/types";
 // import Image from "next/image";
 
 const WaifuListing: React.FC<{
@@ -23,7 +24,11 @@ const WaifuListing: React.FC<{
         className="relative h-96 w-full transition-all duration-300 ease-in-out hover:-translate-y-2 hover:scale-105"
       >
         <img
-          src={props.waifu.imageLarge ?? props.waifu.image}
+          src={
+            props.waifu.imageCustom ??
+            props.waifu.imageLarge ??
+            props.waifu.image
+          }
           alt={props.waifu.name}
           width={256}
           height={256}

@@ -1,11 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { PrismaClient } from "@prisma/client";
-import {
-  ALL_WAIFUS,
-  BROKEN_WAIFUS,
-  CUSTOM_PROPS,
-  SKIP_ANILIST,
-} from "../src/data/waifus";
+import { ALL_WAIFUS, CUSTOM_PROPS, SKIP_ANILIST } from "../src/data/waifus";
 import {
   fetchWaifuById,
   addWaifuToDB,
@@ -107,13 +102,10 @@ const updateWaifusFromAnilist = async () => {
   });
 
   // * Array of waifus w/o imageLarge or bio in DB
-  const prepreWaifusToUpdate = WAIFUS.filter((w) => !w.imageLarge || !w.bio);
-  // ! Skip broken waifus
-  const prewaifusToUpdate = prepreWaifusToUpdate.filter(
-    (w) => !BROKEN_WAIFUS.includes(w.id),
-  );
-  // * Skip SKIP_ANILIST
-  const waifusToUpdate = prewaifusToUpdate.filter(
+  const waifusMissingInfo = WAIFUS.filter((w) => !w.imageLarge || !w.bio);
+
+  // * Skip Broken Waifus
+  const waifusToUpdate = waifusMissingInfo.filter(
     (w) => !SKIP_ANILIST.includes(w.id),
   );
 
@@ -145,11 +137,12 @@ const updateWaifusFromAnilist = async () => {
 
 const forceMALforBrokenWaifus = async () => {
   // const transactions = [];
-  for (const broken of BROKEN_WAIFUS) {
+  for (const broken of SKIP_ANILIST) {
     try {
       await new Promise((r) => setTimeout(r, 800)); // Rate Limit
       const waifu = await fetchWaifuById(broken);
       if (!waifu || !broken) continue;
+      console.log("Force MAL for Broken Waifu:", broken);
       await prisma.waifu.update({
         where: { id: broken }, // <-- Causing Error
         data: { ...waifu, imageLarge: null, bio: null },
@@ -179,11 +172,6 @@ const fixEmptyImages = async () => {
   await prisma.$transaction(transactions);
 };
 
-interface CustomWaifuProps {
-  id: number;
-  data: { image: string };
-}
-
 const customPatches = async () => {
   // * Check if any waifus are missing
   const waifusInDB = await prisma.waifu.findMany({
@@ -203,8 +191,9 @@ const customPatches = async () => {
       prisma.waifu.update({
         where: { id: dbWaifu.id },
         data: {
-          image: custWaifu.data.image,
-          imageLarge: custWaifu.data.image,
+          image: custWaifu.image,
+          imageLarge: custWaifu.image,
+          imageCustom: custWaifu.image,
         },
       }),
     );
@@ -229,17 +218,17 @@ const main = async () => {
   // console.log("\nANILIST Errored Waifus", anilistErrors);
   // console.log("ANILIST Errors:", anilistErrors.length);
 
-  // await forceMALforBrokenWaifus();
-  // console.log("Done Forcing MAL For Broken Waifus 🎉\n");
-  // console.log("\n====================================\n");
+  await forceMALforBrokenWaifus();
+  console.log("Done Forcing MAL For Broken Waifus 🎉\n");
+  console.log("\n====================================\n");
 
   await patchNoImageProfiles();
   console.log("Done Patching No Image Profiles 🎉\n");
   console.log("\n====================================\n");
 
-  await fixEmptyImages();
-  console.log("Done Fixing Empty Images 🎉\n");
-  console.log("\n====================================\n");
+  // await fixEmptyImages();
+  // console.log("Done Fixing Empty Images 🎉\n");
+  // console.log("\n====================================\n");
 
   // * Custom Patches
   await customPatches();

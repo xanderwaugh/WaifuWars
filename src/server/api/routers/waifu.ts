@@ -1,11 +1,12 @@
 import { z } from "zod";
 import { createTRPCRouter, ratelimitProcedure } from "~/server/api/trpc";
 
-import { getRandomWaifuPair } from "~/data/waifus";
+import { type Waifu, type WaifusQueryResult } from "~/types";
+import { getRandomWaifuPair } from "~/data/helpers";
+import { sortByVotes } from "~/data/sort";
 
 // https://docs.api.jikan.moe/
 // https://anilist.co/character/4963
-// https://anilist.gitbook.io/anilist-apiv2-docs/overview/resources-and-recommended-reading
 // https://anilist.github.io/ApiV2-GraphQL-Docs/
 
 export const waifuRouter = createTRPCRouter({
@@ -18,7 +19,12 @@ export const waifuRouter = createTRPCRouter({
 
     if (!waifu1 || !waifu2) throw new Error("Waifu pair not found");
 
-    return { waifu1, waifu2 } as { waifu1: Waifu; waifu2: Waifu };
+    const results: {
+      waifu1: Waifu;
+      waifu2: Waifu;
+    } = { waifu1, waifu2 };
+
+    return results;
   }),
   vote: ratelimitProcedure
     .input(
@@ -36,4 +42,23 @@ export const waifuRouter = createTRPCRouter({
       });
       return { success: true, vote: voteInDB };
     }),
+  results: ratelimitProcedure.query(async ({ ctx }) => {
+    const waifus: WaifusQueryResult = await ctx.prisma.waifu.findMany({
+      orderBy: { VoteFor: { _count: "desc" } },
+      select: {
+        id: true,
+        name: true,
+        image: true,
+        url: true,
+        imageLarge: true,
+        imageCustom: true,
+        bio: true,
+        _count: { select: { VoteFor: true, VoteAgainst: true } },
+      },
+    });
+
+    // * Default Sort by Votes
+    const sorted = sortByVotes(waifus);
+    return sorted;
+  }),
 });

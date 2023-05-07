@@ -7,7 +7,6 @@ import { httpBatchLink, loggerLink } from "@trpc/client";
 import { createTRPCNext } from "@trpc/next";
 import superjson from "superjson";
 
-import { type CreateTRPCReactQueryClientConfig as QueryClientConfig } from "@trpc/react-query/shared";
 import { type AppRouter } from "~/server/api/root";
 
 const getBaseUrl = () => {
@@ -16,28 +15,20 @@ const getBaseUrl = () => {
   return `http://localhost:${process.env.PORT ?? 3000}`; // dev SSR should use localhost
 };
 
-const queryClientConfig: QueryClientConfig["queryClientConfig"] = {
-  defaultOptions: {
-    queries: {
-      refetchInterval: false,
-      refetchOnReconnect: false,
-      refetchOnWindowFocus: false,
-      refetchOnMount: true,
-      refetchIntervalInBackground: false,
-      cacheTime: 60 * 1000 * 25, // 25 minutes
-      retry: 1, // * Retry only once
-      retryDelay: 1000 * 2, // * Retry After 2 Seconds
-    },
-  },
-};
-
 /** A set of type-safe react-query hooks for your tRPC API. */
 export const api = createTRPCNext<AppRouter>({
   config({ ctx }) {
     if (typeof window !== "undefined") {
       return {
-        transformer: superjson, // optional - adds superjson serialization
-        links: [httpBatchLink({ url: "/api/trpc" })],
+        transformer: superjson,
+        links: [
+          httpBatchLink({ url: "/api/trpc" }),
+          loggerLink({
+            enabled: (opts) =>
+              process.env.NODE_ENV === "development" ||
+              (opts.direction === "down" && opts.result instanceof Error),
+          }),
+        ],
       };
     }
 
@@ -52,11 +43,6 @@ export const api = createTRPCNext<AppRouter>({
        * @see https://trpc.io/docs/links
        */
       links: [
-        loggerLink({
-          enabled: (opts) =>
-            process.env.NODE_ENV === "development" ||
-            (opts.direction === "down" && opts.result instanceof Error),
-        }),
         httpBatchLink({
           url: `${getBaseUrl()}/api/trpc`,
           headers() {
@@ -67,7 +53,20 @@ export const api = createTRPCNext<AppRouter>({
           },
         }),
       ],
-      queryClientConfig,
+      queryClientConfig: {
+        defaultOptions: {
+          queries: {
+            refetchOnMount: false,
+            refetchInterval: false,
+            refetchOnReconnect: false,
+            refetchOnWindowFocus: false,
+            refetchIntervalInBackground: false,
+            // cacheTime: 60 * 1000 * 25, // 25 minutes
+            retry: 1, // * Retry only once
+            retryDelay: 1000 * 2, // * Retry After 2 Seconds
+          },
+        },
+      },
       // abortOnUnmount: true,
     };
   },
@@ -77,29 +76,29 @@ export const api = createTRPCNext<AppRouter>({
    * @see https://trpc.io/docs/nextjs#ssr-boolean-default-false
    */
   ssr: true,
-  responseMeta({ clientErrors }) {
-    if (clientErrors.length) {
-      // propagate http first error from API calls
-      return { status: clientErrors[0]?.data?.httpStatus ?? 500 };
-    }
-    // cache request for 1 day + revalidate once every second
-    const HOUR_IN_SECS = 60 * 60;
-    return {
-      headers: {
-        "cache-control": `s-maxage=1, stale-while-revalidate=${HOUR_IN_SECS}`,
-      },
-    };
-  },
+  // responseMeta({ clientErrors }) {
+  //   if (clientErrors.length) {
+  //     // propagate http first error from API calls
+  //     return { status: clientErrors[0]?.data?.httpStatus ?? 500 };
+  //   }
+  //   // cache request for 1 day + revalidate once every second
+  //   const HOUR_IN_SECS = 60 * 60;
+  //   return {
+  //     headers: {
+  //       "cache-control": `s-maxage=1, stale-while-revalidate=${HOUR_IN_SECS}`,
+  //     },
+  //   };
+  // },
 });
 
-// import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
+import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
 /**
  * Inference helper for inputs.
  * @example type HelloInput = RouterInputs['example']['hello']
  */
-// export type RouterInputs = inferRouterInputs<AppRouter>;
+export type RouterInputs = inferRouterInputs<AppRouter>;
 /**
  * Inference helper for outputs.
  * @example type HelloOutput = RouterOutputs['example']['hello']
  */
-// export type RouterOutputs = inferRouterOutputs<AppRouter>;
+export type RouterOutputs = inferRouterOutputs<AppRouter>;
