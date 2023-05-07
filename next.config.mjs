@@ -4,12 +4,16 @@
  */
 await import("./src/env.mjs");
 
+// import bundleAnalyzer from "@next/bundle-analyzer";
+// const withBundleAnalyzer = bundleAnalyzer({
+//   enabled: true,
+// });
+
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
-
   /**
-   * If you have the "experimental: { appDir: true }" setting enabled, then you
+   * If you have the "appDir" setting enabled, then you
    * must comment the below `i18n` config out.
    * @see https://github.com/vercel/next.js/issues/41980
    */
@@ -27,8 +31,9 @@ const config = {
   poweredByHeader: false,
   generateEtags: false,
   swcMinify: true,
-  trailingSlash: true,
   cleanDistDir: true,
+  // trailingSlash: true,
 };
 
 export default config;
+// export default withBundleAnalyzer(config);

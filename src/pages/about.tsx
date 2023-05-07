@@ -2,7 +2,6 @@ import { type NextPage } from "next";
 
 // Client
 import Head from "next/head";
-import Link from "next/link";
 import Header from "~/components/Header";
 
 const AboutPage: NextPage = () => {
@@ -16,11 +15,11 @@ const AboutPage: NextPage = () => {
       <div className="flex flex-col items-center justify-center gap-2">
         <h1 className="text-center text-4xl">About</h1>
 
-        <div className="text-center text-lg">
-          This project was a shower thought turned wrong.
-        </div>
+        <div className="text-center text-lg"></div>
         <ul className="flex list-disc flex-col items-start text-center text-lg font-medium">
-          <li>
+          <li>This project was a shower thought turned wrong.</li>
+          <li>I apologize for any pain this may cause you.</li>
+          {/* <li>
             <Link
               href="https://github.com/xanderwaugh"
               target="_blank"
@@ -29,8 +28,8 @@ const AboutPage: NextPage = () => {
             >
               Creator
             </Link>{" "}
-          </li>
-          <li>
+          </li> */}
+          {/* <li>
             <Link
               href="https://github.com/xanderwaugh/WaifuWars"
               target="_blank"
@@ -39,7 +38,7 @@ const AboutPage: NextPage = () => {
             >
               GitHub Repo
             </Link>
-          </li>
+          </li> */}
         </ul>
       </div>
 
