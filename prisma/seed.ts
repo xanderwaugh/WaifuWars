@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { PrismaClient } from "@prisma/client";
 import { ALL_WAIFUS, BROKEN_WAIFUS } from "../src/data/waifus";
 import {
@@ -95,7 +96,6 @@ const seedWaifusFromMAL = async () => {
   return erroredWaifus;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const updateWaifusFromAnilist = async () => {
   const WAIFUS = await prisma.waifu.findMany({
     select: { id: true, imageLarge: true, bio: true },
@@ -135,7 +135,6 @@ const updateWaifusFromAnilist = async () => {
 };
 
 const forceMALforBrokenWaifus = async () => {
-  // const broken =
   const transactions = [];
   for (const broken of BROKEN_WAIFUS) {
     await new Promise((r) => setTimeout(r, 800)); // Rate Limit
@@ -144,11 +143,25 @@ const forceMALforBrokenWaifus = async () => {
     transactions.push(
       prisma.waifu.update({
         where: { id: broken },
-        data: {
-          ...waifu,
-          imageLarge: null,
-          bio: null,
-        },
+        data: { ...waifu, imageLarge: null, bio: null },
+      }),
+    );
+  }
+  await prisma.$transaction(transactions);
+};
+
+const fixEmptyImages = async () => {
+  const waifusToPatch = await prisma.waifu.findMany({
+    where: { imageLarge: { equals: "" } },
+    select: { id: true },
+  });
+  console.log("Fixing Empty Images:", waifusToPatch.length);
+  const transactions = [];
+  for (const waifu of waifusToPatch) {
+    transactions.push(
+      prisma.waifu.update({
+        where: { id: waifu.id },
+        data: { imageLarge: null },
       }),
     );
   }
@@ -172,10 +185,13 @@ const main = async () => {
   // console.log("ANILIST Errors:", anilistErrors.length);
 
   await forceMALforBrokenWaifus();
-  console.log("Done Forcing MAL For Broken Waifus 🎉");
-  console.log("====================================\n");
+  console.log("Done Forcing MAL For Broken Waifus 🎉\n");
 
   await patchNoImageProfiles();
+  console.log("Done Patching No Image Profiles 🎉\n");
+
+  await fixEmptyImages();
+  console.log("Done Fixing Empty Images 🎉\n");
 
   // * Happy Emoji Done
   console.log("✅ Done");
