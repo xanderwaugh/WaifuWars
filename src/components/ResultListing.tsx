@@ -24,6 +24,7 @@ const ResultListing: React.FC<ResultListingProps> = ({ waifu, rank }) => {
               alt={waifu.name}
               width={64}
               height={64}
+              loading={rank < 10 ? "eager" : "lazy"}
               placeholder="blur"
               blurDataURL="/assets/placeholder.webp"
               className="object-cover"
