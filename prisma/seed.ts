@@ -172,13 +172,13 @@ const main = async () => {
   checkDuplicates();
   console.log("====================================\n");
 
-  const shouldRemove = false;
-  await checkForRemovedWaifus(shouldRemove);
-  console.log("====================================\n");
+  // const shouldRemove = false;
+  // await checkForRemovedWaifus(shouldRemove);
+  // console.log("====================================\n");
 
-  const malErrors = await seedWaifusFromMAL();
-  console.log("MAL Errors:", malErrors.length);
-  console.log("====================================\n");
+  // const malErrors = await seedWaifusFromMAL();
+  // console.log("MAL Errors:", malErrors.length);
+  // console.log("====================================\n");
 
   // const anilistErrors = await updateWaifusFromAnilist();
   // console.log("\nANILIST Errored Waifus", anilistErrors);

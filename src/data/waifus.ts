@@ -214,7 +214,7 @@ export const ALL_WAIFUS: number[] = [
 // * These Waifus should skip over anilist
 export const BROKEN_WAIFUS = [
   141593, 155679, 177511, 161472, 161469, 150824, 170765, 177822, 133768,
-  177826, 12064,
+  177826, 12064, 161471,
 ];
 
 export const getRandomWaifu: (notThisOne?: number) => number = (

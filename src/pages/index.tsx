@@ -2,8 +2,9 @@ import { type NextPage } from "next";
 
 import { api } from "~/utils/api";
 
-import WaifuListing from "~/components/Waifu";
 import Header from "~/components/Header";
+import WaifuListing from "~/components/Waifu";
+
 import { ImSpinner8 } from "react-icons/im";
 
 const Home: NextPage = () => {
@@ -12,12 +13,18 @@ const Home: NextPage = () => {
     isLoading,
     refetch,
     error,
+    isError,
   } = api.waifu.getWaifuPair.useQuery();
 
   const voteMutation = api.waifu.vote.useMutation();
 
   const voteForWaifu = async (selected: number) => {
     if (!waifuPair) return;
+
+    // * Check this later
+    const against = (
+      selected === waifuPair.waifu1.id ? waifuPair.waifu2 : waifuPair.waifu1
+    ).id;
 
     if (selected === waifuPair.waifu1.id) {
       // * If vote 1st waifu
@@ -34,10 +41,16 @@ const Home: NextPage = () => {
     }
 
     if (typeof window !== "undefined" && window.gtag) {
-      window.gtag("event", "post_score", {
-        score: 1,
-        level: 1,
-        character: selected,
+      // window.gtag("event", "post_score", {
+      //   score: 1,
+      //   level: 1,
+      //   character: selected,
+      // });
+      window.gtag("event", "vote", {
+        event_label: "vote",
+        event_category: "waifu",
+        votedFor: selected,
+        votedAgainst: against,
       });
     }
     await refetch();
@@ -51,7 +64,7 @@ const Home: NextPage = () => {
         Which Waifu is better?
       </h1>
 
-      {error && (
+      {isError && error && (
         <div className="flex h-full w-full flex-col items-center justify-center py-8 text-9xl duration-500 ease-in-out">
           <h2 className="text-3xl text-red-500">Error loading waifu pair</h2>
           <h3 className="text-3xl text-red-500">{error.message}</h3>
