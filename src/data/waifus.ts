@@ -211,6 +211,12 @@ export const ALL_WAIFUS: number[] = [
   2767, // Tsunade
 ];
 
+// * These Waifus should skip over anilist
+export const BROKEN_WAIFUS = [
+  141593, 155679, 177511, 161472, 161469, 150824, 170765, 177822, 133768,
+  177826,
+];
+
 export const getRandomWaifu: (notThisOne?: number) => number = (
   notThisOne?: number,
 ) => {
@@ -218,6 +224,8 @@ export const getRandomWaifu: (notThisOne?: number) => number = (
 
   if (notThisOne && ALL_WAIFUS[idx] === notThisOne)
     return getRandomWaifu(notThisOne);
+
+  if (!ALL_WAIFUS[idx]) return getRandomWaifu(notThisOne);
 
   return ALL_WAIFUS[idx] as number;
 };

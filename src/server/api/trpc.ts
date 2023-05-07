@@ -72,6 +72,7 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
 import { TRPCError, initTRPC } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
+import { ratelimit } from "../ratelimit";
 
 export type Context = ReturnType<typeof createTRPCContext>;
 
@@ -112,45 +113,12 @@ export const createTRPCRouter = t.router;
  */
 export const publicProcedure = t.procedure;
 
-import { env } from "~/env.mjs";
-import { Redis } from "@upstash/redis";
-import { Ratelimit } from "@upstash/ratelimit";
-
-// * Rate Limiting
-const redis = new Redis({
-  url: env.UPSTASH_URL,
-  token: env.UPSTASH_TOKEN,
-});
-
-const rateLimit = new Ratelimit({
-  redis,
-  limiter: Ratelimit.slidingWindow(20, "1 s"),
-  // analytics: true,
-  timeout: 300,
-});
-
-const getFingerprint = (req: NextApiRequest) => {
-  const forwarded = req.headers["x-forwarded-for"];
-  const ip = forwarded
-    ? (typeof forwarded === "string" ? forwarded : forwarded[0])?.split(/, /)[0]
-    : req.socket.remoteAddress;
-  return ip || "127.0.0.1";
-};
-
 /** Reusable middleware ratelimits users to 20 request per 10 seconds. */
 const enforceRatelimit = t.middleware(async ({ ctx, next }) => {
   if (!ctx.req) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
-  const ip = getFingerprint(ctx.req);
 
-  console.time("Rate limit");
-
-  const { success, pending } = await rateLimit.limit(ip);
-
-  await pending;
-
-  console.timeEnd("Rate limit");
-
-  if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
+  const spam = await ratelimit(ctx.req);
+  if (!spam) throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
 
   return next({ ctx: { ...ctx } });
 });

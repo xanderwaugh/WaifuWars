@@ -19,12 +19,13 @@ const ResultsPage: NextPage<ResultsPageProps> = ({ waifus }) => {
     <div className="flex min-h-screen flex-col items-center justify-between gap-8 py-16">
       <Head>
         <title>Waifu Wars - Results</title>
+        <meta name="description" content="Waifu Wars - Results" />
       </Head>
 
       <Header />
 
       <div className="flex flex-col items-center justify-center gap-2">
-        <div className="text-center text-4xl">Results</div>
+        <h1 className="text-center text-4xl">Results</h1>
         <div className="text-center text-lg">
           Sorted by{" "}
           <span

@@ -29,17 +29,15 @@ const ResultListing: React.FC<ResultListingProps> = ({ waifu, rank }) => {
               blurDataURL="/assets/placeholder.webp"
               className="object-cover"
             />
-            <div className="capitalize">{waifu.name}</div>
+            <h2 className="capitalize">{waifu.name}</h2>
           </div>
         </div>
         <div className="flex flex-col items-start">
-          <span>{genCountPerc(waifu).toFixed(2) + "%"}</span>
-          <span>
-            <span>{waifu._count.VoteFor} votes</span>
-          </span>
+          <p>{genCountPerc(waifu).toFixed(2) + "%"}</p>
+          <p>{waifu._count.VoteFor} votes</p>
         </div>
         <div className="absolute left-0 top-0 z-20 flex flex-col items-center justify-center rounded-br-md border border-gray-500 bg-gray-600 px-2 font-semibold text-white shadow-lg">
-          <span>{rank}</span>
+          <p>{rank}</p>
         </div>
       </Link>
     </li>

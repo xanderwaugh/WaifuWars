@@ -33,7 +33,6 @@ const Home: NextPage = () => {
       });
     }
 
-    // plausible("cast-vote");
     if (typeof window !== "undefined" && window.gtag) {
       window.gtag("event", "post_score", {
         score: 1,
@@ -48,14 +47,14 @@ const Home: NextPage = () => {
 
   return (
     <div className="z-0 flex min-h-screen flex-col items-center justify-between overflow-hidden py-8">
-      <div className="pt-8 text-center text-3xl md:text-4xl">
+      <h1 className="pt-8 text-center text-3xl md:text-4xl">
         Which Waifu is better?
-      </div>
+      </h1>
 
       {error && (
         <div className="flex h-full w-full flex-col items-center justify-center py-8 text-9xl duration-500 ease-in-out">
-          <div className="text-3xl text-red-500">Error loading waifu pair</div>
-          <div className="text-3xl text-red-500">{error.message}</div>
+          <h2 className="text-3xl text-red-500">Error loading waifu pair</h2>
+          <h3 className="text-3xl text-red-500">{error.message}</h3>
         </div>
       )}
 
@@ -72,7 +71,7 @@ const Home: NextPage = () => {
             disabled={loading}
             vote={() => void voteForWaifu(waifuPair.waifu1.id)}
           />
-          <div className="p-8 text-xl italic">{"or"}</div>
+          <p className="p-8 text-xl italic">{"or"}</p>
           <WaifuListing
             waifu={waifuPair.waifu2}
             disabled={loading}

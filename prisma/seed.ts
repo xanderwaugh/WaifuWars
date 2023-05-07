@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { ALL_WAIFUS } from "../src/data/waifus";
+import { ALL_WAIFUS, BROKEN_WAIFUS } from "../src/data/waifus";
 import {
   fetchWaifuById,
   addWaifuToDB,
@@ -81,7 +81,7 @@ const seedWaifusFromMAL = async () => {
   const erroredWaifus: number[] = [];
 
   for (const waifuId of waifusToAdd) {
-    // await new Promise((r) => setTimeout(r, 800)); // Rate Limit
+    await new Promise((r) => setTimeout(r, 800)); // Rate Limit
     const waifu = await fetchWaifuById(waifuId);
     if (!waifu) {
       erroredWaifus.push(waifuId);
@@ -102,7 +102,11 @@ const updateWaifusFromAnilist = async () => {
   });
 
   // * Array of waifus w/o imageLarge or bio in DB
-  const waifusToUpdate = WAIFUS.filter((w) => !w.imageLarge || !w.bio);
+  const preWaifusToUpdate = WAIFUS.filter((w) => !w.imageLarge || !w.bio);
+  // ! Skip broken waifus
+  const waifusToUpdate = preWaifusToUpdate.filter(
+    (w) => !BROKEN_WAIFUS.includes(w.id),
+  );
 
   console.log("Waifus to Anilist:", waifusToUpdate.length);
   const erroredWaifus: number[] = [];
@@ -130,20 +134,46 @@ const updateWaifusFromAnilist = async () => {
   return erroredWaifus;
 };
 
+const forceMALforBrokenWaifus = async () => {
+  // const broken =
+  const transactions = [];
+  for (const broken of BROKEN_WAIFUS) {
+    await new Promise((r) => setTimeout(r, 800)); // Rate Limit
+    const waifu = await fetchWaifuById(broken);
+    if (!waifu) continue;
+    transactions.push(
+      prisma.waifu.update({
+        where: { id: broken },
+        data: {
+          ...waifu,
+          imageLarge: null,
+          bio: null,
+        },
+      }),
+    );
+  }
+  await prisma.$transaction(transactions);
+};
+
 const main = async () => {
   checkDuplicates();
+  console.log("====================================\n");
 
   const shouldRemove = false;
   await checkForRemovedWaifus(shouldRemove);
+  console.log("====================================\n");
 
   const malErrors = await seedWaifusFromMAL();
-  console.log("MAL Errored Waifus", malErrors);
   console.log("MAL Errors:", malErrors.length);
-  console.log("\n====================================\n");
+  console.log("====================================\n");
 
   // const anilistErrors = await updateWaifusFromAnilist();
   // console.log("\nANILIST Errored Waifus", anilistErrors);
   // console.log("ANILIST Errors:", anilistErrors.length);
+
+  await forceMALforBrokenWaifus();
+  console.log("Done Forcing MAL For Broken Waifus 🎉");
+  console.log("====================================\n");
 
   await patchNoImageProfiles();
 

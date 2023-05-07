@@ -11,9 +11,9 @@ const WaifuListing: React.FC<{
       style={{ opacity: props.disabled ? 0.0 : 1 }}
       className="flex w-72 flex-col items-center justify-center gap-4 transition-opacity duration-300 ease-in-out"
     >
-      <div className="line-clamp-1 max-w-xs overflow-ellipsis text-center text-2xl font-medium capitalize">
+      <h2 className="line-clamp-1 max-w-xs overflow-ellipsis text-center text-2xl font-medium capitalize">
         {props.waifu.name.slice(0, 24)}
-      </div>
+      </h2>
 
       <Link
         href={props.waifu.url}
@@ -24,9 +24,7 @@ const WaifuListing: React.FC<{
       >
         <Image
           src={props.waifu.imageLarge ?? props.waifu.image}
-          // src={props.waifu.image}
           alt={props.waifu.name}
-          // fill={true}
           width={256}
           height={256}
           loading="eager"
