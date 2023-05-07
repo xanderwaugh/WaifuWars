@@ -20,7 +20,11 @@ const ResultListing: React.FC<ResultListingProps> = ({ waifu, rank }) => {
         <div className="flex items-center">
           <div className="flex items-center gap-2">
             <img
-              src={waifu.imageCustom ?? waifu.imageLarge ?? waifu.image}
+              src={
+                waifu.imageCustom ??
+                // waifu.imageLarge ??
+                waifu.image
+              }
               alt={waifu.name}
               width={64}
               height={64}

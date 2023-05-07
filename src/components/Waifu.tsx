@@ -26,7 +26,7 @@ const WaifuListing: React.FC<{
         <img
           src={
             props.waifu.imageCustom ??
-            props.waifu.imageLarge ??
+            // props.waifu.imageLarge ??
             props.waifu.image
           }
           alt={props.waifu.name}

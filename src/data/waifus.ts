@@ -59,7 +59,7 @@ export const ALL_WAIFUS: number[] = [
   23491, // Sohara Mitsuki
   19931, // Saki Morimi
   21150, // Ikaros
-  23496, // Nymph
+  // 23496, // Nymph // * Remove Lolis
   37553, // Daedalus
   4963, // Yuno Gasai
   // ! 4964, // Deus Ex Machina *** Troll ! error
@@ -75,7 +75,7 @@ export const ALL_WAIFUS: number[] = [
   669, // Akane Tendou
   2421, // Shampoo
   22369, // Kanade Tachibana
-  43892, // Yui
+  // 43892, // Yui // * Remove Lolis
   75450, // Alice Zuberg
   5513, // Konjiki no Yami
   166439, // Marin Kitagawa
@@ -129,7 +129,7 @@ export const ALL_WAIFUS: number[] = [
   80895, // Sachi Komine
   118767, // Beatrice
   72923, // Elizabeth Liones
-  86681, // Elaine
+  // 86681, // Elaine // * Remove Lolis
   74653, // Daein
   122367, // Hina Tachibana
   122365, // Rui Tachibana
@@ -186,7 +186,7 @@ export const ALL_WAIFUS: number[] = [
   22055, // Tsubasa_Hanekawa
   117285, // Lalatina_Dustiness_Ford
   123868, // Wiz
-  132771, // Rebecca_Rossellini
+  // 132771, // Rebecca_Rossellini
   1047, // Fujiko_Mine
   81931, // Fubuki
   116275, // Albedo
@@ -230,7 +230,8 @@ export const SKIP_ANILIST = [
   182976, 183430, 183431, 183432, 183433, 194197, 206945, 213159, 219766,
   117285, 151145, 155679, 141593, 155679, 177511, 161472, 161469, 150824,
   170765, 177822, 133768, 177826, 12064, 161471, 36828, 117285, 132816, 218547,
-  115699, 132771, 177629,
+  115699, 132771, 177629, 143196, 140810, 89339, 160679, 170733, 2398, 170329,
+  170734, 161286,
 ];
 
 interface CustomWaifuProps {
@@ -248,7 +249,8 @@ export const CUSTOM_PROPS: CustomWaifuProps[] = [
   // 1251 Ritsuko
   { id: 1251, image: "/assets/ritsuko.png" },
   // 1259 Misato
-  { id: 1259, image: "/assets/misato.gif" },
+  // { id: 1259, image: "/assets/misato.gif" },
+  { id: 1259, image: "/assets/1259.webp" },
   // 2063 Yoko
   { id: 2063, image: "/assets/yoko.png" },
   // 1555 Hinata

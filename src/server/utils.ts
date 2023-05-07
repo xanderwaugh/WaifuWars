@@ -10,6 +10,7 @@ type Waifu = {
   name_kanji: string | null;
   bio?: string | null;
   imageLarge?: string | null;
+  imageCustom?: string | null;
   image: string;
   createdAt: Date;
   updatedAt: Date;
@@ -50,16 +51,19 @@ export const fetchWaifuById = async (id: number) => {
   );
   if (status !== 200) return null;
 
-  return convertWaifu(data);
+  try {
+    return convertWaifu(data);
+  } catch (error) {
+    return null;
+  }
 };
 
 // * Fetch Random Waifu
-export const fetchRandomWaifu = async () => {
-  const { data } = await axios.get<RandomWaifu>(
-    "https://api.jikan.moe/v4/random/characters",
-  );
-  return convertWaifu(data);
-};
+// export const fetchRandomWaifu = async () => {
+//   const { data } = await axios.get<RandomWaifu>(
+//     "https://api.jikan.moe/v4/random/characters",
+//   ); return convertWaifu(data);
+// };
 
 // * Fetch Waifu from Anilist API
 interface AnilistResponse {
@@ -72,6 +76,7 @@ interface AnilistResponse {
         large: string;
       };
       description: string;
+      siteUrl: string;
     };
   };
 }
@@ -79,7 +84,7 @@ interface AnilistResponse {
 // * GraphQL Request From AniList
 export const fetchFromAnilist = async (id: number) => {
   const cQuery =
-    "query ($id: Int) { Character(id: $id) { name { full  } image { large  } description } }";
+    "query ($id: Int) { Character(id: $id) { name { full  } image { large  } description siteUrl } }";
 
   try {
     const req = await axios.post<AnilistResponse>(
@@ -95,6 +100,7 @@ export const fetchFromAnilist = async (id: number) => {
     return {
       bio: String(req.data.data.Character.description),
       name: req.data.data.Character.name.full,
+      url: req.data.data.Character.siteUrl,
       imageLarge: req.data.data.Character.image.large,
     };
   } catch (e: unknown) {
@@ -117,8 +123,10 @@ export const checkIfWaifuExists = async (
 
 // * Add Waifu to Database
 export const addWaifuToDB = async (prisma: PrismaClient, waifu: Waifu) => {
-  const result = await prisma.waifu.create({
-    data: waifu,
+  const result = await prisma.waifu.upsert({
+    where: { id: waifu.id },
+    create: waifu,
+    update: waifu,
   });
   return result;
 };

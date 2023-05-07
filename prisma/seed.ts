@@ -19,32 +19,6 @@ const checkDuplicates = () => {
   } else console.log("No Duplicate Waifus Found 🎉");
 };
 
-const patchNoImageProfiles = async () => {
-  const waifusToPatch = await prisma.waifu.findMany({
-    where: {
-      imageLarge: {
-        equals:
-          "https://s4.anilist.co/file/anilistcdn/character/large/default.jpg",
-      },
-    },
-    select: { id: true, image: true },
-  });
-
-  console.log("Waifus to Patch:", waifusToPatch.length);
-
-  const patches = [];
-
-  for (const waifu of waifusToPatch) {
-    const transaction = prisma.waifu.update({
-      where: { id: waifu.id },
-      data: { imageLarge: waifu.image },
-    });
-    patches.push(transaction);
-  }
-  await prisma.$transaction(patches);
-  console.log("Waifus Patched 🎉");
-};
-
 const checkForRemovedWaifus = async (shouldRemove = false) => {
   const WAIFUS = await prisma.waifu.findMany({
     select: { id: true },
@@ -72,15 +46,11 @@ const seedWaifusFromMAL = async () => {
   const WAIFUS = await prisma.waifu.findMany({
     select: { id: true },
   });
-
   const waifusInDB = WAIFUS.map((w) => w.id);
   const waifusToAdd = ALL_WAIFUS.filter((w) => !waifusInDB.includes(w));
 
-  console.log("MAL Waifus to Add:", waifusToAdd);
-  console.log("MAL Waifus to Add", waifusToAdd.length);
-
+  console.log("MAL Waifus to Add:", waifusToAdd.length);
   const erroredWaifus: number[] = [];
-
   for (const waifuId of waifusToAdd) {
     await new Promise((r) => setTimeout(r, 800)); // Rate Limit
     const waifu = await fetchWaifuById(waifuId);
@@ -90,7 +60,7 @@ const seedWaifusFromMAL = async () => {
       continue;
     }
     await addWaifuToDB(prisma, waifu);
-    console.log("Added", waifu.name);
+    console.log("MAL Added:", waifu.name);
   }
 
   return erroredWaifus;
@@ -118,16 +88,19 @@ const updateWaifusFromAnilist = async () => {
       new Promise((r) => setTimeout(r, 1700)),
       fetchFromAnilist(waifu.id),
     ]);
-
     if (!anilistData) {
       erroredWaifus.push(waifu.id);
       console.error("Error fetching waifu", waifu.id);
       continue;
     }
-
-    await prisma.waifu.update({
+    await prisma.waifu.upsert({
       where: { id: waifu.id },
-      data: anilistData,
+      create: {
+        id: waifu.id,
+        image: anilistData.imageLarge,
+        ...anilistData,
+      },
+      update: { image: anilistData.imageLarge },
     });
     console.log("Added", waifu.id);
   }
@@ -136,70 +109,40 @@ const updateWaifusFromAnilist = async () => {
 };
 
 const forceMALforBrokenWaifus = async () => {
-  // const transactions = [];
   for (const broken of SKIP_ANILIST) {
-    try {
-      await new Promise((r) => setTimeout(r, 800)); // Rate Limit
-      const waifu = await fetchWaifuById(broken);
-      if (!waifu || !broken) continue;
-      console.log("Force MAL for Broken Waifu:", broken);
-      await prisma.waifu.update({
-        where: { id: broken }, // <-- Causing Error
-        data: { ...waifu, imageLarge: null, bio: null },
-      });
-    } catch (error) {
-      console.error("Error fetching waifu", broken);
-    }
+    await new Promise((r) => setTimeout(r, 800));
+    const waifu = await fetchWaifuById(broken);
+    if (!waifu || !broken) continue;
+    console.log("Force MAL for Broken Waifu:", broken);
+    await prisma.waifu.update({
+      where: { id: broken }, // <-- Causing Error
+      data: { ...waifu, imageLarge: null, bio: null },
+    });
   }
   // await prisma.$transaction(transactions);
 };
 
-const fixEmptyImages = async () => {
-  const waifusToPatch = await prisma.waifu.findMany({
-    where: { imageLarge: { equals: "" } },
-    select: { id: true },
-  });
-  console.log("Fixing Empty Images:", waifusToPatch.length);
-  const transactions = [];
-  for (const waifu of waifusToPatch) {
-    transactions.push(
-      prisma.waifu.update({
-        where: { id: waifu.id },
-        data: { imageLarge: null },
-      }),
-    );
-  }
-  await prisma.$transaction(transactions);
-};
-
 const customPatches = async () => {
-  // * Check if any waifus are missing
+  const customIDs = CUSTOM_PROPS.map((w) => w.id);
+  // * Select only custom waifus
   const waifusInDB = await prisma.waifu.findMany({
-    // Select only custom waifus
-    where: { id: { in: CUSTOM_PROPS.map((w) => w.id) } },
+    where: { id: { in: customIDs } },
     select: { id: true },
   });
-
   console.log("Waifus w/ Custom Props:", waifusInDB.length);
-
-  const transactions = [];
 
   for (const dbWaifu of waifusInDB) {
     const custWaifu = CUSTOM_PROPS.find((w) => w.id === dbWaifu.id);
     if (!custWaifu) continue;
-    transactions.push(
-      prisma.waifu.update({
+    try {
+      await prisma.waifu.update({
         where: { id: dbWaifu.id },
-        data: {
-          image: custWaifu.image,
-          imageLarge: custWaifu.image,
-          imageCustom: custWaifu.image,
-        },
-      }),
-    );
+        data: { imageCustom: custWaifu.image },
+      });
+    } catch (error) {
+      console.error("Error updating waifu", dbWaifu.id);
+    }
   }
-
-  await prisma.$transaction(transactions);
 };
 
 const main = async () => {
@@ -222,14 +165,6 @@ const main = async () => {
   console.log("Done Forcing MAL For Broken Waifus 🎉\n");
   console.log("\n====================================\n");
 
-  await patchNoImageProfiles();
-  console.log("Done Patching No Image Profiles 🎉\n");
-  console.log("\n====================================\n");
-
-  // await fixEmptyImages();
-  // console.log("Done Fixing Empty Images 🎉\n");
-  // console.log("\n====================================\n");
-
   // * Custom Patches
   await customPatches();
   console.log("Done Custom Patches 🎉\n");
@@ -243,3 +178,44 @@ main().catch((_e) => {
   console.error(_e);
   process.exit(1);
 });
+
+// Older Code
+const fixEmptyImages = async () => {
+  const waifusToPatch = await prisma.waifu.findMany({
+    where: { imageLarge: { equals: "" } },
+    select: { id: true },
+  });
+  console.log("Fixing Empty Images:", waifusToPatch.length);
+  const transactions = [];
+  for (const waifu of waifusToPatch) {
+    transactions.push(
+      prisma.waifu.update({
+        where: { id: waifu.id },
+        data: { imageLarge: null },
+      }),
+    );
+  }
+  await prisma.$transaction(transactions);
+};
+
+const defAniImage =
+  "https://s4.anilist.co/file/anilistcdn/character/large/default.jpg";
+
+const patchNoImageProfiles = async () => {
+  const waifusToPatch = await prisma.waifu.findMany({
+    where: { imageLarge: { equals: defAniImage } },
+    select: { id: true, image: true },
+  });
+  console.log("Waifus to Patch:", waifusToPatch.length);
+
+  const patches = [];
+  for (const waifu of waifusToPatch) {
+    const transaction = prisma.waifu.update({
+      where: { id: waifu.id },
+      data: { imageLarge: waifu.image },
+    });
+    patches.push(transaction);
+  }
+  await prisma.$transaction(patches);
+  console.log("Waifus Patched 🎉");
+};

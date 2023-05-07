@@ -91,6 +91,19 @@ const Home: NextPage = () => {
         </div>
       )}
 
+      {/* Skip */}
+      {waifuPair && !loading && (
+        <div className="flex flex-col items-center justify-center gap-4">
+          <button
+            //
+            onClick={() => void refetch()}
+            className="btn border-2 border-gray-500 hover:border-gray-600 hover:bg-gray-600 hover:text-white"
+          >
+            Skip
+          </button>
+        </div>
+      )}
+
       <Header />
     </div>
   );
