@@ -76,8 +76,7 @@ export const SEOConfig: NextSeoProps = {
   ],
   additionalLinkTags: [
     // { rel: "manifest",  href: "/manifest.json" },
-    // { rel: "icon", sizes: "48x48", href: "/favicon.ico" },
-    { rel: "icon", sizes: "180x180", href: "/apple-touch-icon.png" },
+    { rel: "icon", sizes: "48x48", href: "/favicon.ico" },
     {
       rel: "shortcut icon",
       type: "image/png",
