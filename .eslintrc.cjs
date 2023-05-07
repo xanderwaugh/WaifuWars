@@ -40,6 +40,8 @@ module.exports = {
       },
     ],
     "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+    // NextJS Image
+    "@next/next/no-img-element": "off",
   },
   ignorePatterns: ["node_modules/", "build/", "dist/", ".next/"],
 };

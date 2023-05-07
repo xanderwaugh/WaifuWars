@@ -8,6 +8,8 @@ type Waifu = {
   url: string;
   name: string;
   name_kanji: string | null;
+  bio?: string | null;
+  imageLarge?: string | null;
   image: string;
   createdAt: Date;
   updatedAt: Date;

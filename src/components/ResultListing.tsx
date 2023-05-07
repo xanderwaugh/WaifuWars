@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+// import Image from "next/image";
 import { genCountPerc } from "~/utils";
 
 interface ResultListingProps {
@@ -19,14 +19,14 @@ const ResultListing: React.FC<ResultListingProps> = ({ waifu, rank }) => {
       >
         <div className="flex items-center">
           <div className="flex items-center gap-2">
-            <Image
+            <img
               src={waifu.imageLarge ?? waifu.image}
               alt={waifu.name}
               width={64}
               height={64}
               loading={rank < 10 ? "eager" : "lazy"}
               placeholder="blur"
-              blurDataURL="/assets/placeholder.webp"
+              // blurDataURL="/assets/placeholder.webp"
               className="object-cover"
             />
             <h2 className="capitalize">{waifu.name}</h2>

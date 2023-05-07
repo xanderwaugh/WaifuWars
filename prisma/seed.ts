@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { PrismaClient } from "@prisma/client";
-import { ALL_WAIFUS, BROKEN_WAIFUS } from "../src/data/waifus";
+import {
+  ALL_WAIFUS,
+  BROKEN_WAIFUS,
+  CUSTOM_PROPS,
+  SKIP_ANILIST,
+} from "../src/data/waifus";
 import {
   fetchWaifuById,
   addWaifuToDB,
@@ -102,10 +107,14 @@ const updateWaifusFromAnilist = async () => {
   });
 
   // * Array of waifus w/o imageLarge or bio in DB
-  const preWaifusToUpdate = WAIFUS.filter((w) => !w.imageLarge || !w.bio);
+  const prepreWaifusToUpdate = WAIFUS.filter((w) => !w.imageLarge || !w.bio);
   // ! Skip broken waifus
-  const waifusToUpdate = preWaifusToUpdate.filter(
+  const prewaifusToUpdate = prepreWaifusToUpdate.filter(
     (w) => !BROKEN_WAIFUS.includes(w.id),
+  );
+  // * Skip SKIP_ANILIST
+  const waifusToUpdate = prewaifusToUpdate.filter(
+    (w) => !SKIP_ANILIST.includes(w.id),
   );
 
   console.log("Waifus to Anilist:", waifusToUpdate.length);
@@ -135,19 +144,21 @@ const updateWaifusFromAnilist = async () => {
 };
 
 const forceMALforBrokenWaifus = async () => {
-  const transactions = [];
+  // const transactions = [];
   for (const broken of BROKEN_WAIFUS) {
-    await new Promise((r) => setTimeout(r, 800)); // Rate Limit
-    const waifu = await fetchWaifuById(broken);
-    if (!waifu) continue;
-    transactions.push(
-      prisma.waifu.update({
-        where: { id: broken },
+    try {
+      await new Promise((r) => setTimeout(r, 800)); // Rate Limit
+      const waifu = await fetchWaifuById(broken);
+      if (!waifu || !broken) continue;
+      await prisma.waifu.update({
+        where: { id: broken }, // <-- Causing Error
         data: { ...waifu, imageLarge: null, bio: null },
-      }),
-    );
+      });
+    } catch (error) {
+      console.error("Error fetching waifu", broken);
+    }
   }
-  await prisma.$transaction(transactions);
+  // await prisma.$transaction(transactions);
 };
 
 const fixEmptyImages = async () => {
@@ -168,125 +179,72 @@ const fixEmptyImages = async () => {
   await prisma.$transaction(transactions);
 };
 
+interface CustomWaifuProps {
+  id: number;
+  data: { image: string };
+}
+
 const customPatches = async () => {
-  // 36828 Asuna
-  await prisma.waifu.update({
-    where: { id: 36828 },
-    data: {
-      imageLarge: "/assets/asuna.webp",
-      image: "/assets/asuna.webp",
-    },
+  // * Check if any waifus are missing
+  const waifusInDB = await prisma.waifu.findMany({
+    // Select only custom waifus
+    where: { id: { in: CUSTOM_PROPS.map((w) => w.id) } },
+    select: { id: true },
   });
 
-  // 206945 Vermeil
-  await prisma.waifu.update({
-    where: { id: 206945 },
-    data: {
-      image: "/assets/vermeil.webp",
-      imageLarge: "/assets/vermeil.webp",
-    },
-  });
+  console.log("Waifus w/ Custom Props:", waifusInDB.length);
 
-  // 65239 Esdeath
-  await prisma.waifu.update({
-    where: { id: 65239 },
-    data: {
-      image: "/assets/esdeath.webp",
-      imageLarge: "/assets/esdeath.webp",
-    },
-  });
+  const transactions = [];
 
-  // 1251 Ritsuko
-  await prisma.waifu.update({
-    where: { id: 1251 },
-    data: {
-      image: "/assets/ritsuko.png",
-      imageLarge: "/assets/ritsuko.png",
-    },
-  });
+  for (const dbWaifu of waifusInDB) {
+    const custWaifu = CUSTOM_PROPS.find((w) => w.id === dbWaifu.id);
+    if (!custWaifu) continue;
+    transactions.push(
+      prisma.waifu.update({
+        where: { id: dbWaifu.id },
+        data: {
+          image: custWaifu.data.image,
+          imageLarge: custWaifu.data.image,
+        },
+      }),
+    );
+  }
 
-  // 1259 Misato
-  await prisma.waifu.update({
-    where: { id: 1259 },
-    data: {
-      image: "/assets/misato.gif",
-      imageLarge: "/assets/misato.gif",
-    },
-  });
-
-  // 2063 Yoko
-  await prisma.waifu.update({
-    where: { id: 2063 },
-    data: {
-      image: "/assets/yoko.png",
-      imageLarge: "/assets/yoko.png",
-    },
-  });
-
-  // 1555 Hinata
-  await prisma.waifu.update({
-    where: { id: 1555 },
-    data: {
-      image: "/assets/hinata.jpg",
-      imageLarge: "/assets/hinata.jpg",
-    },
-  });
-
-  // 51347 Akeno
-  await prisma.waifu.update({
-    where: { id: 51347 },
-    data: {
-      image: "/assets/akeno.jpg",
-      imageLarge: "/assets/akeno.jpg",
-    },
-  });
-
-  // 1111 C2 c2.png
-  await prisma.waifu.update({
-    where: { id: 1111 },
-    data: {
-      image: "/assets/c2.png",
-      imageLarge: "/assets/c2.png",
-    },
-  });
-
-  // 78935 Ikumi
-  await prisma.waifu.update({
-    where: { id: 78935 },
-    data: {
-      image: "/assets/ikumi.png",
-      imageLarge: "/assets/ikumi.png",
-    },
-  });
+  await prisma.$transaction(transactions);
 };
 
 const main = async () => {
   checkDuplicates();
-  console.log("====================================\n");
+  console.log("\n====================================\n");
 
   const shouldRemove = true;
   await checkForRemovedWaifus(shouldRemove);
-  console.log("====================================\n");
+  console.log("\n====================================\n");
 
   const malErrors = await seedWaifusFromMAL();
   console.log("MAL Errors:", malErrors.length);
-  console.log("====================================\n");
+  console.log("\n====================================\n");
 
   // const anilistErrors = await updateWaifusFromAnilist();
   // console.log("\nANILIST Errored Waifus", anilistErrors);
   // console.log("ANILIST Errors:", anilistErrors.length);
 
-  await forceMALforBrokenWaifus();
-  console.log("Done Forcing MAL For Broken Waifus 🎉\n");
+  // await forceMALforBrokenWaifus();
+  // console.log("Done Forcing MAL For Broken Waifus 🎉\n");
+  // console.log("\n====================================\n");
 
   await patchNoImageProfiles();
   console.log("Done Patching No Image Profiles 🎉\n");
+  console.log("\n====================================\n");
 
   await fixEmptyImages();
   console.log("Done Fixing Empty Images 🎉\n");
+  console.log("\n====================================\n");
 
-  // Custom Patches
+  // * Custom Patches
   await customPatches();
+  console.log("Done Custom Patches 🎉\n");
+  console.log("\n====================================\n");
 
   // * Happy Emoji Done
   console.log("✅ Done");
