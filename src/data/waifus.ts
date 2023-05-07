@@ -153,8 +153,8 @@ export const ALL_WAIFUS: number[] = [
   // ! 139042, // Yuu_Takeyama ! error
   141593, // Nemuri_Kayama
   132505, // Akiko_Yosano
-  204858, // Liuying_Jiang
-  185667, // Thirteen
+  // 204858, // Liuying_Jiang
+  // 185667, // Thirteen
   2735, // Julia
   213159, // Lucy
   215033, // Kiwi
@@ -172,7 +172,7 @@ export const ALL_WAIFUS: number[] = [
   650, // Lust
   177628, // Abigail_Jones
   177629, // Cynthia_Moore
-  508, // Sophie_Hatter
+  // 508, // Sophie_Hatter
   // 21960, // Lisa_Lisa Duplicate
   139512, // Tomoko_Higashikata
   164472, // Nobara_Kugisaki
@@ -209,6 +209,9 @@ export const ALL_WAIFUS: number[] = [
   170765, // Himeno // * No Image in Anilist
   174751, // Reze
   2767, // Tsunade
+  46490, // Annie_Leonhart
+  1555, // Hinata Hyuuga
+  51347, // Akeno_Himejima
 ];
 
 // * These Waifus should skip over anilist

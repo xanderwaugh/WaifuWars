@@ -169,10 +169,94 @@ const fixEmptyImages = async () => {
 };
 
 const customPatches = async () => {
-  // 36828 Picture to /assets/asuna.webp
+  // 36828 Asuna
   await prisma.waifu.update({
     where: { id: 36828 },
-    data: { imageLarge: "/assets/asuna.webp" },
+    data: {
+      imageLarge: "/assets/asuna.webp",
+      image: "/assets/asuna.webp",
+    },
+  });
+
+  // 206945 Vermeil
+  await prisma.waifu.update({
+    where: { id: 206945 },
+    data: {
+      image: "/assets/vermeil.webp",
+      imageLarge: "/assets/vermeil.webp",
+    },
+  });
+
+  // 65239 Esdeath
+  await prisma.waifu.update({
+    where: { id: 65239 },
+    data: {
+      image: "/assets/esdeath.webp",
+      imageLarge: "/assets/esdeath.webp",
+    },
+  });
+
+  // 1251 Ritsuko
+  await prisma.waifu.update({
+    where: { id: 1251 },
+    data: {
+      image: "/assets/ritsuko.png",
+      imageLarge: "/assets/ritsuko.png",
+    },
+  });
+
+  // 1259 Misato
+  await prisma.waifu.update({
+    where: { id: 1259 },
+    data: {
+      image: "/assets/misato.gif",
+      imageLarge: "/assets/misato.gif",
+    },
+  });
+
+  // 2063 Yoko
+  await prisma.waifu.update({
+    where: { id: 2063 },
+    data: {
+      image: "/assets/yoko.png",
+      imageLarge: "/assets/yoko.png",
+    },
+  });
+
+  // 1555 Hinata
+  await prisma.waifu.update({
+    where: { id: 1555 },
+    data: {
+      image: "/assets/hinata.jpg",
+      imageLarge: "/assets/hinata.jpg",
+    },
+  });
+
+  // 51347 Akeno
+  await prisma.waifu.update({
+    where: { id: 51347 },
+    data: {
+      image: "/assets/akeno.jpg",
+      imageLarge: "/assets/akeno.jpg",
+    },
+  });
+
+  // 1111 C2 c2.png
+  await prisma.waifu.update({
+    where: { id: 1111 },
+    data: {
+      image: "/assets/c2.png",
+      imageLarge: "/assets/c2.png",
+    },
+  });
+
+  // 78935 Ikumi
+  await prisma.waifu.update({
+    where: { id: 78935 },
+    data: {
+      image: "/assets/ikumi.png",
+      imageLarge: "/assets/ikumi.png",
+    },
   });
 };
 
@@ -180,13 +264,13 @@ const main = async () => {
   checkDuplicates();
   console.log("====================================\n");
 
-  // const shouldRemove = false;
-  // await checkForRemovedWaifus(shouldRemove);
-  // console.log("====================================\n");
+  const shouldRemove = true;
+  await checkForRemovedWaifus(shouldRemove);
+  console.log("====================================\n");
 
-  // const malErrors = await seedWaifusFromMAL();
-  // console.log("MAL Errors:", malErrors.length);
-  // console.log("====================================\n");
+  const malErrors = await seedWaifusFromMAL();
+  console.log("MAL Errors:", malErrors.length);
+  console.log("====================================\n");
 
   // const anilistErrors = await updateWaifusFromAnilist();
   // console.log("\nANILIST Errored Waifus", anilistErrors);

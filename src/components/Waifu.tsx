@@ -30,6 +30,7 @@ const WaifuListing: React.FC<{
           loading="eager"
           placeholder="blur"
           blurDataURL="/assets/placeholder.webp"
+          quality={100}
           // style={{ imageRendering: "pixelated" }}
           className="animate-fade-in h-full w-full rounded-md object-cover object-center"
         />
