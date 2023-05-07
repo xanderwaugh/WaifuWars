@@ -1,18 +1,73 @@
 import { PrismaClient } from "@prisma/client";
 import { ALL_WAIFUS } from "../src/data/waifus";
-import { fetchWaifuById, addWaifuToDB } from "../src/server/utils";
+import {
+  fetchWaifuById,
+  addWaifuToDB,
+  fetchFromAnilist,
+} from "../src/server/utils";
 
 const prisma = new PrismaClient();
 
-const main = async () => {
+const checkDuplicates = () => {
   const DUPLICATE_WAIFUS = ALL_WAIFUS.filter(
     (w, i) => ALL_WAIFUS.indexOf(w) !== i,
   );
   if (DUPLICATE_WAIFUS.length > 0) {
     console.error("Duplicate Waifus Found", DUPLICATE_WAIFUS);
     process.exit(1);
-  }
+  } else console.log("No Duplicate Waifus Found 🎉");
+};
 
+const patchNoImageProfiles = async () => {
+  const waifusToPatch = await prisma.waifu.findMany({
+    where: {
+      imageLarge: {
+        equals:
+          "https://s4.anilist.co/file/anilistcdn/character/large/default.jpg",
+      },
+    },
+    select: { id: true, image: true },
+  });
+
+  console.log("Waifus to Patch:", waifusToPatch.length);
+
+  const patches = [];
+
+  for (const waifu of waifusToPatch) {
+    const transaction = prisma.waifu.update({
+      where: { id: waifu.id },
+      data: { imageLarge: waifu.image },
+    });
+    patches.push(transaction);
+  }
+  await prisma.$transaction(patches);
+  console.log("Waifus Patched 🎉");
+};
+
+const checkForRemovedWaifus = async (shouldRemove = false) => {
+  const WAIFUS = await prisma.waifu.findMany({
+    select: { id: true },
+  });
+
+  const waifusInDB = WAIFUS.map((w) => w.id);
+  const removedWaifus = waifusInDB.filter((w) => !ALL_WAIFUS.includes(w));
+
+  if (!removedWaifus.length) {
+    console.log("No Waifus Need To Be Deleted 🎉");
+    return;
+  }
+  console.error("Removed Waifus Found 😭", removedWaifus);
+  // process.exit(1);
+
+  if (shouldRemove) {
+    await prisma.waifu.deleteMany({
+      where: { id: { in: removedWaifus } },
+    });
+    console.log("Removed Waifus Deleted 🎉");
+  }
+};
+
+const seedWaifusFromMAL = async () => {
   const WAIFUS = await prisma.waifu.findMany({
     select: { id: true },
   });
@@ -20,29 +75,83 @@ const main = async () => {
   const waifusInDB = WAIFUS.map((w) => w.id);
   const waifusToAdd = ALL_WAIFUS.filter((w) => !waifusInDB.includes(w));
 
-  console.log("waifusToAdd", waifusToAdd);
-  console.log("waifusToAdd.length", waifusToAdd.length);
-  const erroredWaifus = [];
+  console.log("MAL Waifus to Add:", waifusToAdd);
+  console.log("MAL Waifus to Add", waifusToAdd.length);
+
+  const erroredWaifus: number[] = [];
 
   for (const waifuId of waifusToAdd) {
-    try {
-      const waifu = await fetchWaifuById(waifuId);
-      await addWaifuToDB(prisma, waifu);
-      console.log("Added", waifu.name);
-    } catch (error) {
+    // await new Promise((r) => setTimeout(r, 800)); // Rate Limit
+    const waifu = await fetchWaifuById(waifuId);
+    if (!waifu) {
       erroredWaifus.push(waifuId);
-      console.error("Error fetching waifu", waifuId, error);
-      // await new Promise((r) => setTimeout(r, 1000));
+      console.error("Error fetching waifu", waifuId);
       continue;
     }
-    // await new Promise((r) => setTimeout(r, 350));
+    await addWaifuToDB(prisma, waifu);
+    console.log("Added", waifu.name);
   }
 
-  console.log("Errored Waifus", erroredWaifus);
-  console.log("Errored Waifus Length", erroredWaifus.length);
+  return erroredWaifus;
 };
 
-main().catch((e) => {
-  console.error(e);
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const updateWaifusFromAnilist = async () => {
+  const WAIFUS = await prisma.waifu.findMany({
+    select: { id: true, imageLarge: true, bio: true },
+  });
+
+  // * Array of waifus w/o imageLarge or bio in DB
+  const waifusToUpdate = WAIFUS.filter((w) => !w.imageLarge || !w.bio);
+
+  console.log("Waifus to Anilist:", waifusToUpdate.length);
+  const erroredWaifus: number[] = [];
+
+  // * Do not exceed their ratelimit of 90 requests per minute
+  for (const waifu of waifusToUpdate) {
+    const [, anilistData] = await Promise.all([
+      new Promise((r) => setTimeout(r, 1700)),
+      fetchFromAnilist(waifu.id),
+    ]);
+
+    if (!anilistData) {
+      erroredWaifus.push(waifu.id);
+      console.error("Error fetching waifu", waifu.id);
+      continue;
+    }
+
+    await prisma.waifu.update({
+      where: { id: waifu.id },
+      data: anilistData,
+    });
+    console.log("Added", waifu.id);
+  }
+
+  return erroredWaifus;
+};
+
+const main = async () => {
+  checkDuplicates();
+
+  const shouldRemove = false;
+  await checkForRemovedWaifus(shouldRemove);
+
+  const malErrors = await seedWaifusFromMAL();
+  console.log("MAL Errored Waifus", malErrors);
+  console.log("MAL Errors:", malErrors.length);
+  console.log("\n====================================\n");
+
+  // const anilistErrors = await updateWaifusFromAnilist();
+  // console.log("\nANILIST Errored Waifus", anilistErrors);
+  // console.log("ANILIST Errors:", anilistErrors.length);
+
+  await patchNoImageProfiles();
+
+  // * Happy Emoji Done
+  console.log("✅ Done");
+};
+
+main().catch((_e) => {
+  console.error(_e);
   process.exit(1);
 });

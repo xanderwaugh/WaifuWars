@@ -1,15 +1,12 @@
-import { useEffect, useState } from "react";
 import { type NextPage } from "next";
 
 import { api } from "~/utils/api";
 
 import WaifuListing from "~/components/Waifu";
 import Header from "~/components/Header";
-import { ImSpinner2 } from "react-icons/im";
+import { ImSpinner8 } from "react-icons/im";
 
 const Home: NextPage = () => {
-  const [loading, setLoading] = useState(true);
-
   const {
     data: waifuPair,
     isLoading,
@@ -39,25 +36,18 @@ const Home: NextPage = () => {
     // plausible("cast-vote");
     if (typeof window !== "undefined" && window.gtag) {
       window.gtag("event", "post_score", {
-        // event_category: "engagement",
-        // event_label: "vote",
         score: 1,
         level: 1,
         character: selected,
       });
     }
-
-    await refetch().catch(() => {
-      console.error("Error refetching");
-    });
+    await refetch();
   };
 
-  useEffect(() => {
-    setLoading(isLoading || voteMutation.isLoading);
-  }, [isLoading, voteMutation.isLoading]);
+  const loading = isLoading || voteMutation.isLoading;
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-between overflow-hidden py-8">
+    <div className="z-0 flex min-h-screen flex-col items-center justify-between overflow-hidden py-8">
       <div className="pt-8 text-center text-3xl md:text-4xl">
         Which Waifu is better?
       </div>
@@ -69,12 +59,14 @@ const Home: NextPage = () => {
         </div>
       )}
 
-      {loading || !waifuPair ? (
-        <div className="flex h-full w-full animate-spin flex-col items-center justify-center py-8 text-9xl duration-500 ease-in-out">
-          <ImSpinner2 />
+      {loading && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center overflow-hidden rounded-full text-9xl">
+          <ImSpinner8 className="animate-spin duration-700 ease-in-out" />
         </div>
-      ) : (
-        <div className="animate-fade-in mx-auto flex flex-col items-center justify-center p-8 md:flex-row md:gap-16">
+      )}
+
+      {waifuPair && (
+        <div className="animate-fade-in mx-auto flex flex-col items-center justify-center p-8 md:flex-row md:gap-4 lg:gap-16">
           <WaifuListing
             waifu={waifuPair.waifu1}
             disabled={loading}
@@ -89,9 +81,6 @@ const Home: NextPage = () => {
         </div>
       )}
 
-      {/* {!waifuPair && <img src="/rings.svg" className="w-48" />} */}
-
-      {/* Links */}
       <Header />
     </div>
   );

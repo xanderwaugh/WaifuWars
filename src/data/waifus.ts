@@ -145,8 +145,8 @@ export const ALL_WAIFUS: number[] = [
   161470, // Ichika_Nakano
   161469, // Yotsuba_Nakano
   161472, // Nino_Nakano
-  160603, // Miku_Nakano
-  165851, // Juno
+  // 160603, // Miku_Nakano // * Not in Anilist
+  // 165851, // Juno // * I just dont like her
   218547, // Seika_Ijichi
   219766, // PA-san
   130214, // Sachiko_Fujinuma
@@ -160,9 +160,9 @@ export const ALL_WAIFUS: number[] = [
   215033, // Kiwi
   63845, // Kyouko_Kirigiri
   65525, // Celestia_Ludenberg
-  73221, // Mikan_Tsumiki
+  73221, // Mikan_Tsumiki // * Not in Anilist
   65523, // Junko_Enoshima
-  106029, // Hephaistios
+  106029, // Hephaistios // * Not in Anilist
   28331, // Celty_Sturluson
   136045, // Hibana
   133768, // Maki_Oze
@@ -193,8 +193,8 @@ export const ALL_WAIFUS: number[] = [
   89339, // Alice_Nakiri
   78935, // Ikumi_Mito
   // 166439, // Marin_Kitagawa Duplicate
-  94729, // Scarlett
-  94725, // Honey
+  94729, // Scarlett // * Not in Anilist
+  94725, // Honey // * Not in Anilist
   177511, // Sylvia_Sherwood
   170329, // Yor_Forger
   112929, // Malty_Melromarc
@@ -202,11 +202,11 @@ export const ALL_WAIFUS: number[] = [
   131937, // Shion
   713, // Meryl_Stryfe
   182976, // Anko_Uguisu
-  177826, // Nazuna_Nanakusa
+  177826, // Nazuna_Nanakusa // * No Image in Anilist
   177822, // Kabura_Honda
   170734, // Makima
   170733, // Power
-  170765, // Himeno
+  170765, // Himeno // * No Image in Anilist
   174751, // Reze
   2767, // Tsunade
 ];
@@ -214,12 +214,12 @@ export const ALL_WAIFUS: number[] = [
 export const getRandomWaifu: (notThisOne?: number) => number = (
   notThisOne?: number,
 ) => {
-  const randidx = Math.floor(Math.random() * ALL_WAIFUS.length) + 1;
+  const idx = Math.floor(Math.random() * ALL_WAIFUS.length) + 1;
 
-  if (notThisOne && ALL_WAIFUS[randidx] === notThisOne)
+  if (notThisOne && ALL_WAIFUS[idx] === notThisOne)
     return getRandomWaifu(notThisOne);
 
-  return ALL_WAIFUS[randidx] as number;
+  return ALL_WAIFUS[idx] as number;
 };
 
 export const getRandomWaifuPair = () => {

@@ -140,7 +140,6 @@ const getFingerprint = (req: NextApiRequest) => {
 /** Reusable middleware ratelimits users to 20 request per 10 seconds. */
 const enforceRatelimit = t.middleware(async ({ ctx, next }) => {
   if (!ctx.req) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
-
   const ip = getFingerprint(ctx.req);
 
   console.time("Rate limit");

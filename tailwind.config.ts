@@ -1,5 +1,4 @@
 import { type Config } from "tailwindcss";
-import forms from "@tailwindcss/forms";
 import scrollbar from "tailwind-scrollbar";
 
 export default {
@@ -18,5 +17,5 @@ export default {
       },
     },
   },
-  plugins: [forms, scrollbar],
+  plugins: [scrollbar],
 } satisfies Config;

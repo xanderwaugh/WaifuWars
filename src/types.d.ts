@@ -20,6 +20,8 @@ interface Waifu {
   name: string;
   name_kanji: string | null;
   image: string;
+  bio?: string;
+  imageLarge?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -30,7 +32,9 @@ type WaifusQueryResult = {
     VoteAgainst: number;
   };
   id: number;
+  url: string;
   name: string;
   image: string;
-  url: string;
+  imageLarge?: string;
+  bio?: string;
 }[];

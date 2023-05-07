@@ -88,6 +88,8 @@ export const getStaticProps: GetStaticProps = async () => {
       name: true,
       image: true,
       url: true,
+      imageLarge: true,
+      bio: true,
       _count: { select: { VoteFor: true, VoteAgainst: true } },
     },
   });

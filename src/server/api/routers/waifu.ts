@@ -3,36 +3,22 @@ import { createTRPCRouter, ratelimitProcedure } from "~/server/api/trpc";
 
 import { getRandomWaifuPair } from "~/data/waifus";
 
-import {
-  fetchWaifuById,
-  checkIfWaifuExists,
-  addWaifuToDB,
-} from "~/server/utils";
-
 // https://docs.api.jikan.moe/
+// https://anilist.co/character/4963
+// https://anilist.gitbook.io/anilist-apiv2-docs/overview/resources-and-recommended-reading
+// https://anilist.github.io/ApiV2-GraphQL-Docs/
+
 export const waifuRouter = createTRPCRouter({
   getWaifuPair: ratelimitProcedure.query(async ({ ctx }) => {
-    const [r1, r2] = getRandomWaifuPair();
+    const [w1, w2] = getRandomWaifuPair();
 
-    // * Check if waifu1 and waifu2 are in db
-    let [waifu1, waifu2] = await Promise.all([
-      checkIfWaifuExists(ctx.prisma, r1),
-      checkIfWaifuExists(ctx.prisma, r2),
-    ]);
+    const [waifu1, waifu2] = await ctx.prisma.waifu.findMany({
+      where: { id: { in: [w1, w2] } },
+    });
 
-    // * If not, add them to db
-    if (!waifu1) {
-      const waifu = await fetchWaifuById(r1);
-      await addWaifuToDB(ctx.prisma, waifu);
-      waifu1 = waifu;
-    }
-    if (!waifu2) {
-      const waifu = await fetchWaifuById(r2);
-      await addWaifuToDB(ctx.prisma, waifu);
-      waifu2 = waifu;
-    }
+    if (!waifu1 || !waifu2) throw new Error("Waifu pair not found");
 
-    return { waifu1, waifu2 };
+    return { waifu1, waifu2 } as { waifu1: Waifu; waifu2: Waifu };
   }),
   vote: ratelimitProcedure
     .input(
@@ -44,36 +30,10 @@ export const waifuRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const voteInDB = await ctx.prisma.vote.create({
         data: {
-          votedFor: { connect: { id: input.votedFor } },
-          votedAgainst: { connect: { id: input.votedAgainst } },
+          votedForId: input.votedFor,
+          votedAgainstId: input.votedAgainst,
         },
       });
       return { success: true, vote: voteInDB };
     }),
 });
-
-// const getResults = async (sortedBy: "votes" | "perc", ctx: Context) => {
-//   const waifuOrdered = await ctx.prisma.waifu.findMany({
-//     orderBy: { VoteFor: { _count: "desc" } },
-//     select: {
-//       id: true,
-//       name: true,
-//       image: true,
-//       url: true,
-//       _count: { select: { VoteFor: true, VoteAgainst: true } },
-//     },
-//   });
-//   let sorted: WaifusQueryResult = [];
-//   if (sortedBy === "votes") {
-//     // * Sort by VoteFor
-//     sorted = waifuOrdered.sort((a, b) => b._count.VoteFor - a._count.VoteFor);
-//   } else if (sortedBy === "perc") {
-//     // * Sort by Percent
-//     sorted = waifuOrdered.sort(
-//       (a, b) =>
-//         b._count.VoteFor / (b._count.VoteFor + b._count.VoteAgainst) -
-//         a._count.VoteFor / (a._count.VoteFor + a._count.VoteAgainst),
-//     );
-//   }
-//   return { waifus: sorted };
-// };

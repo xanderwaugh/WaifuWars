@@ -7,5 +7,6 @@ export const axios = Axios.create({
   headers: {
     "Content-Type": "application/json",
     "Cache-Control": `max-age=${ONE_DAY_IN_SECONDS}`,
+    Accept: "application/json",
   },
 });

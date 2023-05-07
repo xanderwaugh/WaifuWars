@@ -20,6 +20,7 @@ const config = {
       "source.unsplash.com",
       "myanimelist.net",
       "cdn.myanimelist.net",
+      "s4.anilist.co",
     ],
     formats: ["image/avif", "image/webp"],
   },

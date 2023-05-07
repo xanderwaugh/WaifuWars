@@ -1,8 +1,8 @@
 // This is your Prisma schema file, learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["fullTextIndex", "fullTextSearch"]
+  provider = "prisma-client-js"
+  // previewFeatures = ["fullTextIndex", "fullTextSearch"]
 }
 
 datasource db {
@@ -15,9 +15,9 @@ model Vote {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
 
-  votedFor       Waifu @relation(name: "votesFor", fields: [votedForId], references: [id])
+  votedFor       Waifu @relation(name: "votesFor", fields: [votedForId], references: [id], onDelete: Cascade)
   votedForId     Int
-  votedAgainst   Waifu @relation(name: "votesAgainst", fields: [votedAgainstId], references: [id])
+  votedAgainst   Waifu @relation(name: "votesAgainst", fields: [votedAgainstId], references: [id], onDelete: Cascade)
   votedAgainstId Int
 
   @@index([votedForId])
@@ -26,11 +26,16 @@ model Vote {
 
 model Waifu {
   // ID,URL => MAL
-  id         Int     @id
-  url        String
-  name       String
+  id    Int    @id
+  url   String
+  name  String
+  image String // Old MAL Image
+
   name_kanji String?
-  image      String
+
+  // New Anilist API
+  bio        String? @db.Text
+  imageLarge String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

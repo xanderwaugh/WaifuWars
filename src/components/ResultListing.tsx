@@ -20,10 +20,12 @@ const ResultListing: React.FC<ResultListingProps> = ({ waifu, rank }) => {
         <div className="flex items-center">
           <div className="flex items-center gap-2">
             <Image
-              src={waifu.image}
+              src={waifu.imageLarge ?? waifu.image}
               alt={waifu.name}
               width={64}
               height={64}
+              placeholder="blur"
+              blurDataURL="/assets/placeholder.webp"
               className="object-cover"
             />
             <div className="capitalize">{waifu.name}</div>

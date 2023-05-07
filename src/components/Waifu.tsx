@@ -1,6 +1,5 @@
-import Image from "next/image";
-import Spinner from "./Spinner";
 import Link from "next/link";
+import Image from "next/image";
 
 const WaifuListing: React.FC<{
   waifu: Waifu;
@@ -9,8 +8,9 @@ const WaifuListing: React.FC<{
 }> = (props) => {
   return (
     <div
-      style={{ opacity: props.disabled ? 0.5 : 1 }}
-      className="flex flex-col items-center justify-center gap-4 transition-opacity"
+      style={{ opacity: props.disabled ? 0.0 : 1 }}
+      // style={{ opacity: 0.25 }}
+      className="flex w-72 flex-col items-center justify-center gap-4 transition-opacity duration-300 ease-in-out"
     >
       <div className="line-clamp-1 max-w-xs overflow-ellipsis text-center text-2xl font-medium capitalize">
         {props.waifu.name.slice(0, 24)}
@@ -21,25 +21,28 @@ const WaifuListing: React.FC<{
         target="_blank"
         rel="noopener noreferrer"
         prefetch={false}
-        className="relative max-w-lg transition-all duration-300 ease-in-out hover:-translate-y-2 hover:scale-105"
+        className="relative h-96 w-full transition-all duration-300 ease-in-out hover:-translate-y-2 hover:scale-105"
       >
         <Image
-          src={props.waifu.image}
+          src={props.waifu.imageLarge ?? props.waifu.image}
+          // src={props.waifu.image}
           alt={props.waifu.name}
+          // fill={true}
           width={256}
           height={256}
-          style={{ imageRendering: "pixelated" }}
-          // layout="fixed"
-          className="animate-fade-in h-full rounded-sm object-cover"
+          placeholder="blur"
+          blurDataURL="/assets/placeholder.webp"
+          // style={{ imageRendering: "pixelated" }}
+          className="animate-fade-in h-full w-full rounded-md object-cover object-center"
         />
       </Link>
 
       <button
-        className="btn"
         onClick={() => void props.vote()}
         disabled={props.disabled}
+        className="btn w-full"
       >
-        {props.disabled ? <Spinner /> : "Vote"}
+        Vote
       </button>
     </div>
   );
