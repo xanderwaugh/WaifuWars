@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "build": "next build",
+    "postbuild": "next-sitemap --config sitemap.config.js",
     "db": "prisma generate && prisma db push",
     "dev": "next dev",
     "postinstall": "prisma generate",
     "lint": "next lint",
-    "sitemap": "next-sitemap --config sitemap.config.js",
     "start": "next start",
     "studio": "prisma studio"
   },

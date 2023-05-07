@@ -9,7 +9,6 @@ const WaifuListing: React.FC<{
   return (
     <div
       style={{ opacity: props.disabled ? 0.0 : 1 }}
-      // style={{ opacity: 0.25 }}
       className="flex w-72 flex-col items-center justify-center gap-4 transition-opacity duration-300 ease-in-out"
     >
       <div className="line-clamp-1 max-w-xs overflow-ellipsis text-center text-2xl font-medium capitalize">

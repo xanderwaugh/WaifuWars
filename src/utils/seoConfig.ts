@@ -3,7 +3,8 @@ import { type NextSeoProps } from "next-seo/lib/types";
 const companyTitle = "Waifu Wars";
 const seoDescription = "Vote for the best waifu!";
 // ! WaifuWars.net WaifuWars.dev waifu.xanny.dev
-const siteURL = "https://waifu.xanny.dev/";
+const siteURL = "https://waifuwars.net/";
+// "https://waifu.xanny.dev/";
 const themeColor = "#262626";
 
 export const SEOConfig: NextSeoProps = {
@@ -20,7 +21,7 @@ export const SEOConfig: NextSeoProps = {
     description: seoDescription,
     images: [
       {
-        url: "https://waifu.xanny.dev/SquareLogo.png",
+        url: siteURL + "SquareLogo.png",
         alt: "Logo",
         width: 512,
         height: 512,

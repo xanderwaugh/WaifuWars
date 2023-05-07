@@ -2,7 +2,7 @@
 
 // * Next Sitemap Config
 module.exports = {
-  siteUrl: "https://xanny.dev/",
+  siteUrl: "https://waifuwars.net/", // waifu.xanny.dev
   generateRobotsTxt: true,
   robotsTxtOptions: {
     policies: [{ userAgent: "*", allow: "/" }],
