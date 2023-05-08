@@ -114,9 +114,10 @@ const forceMALforBrokenWaifus = async () => {
     const waifu = await fetchWaifuById(broken);
     if (!waifu || !broken) continue;
     console.log("Force MAL for Broken Waifu:", broken);
-    await prisma.waifu.update({
+    await prisma.waifu.upsert({
       where: { id: broken }, // <-- Causing Error
-      data: { ...waifu, imageLarge: null, bio: null },
+      create: { ...waifu, imageLarge: null, bio: null },
+      update: { ...waifu, imageLarge: null, bio: null },
     });
   }
   // await prisma.$transaction(transactions);

@@ -1,6 +1,5 @@
 import { type NextPage } from "next";
 
-// Client
 import Head from "next/head";
 import Header from "~/components/Header";
 
@@ -16,9 +15,9 @@ const AboutPage: NextPage = () => {
         <h1 className="text-center text-4xl">About</h1>
 
         <div className="text-center text-lg"></div>
-        <ul className="flex list-disc flex-col items-start text-center text-lg font-medium">
-          <li>This project was a shower thought turned wrong.</li>
-          <li>I apologize for any pain this may cause you.</li>
+        <ul className="flex max-w-sm list-disc flex-col items-start pt-12 text-left text-lg font-medium">
+          <li>This project was a shower thought.</li>
+          <li>Discord: xander#8258</li>
           {/* <li>
             <Link
               href="https://github.com/xanderwaugh"

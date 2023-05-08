@@ -5,7 +5,8 @@ module.exports = {
   siteUrl: "https://waifuwars.net/", // waifu.xanny.dev
   generateRobotsTxt: true,
   robotsTxtOptions: {
-    policies: [{ userAgent: "*", allow: "/" }],
+    policies: [{ userAgent: "*", allow: "/", disallow: "/privacy" }],
   },
+  exclude: ["/privacy"],
   sitemapSize: 7000,
 };
