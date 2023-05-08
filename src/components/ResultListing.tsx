@@ -26,12 +26,14 @@ const ResultListing: React.FC<ResultListingProps> = ({ waifu, rank }) => {
                 waifu.image
               }
               alt={waifu.name}
-              width={64}
-              height={64}
+              crossOrigin="anonymous"
+              referrerPolicy="no-referrer"
+              width={80} // 64
+              height={80} // 64
               loading={rank < 10 ? "eager" : "lazy"}
               placeholder="blur"
               // blurDataURL="/assets/placeholder.webp"
-              className="object-cover"
+              className="rounded-sm object-cover"
             />
             <h2 className="capitalize">{waifu.name}</h2>
           </div>

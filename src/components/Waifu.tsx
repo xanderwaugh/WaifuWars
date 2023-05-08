@@ -30,6 +30,8 @@ const WaifuListing: React.FC<{
             props.waifu.image
           }
           alt={props.waifu.name}
+          crossOrigin="anonymous"
+          referrerPolicy="no-referrer"
           width={256}
           height={256}
           loading="eager"

@@ -21,8 +21,6 @@ interface Props {
 
 const ResultsPage: NextPage<Props> = ({ waifus }) => {
   const [sort, setSort] = useState<Sort>("votes");
-
-  // const byVote = sortByVotes(waifus ?? []);
   const byPerc = sortByPerc([...(waifus ?? [])]);
 
   return (
@@ -108,7 +106,6 @@ export const getStaticProps: GetStaticProps = async () => {
   });
 
   const sorted = sortByVotes(waifus);
-
   const TEN_MINS = 60 * 10;
 
   return {

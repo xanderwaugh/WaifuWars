@@ -119,7 +119,7 @@ export const ALL_WAIFUS: number[] = [
   115691, // Ayame Kajou
   115699, // Anna Nishikinomiya
   // ! 115705, // Hyouka Fuwa ! error
-  24515, // Yui
+  // 24515, // Yui // * Remove Lolis
   1038, // Naru Narusegawa
   458, // Revy
   2762, // Roberta
@@ -278,7 +278,8 @@ export const CUSTOM_PROPS: CustomWaifuProps[] = [
   // 2909 misty.png
   { id: 2909, image: "/assets/misty.png" },
   // 5186 lucy.jpg
-  { id: 5186, image: "/assets/lucy.jpg" },
+  // { id: 5186, image: "/assets/lucy.jpg" },
+  { id: 213159, image: "/assets/lucy.jpg" },
   // 130836 roxanne.webp
   { id: 130836, image: "/assets/roxanne.webp" },
   // 166439, 166439.png
