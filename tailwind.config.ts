@@ -9,7 +9,7 @@ export default {
         sans: ["var(--font-montserrat)"],
         body: ["var(--font-montserrat)"],
       },
-      colors: { primary: "#262626" },
+      colors: { primary: "#262626", theme: "#f3f3f3" },
     },
   },
   plugins: [scrollbar],
