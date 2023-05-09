@@ -14,7 +14,8 @@ const Header: React.FC = () => {
               href={item.href}
               style={{
                 color:
-                  pathname === item.href ? "rgb(100, 116, 139)" : undefined,
+                  // pathname === item.href ? "rgb(100, 116, 139)" : undefined,
+                  pathname === item.href ? "rgb(200, 116, 139)" : undefined,
                 textDecoration: pathname === item.href ? "underline" : "none",
               }}
               className="link"

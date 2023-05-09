@@ -1,4 +1,5 @@
 import { type NextPage } from "next";
+import { NextSeo } from "next-seo";
 
 import Head from "next/head";
 import Header from "~/components/Header";
@@ -10,6 +11,7 @@ const AboutPage: NextPage = () => {
         <title>Waifu Wars - About</title>
         <meta name="description" content="Waifu Wars - About" />
       </Head>
+      <NextSeo canonical="https://https://waifuwars.net/about" />
 
       <div className="flex flex-col items-center justify-center gap-2">
         <h1 className="text-center text-4xl">About</h1>

@@ -162,9 +162,9 @@ const main = async () => {
   // console.log("\nANILIST Errored Waifus", anilistErrors);
   // console.log("ANILIST Errors:", anilistErrors.length);
 
-  await forceMALforBrokenWaifus();
-  console.log("Done Forcing MAL For Broken Waifus 🎉\n");
-  console.log("\n====================================\n");
+  // await forceMALforBrokenWaifus();
+  // console.log("Done Forcing MAL For Broken Waifus 🎉\n");
+  // console.log("\n====================================\n");
 
   // * Custom Patches
   await customPatches();

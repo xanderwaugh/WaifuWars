@@ -218,6 +218,7 @@ export const ALL_WAIFUS: number[] = [
   2909, // Kasumi, "Pokemon" Misty
   // 132816, // Misty, https://myanimelist.net/character/132816
   75590, // Arnheid
+  224599, // Daisy
 ];
 
 // * These Waifus should skip over anilist
@@ -231,7 +232,7 @@ export const SKIP_ANILIST = [
   117285, 151145, 155679, 141593, 155679, 177511, 161472, 161469, 150824,
   170765, 177822, 133768, 177826, 12064, 161471, 36828, 117285, 132816, 218547,
   115699, 132771, 177629, 143196, 140810, 89339, 160679, 170733, 2398, 170329,
-  170734, 161286,
+  170734, 161286, 224599,
 ];
 
 interface CustomWaifuProps {
@@ -332,4 +333,6 @@ export const CUSTOM_PROPS: CustomWaifuProps[] = [
   { id: 132505, image: "/assets/132505.png" },
   // 183430, Setsuna
   { id: 183430, image: "/assets/183430.png" },
+  // 224599 Princess Daisey
+  { id: 183430, image: "/assets/224599.png" },
 ];

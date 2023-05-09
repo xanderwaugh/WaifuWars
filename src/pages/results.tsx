@@ -12,6 +12,7 @@ import ResultListing from "~/components/ResultListing";
 
 import { ImSpinner8 } from "react-icons/im";
 import { sortByPerc, sortByVotes } from "~/data/sort";
+import { NextSeo } from "next-seo";
 
 type Sort = "perc" | "votes";
 
@@ -29,6 +30,7 @@ const ResultsPage: NextPage<Props> = ({ waifus }) => {
         <title>Waifu Wars - Results</title>
         <meta name="description" content="Waifu Wars - Results" />
       </Head>
+      <NextSeo canonical="https://https://waifuwars.net/about" />
 
       <Header />
 
