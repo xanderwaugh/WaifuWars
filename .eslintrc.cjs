@@ -10,14 +10,12 @@ module.exports = {
       ],
       files: ["*.ts", "*.tsx"],
       parserOptions: {
-        // project: "tsconfig.json",
         project: path.join(__dirname, "tsconfig.json"),
       },
     },
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
-    // project: "./tsconfig.json",
     project: path.join(__dirname, "tsconfig.json"),
   },
   plugins: ["@typescript-eslint"],

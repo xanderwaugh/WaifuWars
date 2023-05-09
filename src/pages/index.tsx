@@ -75,32 +75,35 @@ const Home: NextPage = () => {
         </div>
       )}
 
-      {waifuPair && (
-        <div className="animate-fade-in mx-auto flex flex-col items-center justify-center p-8 md:flex-row md:gap-4 lg:gap-16">
-          <WaifuListing
-            waifu={waifuPair.waifu1}
-            disabled={loading}
-            vote={() => void voteForWaifu(waifuPair.waifu1.id)}
-          />
-          <p className="p-8 text-xl italic">{"or"}</p>
-          <WaifuListing
-            waifu={waifuPair.waifu2}
-            disabled={loading}
-            vote={() => void voteForWaifu(waifuPair.waifu2.id)}
-          />
-        </div>
-      )}
+      <div className="animate-fade-in mx-auto flex flex-col items-center justify-center p-8 md:flex-row md:gap-4 lg:gap-16">
+        {waifuPair && (
+          <>
+            <WaifuListing
+              waifu={waifuPair.waifu1}
+              disabled={loading}
+              vote={() => void voteForWaifu(waifuPair.waifu1.id)}
+            />
+            <p className="p-8 text-xl italic">{"or"}</p>
+            <WaifuListing
+              waifu={waifuPair.waifu2}
+              disabled={loading}
+              vote={() => void voteForWaifu(waifuPair.waifu2.id)}
+            />
+          </>
+        )}
+      </div>
 
-      {waifuPair && !loading && (
-        <div className="flex flex-col items-center justify-center gap-4">
-          <button
-            onClick={() => void refetch()}
-            className="btn border-2 border-gray-500 hover:border-gray-600 hover:bg-gray-600 hover:text-white"
-          >
-            Skip
-          </button>
-        </div>
-      )}
+      <div className="flex flex-col items-center justify-center gap-4">
+        <button
+          onClick={() => {
+            if (!waifuPair || isLoading) return;
+            void refetch();
+          }}
+          className="btn border-2 border-gray-500 hover:border-gray-600 hover:bg-gray-600 hover:text-white"
+        >
+          Skip
+        </button>
+      </div>
 
       <Header />
     </div>
