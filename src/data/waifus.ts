@@ -334,5 +334,5 @@ export const CUSTOM_PROPS: CustomWaifuProps[] = [
   // 183430, Setsuna
   { id: 183430, image: "/assets/183430.png" },
   // 224599 Princess Daisey
-  { id: 183430, image: "/assets/224599.png" },
+  { id: 224599, image: "/assets/224599.png" },
 ];

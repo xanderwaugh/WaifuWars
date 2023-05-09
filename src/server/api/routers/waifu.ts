@@ -15,14 +15,6 @@ export const waifuRouter = createTRPCRouter({
 
     const [waifu1, waifu2] = await ctx.prisma.waifu.findMany({
       where: { id: { in: [w1, w2] } },
-      select: {
-        id: true,
-        name: true,
-        image: true,
-        url: true,
-        imageLarge: true,
-        imageCustom: true,
-      },
     });
 
     if (!waifu1 || !waifu2) throw new Error("Waifu pair not found");
