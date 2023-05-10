@@ -61,7 +61,6 @@ export const api = createTRPCNext<AppRouter>({
             refetchOnReconnect: false,
             refetchOnWindowFocus: false,
             refetchIntervalInBackground: false,
-            // cacheTime: 60 * 1000 * 25, // 25 minutes
             retry: 1, // * Retry only once
             retryDelay: 1000 * 2, // * Retry After 2 Seconds
           },

@@ -9,6 +9,7 @@ const PrivacyPage: NextPage = () => {
       <Head>
         <title>Waifu Wars - Privacy Notice</title>
         <meta name="description" content="Waifu Wars - Privacy Notice" />
+        <link rel="canonical" href="https://waifuwars.net/privacy" />
       </Head>
 
       <div className="flex flex-col items-center justify-center gap-2">

@@ -12,19 +12,15 @@ import { sortByVotes } from "~/data/sort";
 export const waifuRouter = createTRPCRouter({
   getWaifuPair: ratelimitProcedure.query(async ({ ctx }) => {
     const [w1, w2] = getRandomWaifuPair();
-
     const [waifu1, waifu2] = await ctx.prisma.waifu.findMany({
       where: { id: { in: [w1, w2] } },
     });
-
     if (!waifu1 || !waifu2) throw new Error("Waifu pair not found");
 
-    const results: {
+    return { waifu1, waifu2 } satisfies {
       waifu1: Waifu;
       waifu2: Waifu;
-    } = { waifu1, waifu2 };
-
-    return results;
+    };
   }),
   vote: ratelimitProcedure
     .input(

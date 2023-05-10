@@ -7,6 +7,6 @@ module.exports = {
   robotsTxtOptions: {
     policies: [{ userAgent: "*", allow: "/", disallow: "/privacy" }],
   },
-  exclude: ["/privacy"],
+  exclude: ["/privacy", "/404"],
   sitemapSize: 7000,
 };
