@@ -15,7 +15,7 @@ const TIMEOUT_MS = 150;
 const rateLimit = new Ratelimit({
   redis,
   timeout: TIMEOUT_MS, // * in ms
-  limiter: Ratelimit.slidingWindow(20, "1 s"),
+  limiter: Ratelimit.slidingWindow(20, "10 s"),
   // limiter: Ratelimit.fixedWindow(20, "1 s"),
 });
 
