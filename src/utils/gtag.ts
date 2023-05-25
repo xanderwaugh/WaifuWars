@@ -26,3 +26,14 @@ export const event = ({ action, category, label, value }: EventProps) => {
     });
   }
 };
+
+export const voteEvent = (selected: number, against: number) => {
+  if (typeof window !== "undefined" && window.gtag) {
+    window.gtag("event", "vote", {
+      event_label: "vote",
+      event_category: "waifu",
+      votedFor: selected,
+      votedAgainst: against,
+    });
+  }
+};

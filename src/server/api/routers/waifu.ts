@@ -36,6 +36,7 @@ export const waifuRouter = createTRPCRouter({
           votedAgainstId: input.votedAgainst,
         },
       });
+
       return { success: true, vote: voteInDB };
     }),
   results: ratelimitProcedure.query(async ({ ctx }) => {

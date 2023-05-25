@@ -1,6 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
 import { type Waifu } from "~/types";
-// import Image from "next/image";
 
 const WaifuListing: React.FC<{
   waifu: Waifu;
@@ -23,21 +23,16 @@ const WaifuListing: React.FC<{
         prefetch={false}
         className="relative h-96 w-full transition-all duration-300 ease-in-out hover:-translate-y-2 hover:scale-105"
       >
-        <img
-          src={
-            props.waifu.imageCustom ??
-            // props.waifu.imageLarge ??
-            props.waifu.image
-          }
+        <Image
+          src={props.waifu.imageCustom ?? props.waifu.image}
           alt={props.waifu.name}
           crossOrigin="anonymous"
           referrerPolicy="no-referrer"
-          width={256}
-          height={256}
+          width={288}
+          height={384}
           loading="eager"
           placeholder="blur"
-          // blurDataURL="/assets/placeholder.webp"
-          // quality={100}
+          blurDataURL="/assets/placeholder.webp"
           // style={{ imageRendering: "pixelated" }}
           className="animate-fade-in h-full w-full rounded-md object-cover object-top"
         />

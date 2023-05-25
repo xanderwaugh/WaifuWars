@@ -1,3 +1,4 @@
+import "~/styles/globals.css";
 import { type AppType, type NextWebVitalsMetric } from "next/app";
 import Script from "next/script";
 
@@ -5,9 +6,9 @@ import { DefaultSeo } from "next-seo";
 import { SEOConfig } from "~/utils/seoConfig";
 
 import { api } from "~/utils/api";
+import { WaifuProvider } from "~/utils/Context";
 
 import { Montserrat } from "next/font/google";
-import "~/styles/globals.css";
 
 const mont = Montserrat({
   display: "swap",
@@ -21,7 +22,9 @@ const MyApp: AppType = ({ Component, pageProps }) => {
     <main className={mont.className}>
       <DefaultSeo {...SEOConfig} />
 
-      <Component {...pageProps} />
+      <WaifuProvider>
+        <Component {...pageProps} />
+      </WaifuProvider>
 
       <Script
         strategy="afterInteractive"

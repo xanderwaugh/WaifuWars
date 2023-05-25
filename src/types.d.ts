@@ -14,6 +14,13 @@ interface RandomWaifu {
   };
 }
 
+interface Vote {
+  id: string;
+  createdAt: Date;
+  votedForId: number;
+  votedAgainstId: number;
+}
+
 interface Waifu {
   id: number;
   url: string;

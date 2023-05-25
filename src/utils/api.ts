@@ -75,19 +75,6 @@ export const api = createTRPCNext<AppRouter>({
    * @see https://trpc.io/docs/nextjs#ssr-boolean-default-false
    */
   ssr: true,
-  // responseMeta({ clientErrors }) {
-  //   if (clientErrors.length) {
-  //     // propagate http first error from API calls
-  //     return { status: clientErrors[0]?.data?.httpStatus ?? 500 };
-  //   }
-  //   // cache request for 1 day + revalidate once every second
-  //   const HOUR_IN_SECS = 60 * 60;
-  //   return {
-  //     headers: {
-  //       "cache-control": `s-maxage=1, stale-while-revalidate=${HOUR_IN_SECS}`,
-  //     },
-  //   };
-  // },
 });
 
 import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
