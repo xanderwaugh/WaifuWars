@@ -11,14 +11,13 @@ export const env = createEnv({
   },
   client: {
     // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
-    // NEXT_PUBLIC_GA_ID: z.string().min(1),
+    NEXT_PUBLIC_GA_ID: z.string().min(1),
   },
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
     DATABASE_URL: process.env.DATABASE_URL,
     UPSTASH_URL: process.env.UPSTASH_URL,
     UPSTASH_TOKEN: process.env.UPSTASH_TOKEN,
-    // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
-    // NEXT_PUBLIC_GA_ID: process.env.NEXT_PUBLIC_GA_ID,
+    NEXT_PUBLIC_GA_ID: process.env.NEXT_PUBLIC_GA_ID,
   },
 });

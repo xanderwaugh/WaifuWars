@@ -60,7 +60,7 @@ export const WaifuProvider: React.FC<ProviderProps> = ({ children }) => {
     setState((p) => {
       const numVotes = p.numVotes + 1;
       const votes = [...p.votes, vote];
-      localStorage.setItem("numVotes", numVotes.toString());
+      // localStorage.setItem("numVotes", numVotes.toString());
       // localStorage.setItem("votes", JSON.stringify(votes));
       return { ...p, numVotes, votes };
     });

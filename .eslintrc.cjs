@@ -23,7 +23,7 @@ module.exports = {
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
-    "plugin:react-hooks/recommended",
+    // "plugin:react-hooks/recommended",
     "plugin:prettier/recommended",
   ],
   rules: {

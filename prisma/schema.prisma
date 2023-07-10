@@ -2,7 +2,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  // previewFeatures = ["fullTextIndex", "fullTextSearch"]
 }
 
 datasource db {
@@ -15,9 +14,10 @@ model Vote {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
 
-  votedFor       Waifu @relation(name: "votesFor", fields: [votedForId], references: [id], onDelete: Cascade)
-  votedForId     Int
-  votedAgainst   Waifu @relation(name: "votesAgainst", fields: [votedAgainstId], references: [id], onDelete: Cascade)
+  votedFor   Waifu @relation("votesFor", fields: [votedForId], references: [id], onDelete: Cascade)
+  votedForId Int
+
+  votedAgainst   Waifu @relation("votesAgainst", fields: [votedAgainstId], references: [id], onDelete: Cascade)
   votedAgainstId Int
 
   @@index([votedForId])
@@ -37,7 +37,6 @@ model Waifu {
   bio        String? @db.Text
   imageLarge String?
 
-  // Custom Image
   imageCustom String?
 
   createdAt DateTime @default(now())
@@ -46,5 +45,5 @@ model Waifu {
   VoteFor     Vote[] @relation("votesFor")
   VoteAgainst Vote[] @relation("votesAgainst")
 
-  @@index([name], name: "waifus_name_index")
+  @@index([name], map: "waifus_name_index")
 }

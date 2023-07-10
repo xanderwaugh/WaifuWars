@@ -12,7 +12,7 @@ import { type NextApiRequest } from "next";
 // * In ms - was 300
 // const TIMEOUT_MS = 150;
 
-const rateLimit = new Ratelimit({
+export const rateLimit = new Ratelimit({
   redis: Redis.fromEnv(),
   limiter: Ratelimit.fixedWindow(20, "10 s"),
 });

@@ -44,6 +44,6 @@ public/workbox-*.js
 
 
 *.code-workspace
-pnpm-lock.yaml
 
 exportDB/
+drizzle/*
