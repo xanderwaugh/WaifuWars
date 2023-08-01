@@ -18,7 +18,11 @@ const AboutPage: NextPage = () => {
         <div className="text-center text-lg"></div>
         <ul className="flex max-w-sm list-disc flex-col items-start pt-12 text-left text-lg font-medium">
           <li>This project was a shower thought.</li>
-          <li>Discord: xander#8258</li>
+          <li>Discord: xandykandy</li>
+          <li>
+            None of these images belong to me and are used in non-commerical
+            ways.
+          </li>
           {/* <li>
             <Link
               href="https://github.com/xanderwaugh"
