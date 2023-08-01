@@ -14,7 +14,7 @@ import { ImSpinner8 } from "react-icons/im";
 const Pair = dynamic(() => import("~/components/Pair"));
 
 const Home: NextPage = () => {
-  const { addVote, numVotes } = useContext(WaifuContext);
+  const { addVote } = useContext(WaifuContext);
 
   const {
     data: waifuPair,
@@ -70,9 +70,9 @@ const Home: NextPage = () => {
     <div className="z-0 flex min-h-screen flex-col items-center justify-between overflow-hidden py-16">
       <div className="flex flex-col items-center justify-center gap-1 pt-8 text-center">
         <h1 className="text-3xl md:text-4xl">Which Waifu is better?</h1>
-        <p className="text-xl md:text-2xl">
+        {/* <p className="text-xl md:text-2xl">
           You have voted <span className="font-bold">{numVotes}</span> times.
-        </p>
+        </p> */}
       </div>
 
       {isError && error && (
