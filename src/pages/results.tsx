@@ -56,7 +56,6 @@ const ResultsPage: NextPage<Props> = ({ waifus }) => {
             percentage
           </span>
         </div>
-        T
       </div>
 
       <div className="flex w-full items-center justify-center px-4">
