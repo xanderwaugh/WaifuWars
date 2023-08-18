@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { type Waifu } from "~/types";
 
 const WaifuListing: React.FC<{
   waifu: Waifu;

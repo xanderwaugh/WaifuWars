@@ -3,7 +3,6 @@ import { type NextPage, type GetStaticProps } from "next";
 
 // * Server
 import { prisma } from "~/server/db";
-import { type WaifusQueryResult } from "~/types";
 
 import Head from "next/head";
 
@@ -35,7 +34,6 @@ const ResultsPage: NextPage<Props> = ({ waifus }) => {
 
       <div className="flex flex-col items-center justify-center gap-2">
         <h1 className="text-center text-4xl">Results</h1>
-
         <div className="text-center text-lg">
           Sorted by{" "}
           <span
@@ -58,6 +56,7 @@ const ResultsPage: NextPage<Props> = ({ waifus }) => {
             percentage
           </span>
         </div>
+        T
       </div>
 
       <div className="flex w-full items-center justify-center px-4">
@@ -101,7 +100,7 @@ export const getStaticProps: GetStaticProps = async () => {
       url: true,
       imageLarge: true,
       imageCustom: true,
-      bio: true,
+      bio: false,
       _count: { select: { VoteFor: true, VoteAgainst: true } },
     },
   });

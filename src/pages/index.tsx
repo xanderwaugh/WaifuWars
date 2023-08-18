@@ -1,12 +1,12 @@
 import { useContext } from "react";
-import { type NextPage } from "next";
+import type { NextPage } from "next";
 
+// * Client
 import dynamic from "next/dynamic";
 
 import { api } from "~/utils/api";
 import { voteEvent } from "~/utils/gtag";
 import { WaifuContext } from "~/utils/Context";
-import { type Vote } from "~/types";
 
 import Header from "~/components/Header";
 import { ImSpinner8 } from "react-icons/im";

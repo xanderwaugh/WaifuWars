@@ -1,5 +1,4 @@
 import { createContext, useEffect, useState } from "react";
-import { type Vote } from "~/types";
 
 interface ContextProps {
   // Function to add a vote

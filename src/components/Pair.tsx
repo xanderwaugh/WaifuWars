@@ -1,4 +1,3 @@
-import { type Waifu } from "~/types";
 import WaifuListing from "./Waifu";
 
 interface PairProps {

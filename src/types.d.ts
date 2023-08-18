@@ -48,4 +48,6 @@ interface PrismaWaifusQuery {
   imageCustom: string | null;
 }
 
-export type WaifusQueryResult = PrismaWaifusQuery[];
+type PrismaWaifuQNoBio = Omit<PrismaWaifusQuery, "bio">;
+
+type WaifusQueryResult = PrismaWaifuQNoBio[];

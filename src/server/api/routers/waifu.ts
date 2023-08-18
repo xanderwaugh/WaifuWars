@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, ratelimitProcedure } from "~/server/api/trpc";
 
-import { type Waifu, type WaifusQueryResult } from "~/types";
 import { getRandomWaifuPair } from "~/data/helpers";
 import { sortByVotes } from "~/data/sort";
 

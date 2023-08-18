@@ -1,5 +1,3 @@
-import { type WaifusQueryResult } from "~/types";
-
 // Sort By VotesFor - Ascending
 export const sortByVotes = (w: WaifusQueryResult) => {
   const arr = w.sort((a, b) => b._count.VoteFor - a._count.VoteFor);

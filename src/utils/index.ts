@@ -1,5 +1,3 @@
-import { type WaifusQueryResult } from "~/types";
-
 export interface NavItemProps {
   label: string;
   href: string;

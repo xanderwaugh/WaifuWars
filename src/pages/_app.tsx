@@ -1,6 +1,5 @@
 import "~/styles/globals.css";
 import { type AppType, type NextWebVitalsMetric } from "next/app";
-import Script from "next/script";
 
 import { DefaultSeo } from "next-seo";
 import { SEOConfig } from "~/utils/seoConfig";
@@ -9,6 +8,7 @@ import { api } from "~/utils/api";
 import { WaifuProvider } from "~/utils/Context";
 
 import { Montserrat } from "next/font/google";
+import Analytics from "~/components/Analytics";
 
 const mont = Montserrat({
   display: "swap",
@@ -26,17 +26,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         <Component {...pageProps} />
       </WaifuProvider>
 
-      <Script
-        strategy="afterInteractive"
-        src="https://www.googletagmanager.com/gtag/js?id=G-PNL6BCD0QW"
-      />
-      <Script id="gtag-init" strategy="afterInteractive">{`
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){window.dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-PNL6BCD0QW');
-        `}</Script>
+      <Analytics />
     </main>
   );
 };
