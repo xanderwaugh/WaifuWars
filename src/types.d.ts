@@ -1,3 +1,14 @@
+interface RootLayoutProps {
+  children: React.ReactNode;
+}
+
+interface ErrorPageProps {
+  error: Error & { digest?: string };
+  reset: () => void;
+}
+
+type Sort = "perc" | "votes" | "test";
+
 interface RandomWaifu {
   data: {
     mal_id: number;

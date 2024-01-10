@@ -1,11 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { PrismaClient } from "@prisma/client";
 import { ALL_WAIFUS, CUSTOM_PROPS, SKIP_ANILIST } from "../src/data/waifus";
-import {
-  fetchWaifuById,
-  addWaifuToDB,
-  fetchFromAnilist,
-} from "../src/server/utils";
+import { fetchWaifuById, addWaifuToDB, fetchFromAnilist } from "./utils";
 
 const prisma = new PrismaClient();
 
@@ -51,6 +47,7 @@ const seedWaifusFromMAL = async () => {
 
   console.log("MAL Waifus to Add:", waifusToAdd.length);
   const erroredWaifus: number[] = [];
+  let count = 0;
   for (const waifuId of waifusToAdd) {
     await new Promise((r) => setTimeout(r, 800)); // Rate Limit
     const waifu = await fetchWaifuById(waifuId);
@@ -60,7 +57,8 @@ const seedWaifusFromMAL = async () => {
       continue;
     }
     await addWaifuToDB(prisma, waifu);
-    console.log("MAL Added:", waifu.name);
+    console.log(`MAL #${count} Added:`, waifu.name);
+    count++;
   }
 
   return erroredWaifus;
@@ -150,7 +148,7 @@ const main = async () => {
   checkDuplicates();
   console.log("\n====================================\n");
 
-  const shouldRemove = true;
+  const shouldRemove = false;
   await checkForRemovedWaifus(shouldRemove);
   console.log("\n====================================\n");
 

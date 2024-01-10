@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 
 const ViewPageData: React.FC = () => {
@@ -7,7 +8,7 @@ const ViewPageData: React.FC = () => {
     if (!window || typeof window === "undefined") return;
 
     const nextData = document.getElementById("__NEXT_DATA__")?.textContent;
-    const data = JSON.parse(nextData ?? "{}");
+    const data: unknown = JSON.parse(!!nextData ? nextData : "{}");
     setText(JSON.stringify(data, null, 2));
   }, []);
 

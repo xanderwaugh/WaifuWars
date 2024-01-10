@@ -47,3 +47,5 @@ public/workbox-*.js
 
 exportDB/
 drizzle/*
+
+db-backups/

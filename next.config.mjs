@@ -4,11 +4,6 @@
  */
 await import("./src/env.mjs");
 
-// import bundleAnalyzer from "@next/bundle-analyzer";
-// const withBundleAnalyzer = bundleAnalyzer({
-//   enabled: true,
-// });
-
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
@@ -32,8 +27,10 @@ const config = {
   generateEtags: false,
   swcMinify: true,
   cleanDistDir: true,
-  // trailingSlash: true,
+  trailingSlash: true,
+  experimental: {
+    serverActions: true,
+  },
 };
 
 export default config;
-// export default withBundleAnalyzer(config);

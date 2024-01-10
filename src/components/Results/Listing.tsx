@@ -1,5 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
+
 import { genCountPerc } from "~/utils";
 
 interface ResultListingProps {
@@ -8,8 +9,10 @@ interface ResultListingProps {
 }
 
 const ResultListing: React.FC<ResultListingProps> = ({ waifu, rank }) => {
+  const countPerc = genCountPerc(waifu).toFixed(2) + "%";
+
   return (
-    <li>
+    <li className="min-h-20">
       <Link
         href={waifu.url ?? "/"}
         target="_blank"
@@ -24,18 +27,19 @@ const ResultListing: React.FC<ResultListingProps> = ({ waifu, rank }) => {
               alt={waifu.name}
               crossOrigin="anonymous"
               referrerPolicy="no-referrer"
-              width={80} // 64
-              height={80} // 64
+              width={80} // 80 <- 64
+              height={128} // 160 <- 80 <- 64
               loading={rank < 10 ? "eager" : "lazy"}
               placeholder="blur"
               blurDataURL="/assets/placeholder.webp"
-              className="rounded-sm object-cover"
+              className="h-32 w-20 rounded-sm object-cover"
+              // max-h-32 min-h-20
             />
-            <h2 className="capitalize">{waifu.name}</h2>
+            <p className="capitalize">{waifu.name}</p>
           </div>
         </div>
         <div className="flex flex-col items-start">
-          <p>{genCountPerc(waifu).toFixed(2) + "%"}</p>
+          <p>{countPerc}</p>
           <p>
             {waifu._count.VoteFor} - {waifu._count.VoteAgainst}
           </p>

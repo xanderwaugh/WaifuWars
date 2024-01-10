@@ -1,27 +1,30 @@
-import { type NextSeoProps } from "next-seo/lib/types";
+import { type Metadata } from "next";
 
 const companyTitle = "Waifu Wars";
 const seoDescription = "Vote for the best waifu!";
 // ! WaifuWars.net WaifuWars.dev waifu.xanny.dev
-const siteURL = "https://waifuwars.net/"; // "https://waifu.xanny.dev/";
-const themeColor = "#262626";
+export const siteURL = "https://waifuwars.net/"; // "https://waifu.xanny.dev/";
+export const themeColor = "#262626";
 
-export const SEOConfig: NextSeoProps = {
-  canonical: siteURL,
-  defaultTitle: companyTitle,
+export const SEOConfig: Metadata = {
+  title: companyTitle,
   description: seoDescription,
+  colorScheme: "dark light",
+  robots: "index, follow",
+  viewport: "width=device-width, initial-scale=1.0",
+  themeColor: themeColor,
 
   openGraph: {
     url: siteURL,
     title: companyTitle,
-    site_name: companyTitle,
+    siteName: companyTitle,
     locale: "en_US",
     type: "website",
     description: seoDescription,
+    phoneNumbers: [],
     images: [
       {
         url: siteURL + "android-chrome-512x512.png",
-        secureUrl: siteURL + "android-chrome-512x512.png",
         alt: "Logo",
         width: 512,
         height: 512,
@@ -29,7 +32,6 @@ export const SEOConfig: NextSeoProps = {
       },
       {
         url: siteURL + "android-chrome-192x192.png",
-        secureUrl: siteURL + "android-chrome-192x192.png",
         alt: "Logo",
         width: 192,
         height: 192,
@@ -37,7 +39,6 @@ export const SEOConfig: NextSeoProps = {
       },
       {
         url: siteURL + "SquareLogo.png",
-        secureUrl: siteURL + "SquareLogo.png",
         alt: "Logo",
         width: 512,
         height: 512,
@@ -45,7 +46,6 @@ export const SEOConfig: NextSeoProps = {
       },
       {
         url: siteURL + "preview.mp4",
-        secureUrl: siteURL + "preview.mp4",
         alt: "Preview",
         width: 1280,
         height: 720,
@@ -54,46 +54,64 @@ export const SEOConfig: NextSeoProps = {
     ],
   },
   twitter: {
-    cardType: "summary_large_image",
+    card: "summary_large_image",
     site: siteURL,
   },
-  additionalMetaTags: [
-    { httpEquiv: "x-ua-compatible", content: "IE=edge" },
-    { name: "viewport", content: "width=device-width, initial-scale=1.0" },
-    { name: "HandheldFriendly", content: "true" },
-    { name: "robots", content: "index, follow" },
-    { name: "googlebot", content: "index, follow" },
-    { name: "application-name", content: companyTitle },
-    { name: "msapplication-TileColor", content: themeColor },
-    { name: "theme-color", content: themeColor },
-    { name: "apple-mobile-web-app-capable", content: "yes" },
-    { name: "apple-mobile-web-app-status-bar-style", content: "default" },
-    { name: "apple-mobile-web-app-title", content: companyTitle },
-    { name: "apple-mobile-web-app-status-bar", content: themeColor },
-    { name: "format-detection", content: "telephone=no" },
-    { name: "mobile-web-app-capable", content: "yes" },
-    { name: "msapplication-config", content: "/browserconfig.xml" },
-  ],
-  additionalLinkTags: [
-    // { rel: "manifest",  href: "/manifest.json" },
-    { rel: "icon", sizes: "48x48", href: "/favicon.ico" },
-    { rel: "icon", sizes: "32x32", href: "/favicon-32x32.png" },
-    { rel: "icon", sizes: "16x16", href: "/favicon-16x16.png" },
+  icons: [
     {
-      rel: "shortcut icon",
+      url: siteURL + "favicon.ico",
+      type: "image/x-icon",
+      rel: "icon",
+      sizes: "48x48",
+    },
+    {
+      url: siteURL + "favicon-32x32.png",
       type: "image/png",
       sizes: "32x32",
-      href: "/favicon-32x32.png",
+      rel: "icon",
     },
     {
-      rel: "apple-touch-icon",
-      sizes: "180x180",
-      href: "/apple-touch-icon.png",
+      url: siteURL + "favicon-16x16.png",
+      type: "image/png",
+      sizes: "16x16",
+      rel: "icon",
     },
     {
-      rel: "mask-icon",
-      href: "/safari-pinned-tab.svg",
+      url: siteURL + "android-chrome-512x512.png",
+      type: "image/png",
+      sizes: "512x512",
+      rel: "icon",
+    },
+    {
+      url: siteURL + "android-chrome-192x192.png",
+      type: "image/png",
+      sizes: "192x192",
+      rel: "icon",
+    },
+    {
+      url: siteURL + "SquareLogo.png",
+      type: "image/png",
+      sizes: "512x512",
+      rel: "icon",
+    },
+    {
+      url: siteURL + "preview.mp4",
+      type: "video/mp4",
+      sizes: "1280x720",
+      rel: "icon",
+    },
+    // mask-icon
+    {
+      url: siteURL + "safari-pinned-tab.svg",
+      sizes: "48x48",
       color: themeColor,
+      rel: "mask-icon",
+    },
+    // apple-touch-icon
+    {
+      url: siteURL + "apple-touch-icon.png",
+      sizes: "180x180",
+      rel: "apple-touch-icon",
     },
   ],
 };

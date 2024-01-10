@@ -1,29 +1,71 @@
-import Image from "next/image";
-import Link from "next/link";
+"use client";
+import { useWaifuContext } from "./Utils/Context";
 
-const WaifuListing: React.FC<{
+import Link from "next/link";
+import Image from "next/image";
+
+import { voteForPair } from "~/server/actions";
+
+import { voteEvent } from "~/utils/gtag";
+
+interface WaifuListingProps {
+  id: number;
   waifu: Waifu;
-  disabled: boolean;
-  vote: () => void;
-}> = (props) => {
+  against: number;
+  disabled?: boolean;
+}
+
+const WaifuListing: React.FC<WaifuListingProps> = (props) => {
+  const {
+    //
+    addVote,
+    loading,
+    setLoading,
+    nextPair,
+    setPair,
+    pair,
+    getNextPair,
+  } = useWaifuContext();
+
+  const waifu = props.id === 0 ? pair?.waifu1 : pair?.waifu2;
+
+  const vote = async () => {
+    setLoading(true);
+    const selected = waifu?.id;
+    const against = props.against;
+
+    if (!selected) return;
+
+    const { vote } = await voteForPair({ selected, against });
+    console.table(vote);
+
+    addVote(vote);
+    voteEvent(selected, against);
+    nextPair && setPair(nextPair);
+    getNextPair();
+    setLoading(false);
+
+    // router.refresh();
+  };
+
   return (
     <div
-      style={{ opacity: props.disabled ? 0.01 : 1 }}
+      style={{ opacity: loading ? 0.6 : 1 }}
       className="flex w-72 flex-col items-center justify-center gap-4 transition-opacity duration-300 ease-in-out"
     >
-      <h2 className="line-clamp-1 max-w-xs overflow-ellipsis text-center text-2xl font-medium capitalize">
-        {props.waifu.name.slice(0, 24)}
+      <h2 className="line-clamp-1 max-w-xs text-ellipsis text-center text-2xl font-medium capitalize">
+        {waifu?.name.slice(0, 24) ?? props.waifu.name.slice(0, 24)}
       </h2>
 
       <Link
-        href={props.waifu.url}
+        href={waifu?.url ?? props.waifu.url}
         target="_blank"
         rel="noopener noreferrer"
         prefetch={false}
         className="relative h-96 w-full transition-all duration-300 ease-in-out hover:-translate-y-2 hover:scale-105"
       >
         <Image
-          src={props.waifu.imageCustom ?? props.waifu.image}
+          src={waifu?.imageCustom ?? waifu?.image ?? props.waifu.image}
           alt={props.waifu.name}
           crossOrigin="anonymous"
           referrerPolicy="no-referrer"
@@ -33,13 +75,14 @@ const WaifuListing: React.FC<{
           placeholder="blur"
           blurDataURL="/assets/placeholder.webp"
           // style={{ imageRendering: "pixelated" }}
-          className="animate-fade-in h-full w-full rounded-md object-cover object-top"
+          // ? pixelated
+          className="animate-fade-in pixelated h-full w-full rounded-md object-cover object-top"
         />
       </Link>
 
       <button
-        onClick={() => void props.vote()}
-        disabled={props.disabled}
+        onClick={() => void vote()}
+        disabled={loading}
         className="btn w-full"
       >
         Vote

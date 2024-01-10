@@ -1,24 +1,36 @@
+"use client";
+import { usePathname } from "next/navigation";
+
 import Link from "next/link";
+
+import { cn } from "~/utils/tw";
 import { NAV_ITEMS } from "~/utils";
-import { useRouter } from "next/router";
+
+/**
+ * Function to return 0 (Home), 1 (Results), 2 (About)
+ */
+const getActiveIndex = (pathname: string): number => {
+  if (pathname === "/") return 0;
+  if (pathname.startsWith("/results")) return 1;
+  if (pathname.startsWith("/about")) return 2;
+  return -1;
+};
 
 const Header: React.FC = () => {
-  const { pathname } = useRouter();
+  const pathname = usePathname();
+  const activeIdx = getActiveIndex(pathname);
 
   return (
     <nav>
-      <ul className="group flex w-full flex-row items-center justify-center gap-8 py-4 text-xl">
-        {NAV_ITEMS.map((item) => (
+      <ul className="flex w-full flex-row items-center justify-center gap-8 py-4 text-xl">
+        {NAV_ITEMS.map((item, idx) => (
           <li key={item.label}>
             <Link
               href={item.href}
-              style={{
-                color:
-                  // pathname === item.href ? "rgb(100, 116, 139)" : undefined,
-                  pathname === item.href ? "rgb(200, 116, 139)" : undefined,
-                textDecoration: pathname === item.href ? "underline" : "none",
-              }}
-              className="link"
+              className={cn(
+                "link",
+                activeIdx === idx && "text-[rgb(200,116,139)] underline",
+              )}
             >
               {item.label}
             </Link>

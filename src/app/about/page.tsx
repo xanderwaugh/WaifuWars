@@ -1,17 +1,10 @@
-import { type NextPage } from "next";
+import type { Metadata, NextPage } from "next";
 
-import Head from "next/head";
 import Header from "~/components/Header";
 
 const AboutPage: NextPage = () => {
   return (
     <div className="flex h-screen flex-col items-center justify-between gap-8 py-16">
-      <Head>
-        <title>Waifu Wars - About</title>
-        <meta name="description" content="Waifu Wars - About" />
-        <link rel="canonical" href="https://waifuwars.net/about" />
-      </Head>
-
       <div className="flex flex-col items-center justify-center gap-2">
         <h1 className="text-center text-4xl">About</h1>
 
@@ -52,3 +45,9 @@ const AboutPage: NextPage = () => {
 };
 
 export default AboutPage;
+
+export const metadata: Metadata = {
+  title: "Waifu Wars - About",
+  description: "Vote for the best waifu!",
+  // image: "/assets/og-image.png",
+};

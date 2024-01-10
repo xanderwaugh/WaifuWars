@@ -1,7 +1,9 @@
 import Script from "next/script";
 
+import { env } from "~/env.mjs";
+
 const Analytics: React.FC = () => {
-  const GTAG_ID = "G-PNL6BCD0QW";
+  const GTAG_ID = env.NEXT_PUBLIC_GA_ID; // "G-PNL6BCD0QW";
 
   return (
     <>

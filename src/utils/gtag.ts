@@ -1,6 +1,13 @@
-export const GA_TRACKING_ID = "G-PNL6BCD0QW";
+"use client";
+import "client-only";
+import { env } from "~/env.mjs";
 
-// https://developers.google.com/analytics/devguides/collection/gtagjs/pages
+export const GA_TRACKING_ID = env.NEXT_PUBLIC_GA_ID;
+// "G-PNL6BCD0QW";
+
+/**
+ * @see https://developers.google.com/analytics/devguides/collection/gtagjs/pages
+ */
 export const pageview = (url: string) => {
   if (typeof window !== "undefined") {
     window.gtag("config", GA_TRACKING_ID, {
@@ -16,7 +23,9 @@ interface EventProps {
   value: number | undefined;
 }
 
-// https://developers.google.com/analytics/devguides/collection/gtagjs/events
+/**
+ * @see https://developers.google.com/analytics/devguides/collection/gtagjs/events
+ */
 export const event = ({ action, category, label, value }: EventProps) => {
   if (typeof window !== "undefined") {
     window.gtag("event", action, {
