@@ -37,7 +37,7 @@ const WaifuListing: React.FC<WaifuListingProps> = (props) => {
     if (!selected) return;
 
     const { vote } = await voteForPair({ selected, against });
-    console.table(vote);
+    // console.table(vote);
 
     addVote(vote);
     voteEvent(selected, against);

@@ -134,10 +134,7 @@ export const WaifuProvider: React.FC<ProviderProps> = ({ children }) => {
 
   const getNextPair = () => {
     getWaifuPairClient()
-      .then((nextPair) => {
-        console.log("nextPair", nextPair);
-        setNextPair(nextPair);
-      })
+      .then(setNextPair)
       .catch((err) => {
         console.error("Failed to get next pair");
         console.error(err);
@@ -173,8 +170,6 @@ async function getWaifuPairClient(): Promise<WaifuPair> {
   const BASE = getBaseUrl();
   const res = await fetch(BASE + "/api/pair");
   const data: unknown = await res.json();
-
-  console.log("data", data);
 
   const parsed = pairSchema.safeParse(data);
 

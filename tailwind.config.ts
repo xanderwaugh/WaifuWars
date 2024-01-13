@@ -15,7 +15,11 @@ export default {
         montserrat: ["var(--font-montserrat)", ...fontFamily.sans],
         scp: ["var(--font-scp)", ...fontFamily.mono],
       },
-      colors: { primary: "#262626", theme: "#f3f3f3" },
+      colors: {
+        primary: "#262626",
+        theme: "#f3f3f3",
+        "nav-active": "rgb(200,116,139)",
+      },
     },
   },
   plugins: [scrollbar],

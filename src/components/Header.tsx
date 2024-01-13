@@ -29,7 +29,7 @@ const Header: React.FC = () => {
               href={item.href}
               className={cn(
                 "link",
-                activeIdx === idx && "text-[rgb(200,116,139)] underline",
+                activeIdx === idx && "text-nav-active underline",
               )}
             >
               {item.label}

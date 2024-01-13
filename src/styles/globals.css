@@ -2,12 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --primary: #262626;
-  --theme: #f3f3f3;
-}
-
 @layer base {
+  :root {
+    --primary: #262626;
+    --theme: #f3f3f3;
+    --nav-active: rgb(200, 116, 139);
+  }
   *,
   *::before,
   *::after {
@@ -47,7 +47,7 @@
   }
 
   .btn {
-    @apply relative cursor-pointer rounded-md border border-[#eaeaea] px-10 py-2 font-montserrat text-lg font-bold uppercase leading-6 tracking-widest text-white antialiased transition duration-150 ease-out disabled:cursor-not-allowed disabled:opacity-50 hover:border-slate-500/60 hover:text-slate-500;
+    @apply relative cursor-pointer rounded-md border border-[#eaeaea] px-10 py-2 font-montserrat text-lg font-bold uppercase leading-6 tracking-widest text-white antialiased transition duration-150 ease-out hover:border-slate-500/60 hover:text-slate-500 disabled:cursor-not-allowed disabled:opacity-50;
   }
 
   .link {

@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useWaifuContext } from "./Context";
 
 import type { WaifuPair } from "~/validators/pair";
+import { preloadImages } from "~/utils/preload";
 
 interface UpdaterProps {
   pair: WaifuPair;
@@ -26,17 +27,10 @@ const Updater: React.FC<UpdaterProps> = ({
   // * Preload images
   useEffect(() => {
     // 288x384
-    const img1 = new Image();
-    const img2 = new Image();
-
-    img1.src =
-      nextPair?.waifu1.imageCustom ??
-      nextPair?.waifu1.image ??
-      "/assets/placeholder.webp";
-    img2.src =
-      nextPair?.waifu2.imageCustom ??
-      nextPair?.waifu2.image ??
-      "/assets/placeholder.webp";
+    preloadImages([
+      nextPair?.waifu1.imageCustom ?? nextPair?.waifu1.image,
+      nextPair?.waifu2.imageCustom ?? nextPair?.waifu2.image,
+    ]);
   }, [nextPair]);
 
   // return (

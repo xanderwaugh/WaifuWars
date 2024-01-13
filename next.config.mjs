@@ -15,6 +15,7 @@ const config = {
   i18n: { locales: ["en"], defaultLocale: "en" },
   images: {
     domains: [
+      "waifuwars.net",
       "cdn.discordapp.com",
       "source.unsplash.com",
       "myanimelist.net",
@@ -29,7 +30,9 @@ const config = {
   cleanDistDir: true,
   trailingSlash: true,
   experimental: {
-    serverActions: true,
+    serverActions: {
+      allowedOrigins: ["waifuwars.net"],
+    },
   },
 };
 
