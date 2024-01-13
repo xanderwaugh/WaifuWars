@@ -30,9 +30,7 @@ const config = {
   cleanDistDir: true,
   trailingSlash: true,
   experimental: {
-    serverActions: {
-      allowedOrigins: ["waifuwars.net"],
-    },
+    serverActions: true,
   },
 };
 
