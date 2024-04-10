@@ -24,7 +24,7 @@ const Pair: React.FC<PairProps> = async (props) => {
           // disabled={props.loading}
         />
         <p className="p-8 text-xl italic">
-          {!props.loading ? "or" : <div className="h-5 w-5" />}
+          {!props.loading ? "or" : <div className="size-5" />}
         </p>
         <WaifuListing
           id={1}

@@ -108,7 +108,7 @@ export const WaifuProvider: React.FC<ProviderProps> = ({ children }) => {
       const votes: Vote[] = []; // [...p.votes, vote];
 
       setLocalStorage("numVotes", numVotes.toString());
-      setLocalStorage("votes", JSON.stringify(votes));
+      // setLocalStorage("votes", JSON.stringify(votes));
       return { ...p, numVotes, votes };
     });
   };

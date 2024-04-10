@@ -25,11 +25,11 @@ const Loading: NextPage = () => {
 
       <div className="fixed bottom-10 right-10 z-20 text-9xl">
         <div className="flex h-full items-center justify-center">
-          <Spinner className="h-24 w-24 fill-white text-9xl duration-1000 ease-in-out" />
+          <Spinner className="size-24 fill-white text-9xl duration-1000 ease-in-out" />
         </div>
       </div>
 
-      <div className="flex h-full w-full items-center justify-center px-4">
+      <div className="flex size-full items-center justify-center px-4">
         <ul className="flex w-full max-w-2xl flex-col border">
           {Array.from({ length: 16 }).map((_, i) => (
             <li

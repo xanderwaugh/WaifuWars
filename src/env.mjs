@@ -1,23 +1,25 @@
 import { createEnv } from "@t3-oss/env-nextjs";
 import { z } from "zod";
 
+const NODE_ENVS = z
+  .enum(["development", "test", "production"])
+  .default("development");
+
 export const env = createEnv({
-  // clientPrefix: "NEXT_PUBLIC_",
   server: {
-    NODE_ENV: z.enum(["development", "test", "production"]),
+    NODE_ENV: NODE_ENVS,
     DATABASE_URL: z.string().min(1),
-    UPSTASH_URL: z.string().min(1),
-    UPSTASH_TOKEN: z.string().min(1),
+    UPSTASH_REDIS_REST_URL: z.string().url().min(1),
+    UPSTASH_REDIS_REST_TOKEN: z.string().min(1),
   },
   client: {
-    // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
     NEXT_PUBLIC_GA_ID: z.string().min(1),
   },
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
     DATABASE_URL: process.env.DATABASE_URL,
-    UPSTASH_URL: process.env.UPSTASH_URL,
-    UPSTASH_TOKEN: process.env.UPSTASH_TOKEN,
+    UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
+    UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
     NEXT_PUBLIC_GA_ID: process.env.NEXT_PUBLIC_GA_ID,
   },
 });

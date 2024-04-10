@@ -76,7 +76,7 @@ const WaifuListing: React.FC<WaifuListingProps> = (props) => {
           blurDataURL="/assets/placeholder.webp"
           // style={{ imageRendering: "pixelated" }}
           // ? pixelated
-          className="animate-fade-in pixelated h-full w-full rounded-md object-cover object-top"
+          className="animate-fade-in pixelated size-full rounded-md object-cover object-top"
         />
       </Link>
 

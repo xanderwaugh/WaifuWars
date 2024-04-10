@@ -11,7 +11,7 @@ const HomeLoading: React.FC = () => {
 
   return (
     <div className="absolute inset-0 flex h-[92%] flex-col items-center justify-center text-9xl">
-      <Spinner className="h-24 w-24 fill-white text-9xl duration-1000 ease-in-out" />
+      <Spinner className="size-24 fill-white text-9xl duration-1000 ease-in-out" />
     </div>
   );
 };

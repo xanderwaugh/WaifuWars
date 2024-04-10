@@ -14,13 +14,21 @@ const config = {
    */
   i18n: { locales: ["en"], defaultLocale: "en" },
   images: {
-    domains: [
-      "waifuwars.net",
-      "cdn.discordapp.com",
-      "source.unsplash.com",
-      "myanimelist.net",
-      "cdn.myanimelist.net",
-      "s4.anilist.co",
+    // domains: [
+    //   "waifuwars.net",
+    //   "cdn.discordapp.com",
+    //   "source.unsplash.com",
+    //   "myanimelist.net",
+    //   "cdn.myanimelist.net",
+    //   "s4.anilist.co",
+    // ],
+    remotePatterns: [
+      { hostname: "waifuwars.net" },
+      { hostname: "cdn.discordapp.com" },
+      { hostname: "source.unsplash.com" },
+      { hostname: "myanimelist.net" },
+      { hostname: "cdn.myanimelist.net" },
+      { hostname: "s4.anilist.co" },
     ],
     formats: ["image/avif", "image/webp"],
   },
@@ -29,9 +37,6 @@ const config = {
   swcMinify: true,
   cleanDistDir: true,
   trailingSlash: true,
-  experimental: {
-    serverActions: true,
-  },
 };
 
 export default config;

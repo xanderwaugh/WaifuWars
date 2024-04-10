@@ -15,7 +15,7 @@ const Error: NextPage<ErrorPageProps> = ({ error }) => {
       </div>
 
       <div>
-        <Spinner className="h-24 w-24 fill-white text-9xl text-red-500 duration-1000 ease-in-out" />
+        <Spinner className="size-24 fill-white text-9xl text-red-500 duration-1000 ease-in-out" />
       </div>
 
       <Header />
