@@ -6,8 +6,6 @@ import type { NextWebVitalsMetric } from "next/app";
 import { cn } from "~/utils/tw";
 import { Montserrat, Source_Code_Pro } from "next/font/google";
 
-// import Navbar from "~/components/Navbar";
-
 import { Providers, Analytics, TWIndicator } from "~/components/Utils";
 
 const mont = Montserrat({
@@ -36,8 +34,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
         )}
       >
         <Providers>
-          {/* <Navbar /> */}
-
           <main className="mr-2">{children}</main>
         </Providers>
 

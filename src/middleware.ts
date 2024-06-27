@@ -1,13 +1,22 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-
+import {
+  NextResponse,
+  type NextMiddleware,
+  type NextRequest,
+} from "next/server";
 import { ratelimit } from "./server/ratelimit";
-
-const ratelimitPaths = ["/", "/results", "/results/"];
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-export async function middleware(req: NextRequest) {
+// const intlMiddleware = createIntlMiddleware({
+//   locales,
+//   localePrefix: "as-needed",
+//   defaultLocale: "en",
+// });
+
+const ratelimitPaths = ["/", "/results", "/api/vote"];
+
+// * The function is of type NextMiddleware
+export const middleware: NextMiddleware = async (req: NextRequest) => {
   const path = req.nextUrl.pathname;
 
   if (!ratelimitPaths.includes(path)) {
@@ -23,17 +32,21 @@ export async function middleware(req: NextRequest) {
   }
 
   return NextResponse.next();
-}
+};
 
 export const config = {
   matcher: [
+    // * Match the root path
+    "/",
+
+    // * Match the internationalized pathnames
+    // "/(en|ja)/:path*",
     /*
      * Match all request paths except for the ones starting with:
      * - api (API routes)
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
-     * - about (about page)
      */
     {
       source: "/((?!api|_next/static|assets|about|_next/image|favicon.ico).*)",
@@ -42,7 +55,19 @@ export const config = {
         { type: "header", key: "purpose", value: "prefetch" },
       ],
     },
-    // * Match the root path
-    "/",
+
+    // {
+    //   source: "/((?!api|_next/static|_next/image|favicon.ico).*)",
+    //   has: [
+    //     { type: "header", key: "next-router-prefetch" },
+    //     { type: "header", key: "purpose", value: "prefetch" },
+    //   ],
+    // },
+
+    // {
+    //   source: "/((?!api|_next/static|_next/image|favicon.ico).*)",
+    //   has: [{ type: "header", key: "x-present" }],
+    //   missing: [{ type: "header", key: "x-missing", value: "prefetch" }],
+    // },
   ],
 };

@@ -133,10 +133,15 @@ const customPatches = async () => {
   for (const dbWaifu of waifusInDB) {
     const custWaifu = CUSTOM_PROPS.find((w) => w.id === dbWaifu.id);
     if (!custWaifu) continue;
+
+    const imgURL = new URL(
+      `https://drhf1g4gb8ywl.cloudfront.net${custWaifu.image}`,
+    );
+
     try {
       await prisma.waifu.update({
         where: { id: dbWaifu.id },
-        data: { imageCustom: custWaifu.image },
+        data: { imageCustom: imgURL.toString() },
       });
     } catch (error) {
       console.error("Error updating waifu", dbWaifu.id);
@@ -145,15 +150,15 @@ const customPatches = async () => {
 };
 
 const main = async () => {
-  checkDuplicates();
-  console.log("\n====================================\n");
+  // checkDuplicates();
+  console.log("\n===============Seeding==============\n");
 
   const shouldRemove = false;
-  await checkForRemovedWaifus(shouldRemove);
-  console.log("\n====================================\n");
+  // await checkForRemovedWaifus(shouldRemove);
+  // console.log("\n====================================\n");
 
-  const malErrors = await seedWaifusFromMAL();
-  console.log("MAL Errors:", malErrors.length);
+  // const malErrors = await seedWaifusFromMAL();
+  // console.log("MAL Errors:", malErrors.length);
   console.log("\n====================================\n");
 
   // const anilistErrors = await updateWaifusFromAnilist();
@@ -167,10 +172,8 @@ const main = async () => {
   // * Custom Patches
   await customPatches();
   console.log("Done Custom Patches 🎉\n");
-  console.log("\n====================================\n");
 
-  // * Happy Emoji Done
-  console.log("✅ Done");
+  console.log("\n================✅ Done===========\n");
 };
 
 main().catch((_e) => {

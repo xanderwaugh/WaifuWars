@@ -4,24 +4,12 @@
  */
 await import("./src/env.mjs");
 
+const isDev = process.env.NODE_ENV !== "production";
+
 /** @type {import("next").NextConfig} */
 const config = {
-  reactStrictMode: true,
-  /**
-   * If you have the "appDir" setting enabled, then you
-   * must comment the below `i18n` config out.
-   * @see https://github.com/vercel/next.js/issues/41980
-   */
-  i18n: { locales: ["en"], defaultLocale: "en" },
+  // * NextJS Images
   images: {
-    // domains: [
-    //   "waifuwars.net",
-    //   "cdn.discordapp.com",
-    //   "source.unsplash.com",
-    //   "myanimelist.net",
-    //   "cdn.myanimelist.net",
-    //   "s4.anilist.co",
-    // ],
     remotePatterns: [
       { hostname: "waifuwars.net" },
       { hostname: "cdn.discordapp.com" },
@@ -29,14 +17,29 @@ const config = {
       { hostname: "myanimelist.net" },
       { hostname: "cdn.myanimelist.net" },
       { hostname: "s4.anilist.co" },
+      { hostname: "waifuwars.s3.amazonaws.com" },
+      { hostname: "drhf1g4gb8ywl.cloudfront.net" },
     ],
     formats: ["image/avif", "image/webp"],
   },
+  // * Config
+  reactStrictMode: true,
   poweredByHeader: false,
   generateEtags: false,
-  swcMinify: true,
+  // swcMinify: true,
   cleanDistDir: true,
   trailingSlash: true,
+
+  experimental: {
+    reactCompiler: true,
+  },
+
+  /**
+   * If you have the "appDir" setting enabled, then you
+   * must comment the below `i18n` config out.
+   * @see https://github.com/vercel/next.js/issues/41980
+   */
+  i18n: { locales: ["en"], defaultLocale: "en" },
 };
 
 export default config;

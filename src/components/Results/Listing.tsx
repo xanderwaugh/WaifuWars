@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import { genCountPerc } from "~/utils";
+import { BLUR_DATA_URL, genCountPerc } from "~/utils";
 
 interface ResultListingProps {
   waifu: WaifusQueryResult[number];
@@ -31,7 +31,7 @@ const ResultListing: React.FC<ResultListingProps> = ({ waifu, rank }) => {
               height={128} // 160 <- 80 <- 64
               loading={rank < 10 ? "eager" : "lazy"}
               placeholder="blur"
-              blurDataURL="/assets/placeholder.webp"
+              blurDataURL={BLUR_DATA_URL}
               className="h-32 w-20 rounded-sm object-cover"
               // max-h-32 min-h-20
             />

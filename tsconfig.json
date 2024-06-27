@@ -10,7 +10,7 @@
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "module": "esnext",
+    "module": "ESNext",
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -20,14 +20,8 @@
     "types": ["next", "node", "@types/gtag.js"],
     "noUncheckedIndexedAccess": true,
     "baseUrl": ".",
-    "paths": {
-      "~/*": ["./src/*"]
-    },
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
+    "paths": { "~/*": ["./src/*"] },
+    "plugins": [{ "name": "next" }]
   },
   "include": [
     ".eslintrc.cjs",
@@ -36,6 +30,7 @@
     "**/*.tsx",
     "**/*.cjs",
     "**/*.mjs",
+    "**/*.json",
     ".next/types/**/*.ts"
   ],
   "exclude": ["node_modules", ".next"]

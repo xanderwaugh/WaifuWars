@@ -12,10 +12,7 @@ interface ProvidersProps {
 const Providers: React.FC<ProvidersProps> = ({ children }) => {
   return (
     <>
-      <WaifuProvider>
-        {/*  */}
-        {children}
-      </WaifuProvider>
+      <WaifuProvider>{children}</WaifuProvider>
 
       <ToastContainer
         {...toastOptions}

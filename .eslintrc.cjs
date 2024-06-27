@@ -4,19 +4,14 @@ const tsconfig = path.join(__dirname, "tsconfig.json");
 
 /** @type {import("eslint").Linter.Config} */
 module.exports = {
-  overrides: [
-    {
-      extends: [
-        "plugin:@typescript-eslint/recommended-requiring-type-checking",
-      ],
-      files: ["*.ts", "*.tsx"],
-      parser: "@typescript-eslint/parser",
-      parserOptions: { project: tsconfig },
-    },
-  ],
   parser: "@typescript-eslint/parser",
   parserOptions: { project: tsconfig },
-  plugins: ["@typescript-eslint", "prettier", "tailwindcss"],
+  plugins: [
+    "@typescript-eslint",
+    "eslint-plugin-react-compiler",
+    "prettier",
+    "tailwindcss",
+  ],
   root: true,
   extends: [
     "next/core-web-vitals",
@@ -24,7 +19,8 @@ module.exports = {
     "plugin:react/recommended",
     "plugin:prettier/recommended",
     "plugin:tailwindcss/recommended",
-    // "plugin:react-hooks/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
   ],
   rules: {
     // * Don't Have To Import React
@@ -44,6 +40,9 @@ module.exports = {
     "tailwindcss/classnames-order": "error",
     // * NextJS Image
     // "@next/next/no-img-element": "off",
+
+    // * React-Compiler
+    "react-compiler/react-compiler": "error",
   },
   ignorePatterns: ["node_modules/", "build/", "dist/", ".next/"],
 };
