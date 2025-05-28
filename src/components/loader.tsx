@@ -1,7 +1,7 @@
 "use client";
 
-import { useWaifuContext } from "./lib/context";
-import { Spinner } from "./spinny";
+import { Spinner } from "./spinner";
+import { useWaifuContext } from "./utils/context";
 
 // * When loading is true, show the spinner
 const HomeLoading: React.FC = () => {

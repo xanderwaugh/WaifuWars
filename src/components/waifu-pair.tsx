@@ -1,6 +1,6 @@
 import { getWaifuPair } from "~/server/actions";
-import Updater from "./lib/cupdater";
-import WaifuListing from "./waif";
+import { Updater } from "./utils/updater";
+import { WaifuListing } from "./waifu";
 
 interface PairProps {
   loading?: boolean;

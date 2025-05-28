@@ -1,6 +1,6 @@
 import type { Metadata, NextPage } from "next";
 
-import HomeLoading from "~/components/loads";
+import HomeLoading from "~/components/loader";
 import { Header } from "~/components/navbar";
 import { SkipButton } from "~/components/skip-button";
 import { Pair } from "~/components/waifu-pair";

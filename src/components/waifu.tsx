@@ -6,7 +6,8 @@ import Link from "next/link";
 import { BLUR_DATA_URL } from "~/lib";
 import { voteEvent } from "~/lib/gtag";
 import { voteForPair } from "~/server/actions";
-import { useWaifuContext } from "./lib/context";
+import { Button } from "./ui/button";
+import { useWaifuContext } from "./utils/context";
 
 interface WaifuListingProps {
   id: number;
@@ -80,16 +81,25 @@ const WaifuListing: React.FC<WaifuListingProps> = (props) => {
         />
       </Link>
 
-      <button
+      {/* <button
         onClick={() => void vote()}
         type="button"
         disabled={loading}
         className="btn w-full"
       >
         Vote
-      </button>
+      </button> */}
+      <Button
+        onClick={() => void vote()}
+        disabled={loading}
+        variant="outline"
+        // className="btn w-full"
+        className="w-full"
+      >
+        Vote
+      </Button>
     </div>
   );
 };
 
-export default WaifuListing;
+export { WaifuListing };

@@ -2,7 +2,7 @@
 
 import { Fragment } from "react";
 
-import { useWaifuContext } from "~/components/lib/context";
+import { useWaifuContext } from "~/components/utils/context";
 import { sortByPerc, sortByVotes } from "~/data/sort";
 import { ResultListing } from "./listing";
 

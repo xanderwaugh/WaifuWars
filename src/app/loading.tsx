@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 
 import { Header } from "~/components/navbar";
-import { Spinner } from "~/components/spinny";
+import { Spinner } from "~/components/spinner";
 
 const Loading: NextPage = () => {
   return (

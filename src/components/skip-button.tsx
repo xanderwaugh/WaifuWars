@@ -1,7 +1,8 @@
 "use client";
 
 // import { useRouter } from "next/navigation";
-import { useWaifuContext } from "./lib/context";
+import { Button } from "./ui/button";
+import { useWaifuContext } from "./utils/context";
 
 const SkipButton: React.FC = () => {
   // const router = useRouter();
@@ -26,14 +27,14 @@ const SkipButton: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center justify-center gap-4">
-      <button
+      <Button
         onClick={() => void skip()}
         type="button"
         disabled={loading}
-        className="btn border-2 border-gray-500 hover:border-gray-600 hover:bg-gray-600 hover:text-white"
+        variant="secondary"
       >
         Skip
-      </button>
+      </Button>
     </div>
   );
 };

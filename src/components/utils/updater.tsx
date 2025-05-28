@@ -41,4 +41,4 @@ const Updater: React.FC<UpdaterProps> = ({
   return null;
 };
 
-export default Updater;
+export { Updater };

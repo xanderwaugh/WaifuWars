@@ -3,7 +3,7 @@
 import { domAnimation, LazyMotion } from "motion/react";
 import { Toaster } from "sonner";
 
-import { WaifuProvider } from "~/components/lib/context";
+import { WaifuProvider } from "~/components/utils/context";
 import { toastOptions } from "~/lib/toast";
 import { ThemeProvider } from "../ui/theme-provider";
 import { Analytics } from "./analytics";
@@ -20,8 +20,8 @@ const Providers: React.FC<ProvidersProps> = ({ children }) => {
       <LazyMotion features={domAnimation}>
         <ThemeProvider
           attribute="class"
-          forcedTheme="light"
-          defaultTheme="light"
+          forcedTheme="dark"
+          defaultTheme="dark"
           // enableSystem={true}
           // disableTransitionOnChange={true}
         >

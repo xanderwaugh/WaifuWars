@@ -4,8 +4,8 @@ import type { NextWebVitalsMetric } from "next/app";
 import { Suspense } from "react";
 import { Montserrat, Source_Code_Pro } from "next/font/google";
 
-import { Providers } from "~/components/lib/next-providers";
-import { TWIndicator } from "~/components/lib/tw-indicator";
+import { Providers } from "~/components/utils/providers";
+import { TWIndicator } from "~/components/utils/tw-indicator";
 import { cn } from "~/lib/tw";
 
 const mont = Montserrat({

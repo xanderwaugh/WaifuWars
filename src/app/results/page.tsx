@@ -2,7 +2,7 @@ import type { Metadata, NextPage } from "next";
 import { Suspense } from "react";
 
 import { Header } from "~/components/navbar";
-import Results from "~/components/stats";
+import Results from "~/components/results";
 import { sortByVotes } from "~/data/sort";
 import { prisma } from "~/server/db";
 

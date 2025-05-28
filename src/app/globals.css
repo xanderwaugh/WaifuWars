@@ -4,80 +4,78 @@
 
 @layer base {
   :root {
-    /* 9anime Inspired Light Theme (Optional Fallback) */
-    /* You might want to define a proper light theme if you intend to support it */
-    --background: 0 0% 100%; /* White */
-    --foreground: 240 10% 3.9%; /* Dark Gray */
+    --primary: #262626;
+    --theme: #f3f3f3;
+    --nav-active: rgb(200, 116, 139);
 
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --background: hsl(0 0% 7%); /* Main page background - very dark */
+    --foreground: hsl(0 0% 95%); /* Default text color - light */
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
+    --muted: hsl(0 0% 30%); /* Muted elements - mid-gray */
+    --muted-foreground: hsl(0 0% 60%); /* Text on muted elements - dimmer */
 
-    --primary: 0 0% 15%; /* A generic purple for light mode */
-    --primary-foreground: 0 0% 98%; /* Almost white */
+    --popover: hsl(0 0% 9%); /* Popover background - dark */
+    --popover-foreground: hsl(0 0% 95%); /* Text on popovers - light */
 
-    --secondary: 240 4.8% 95.9%; /* Light Gray */
-    --secondary-foreground: 240 5.9% 10%; /* Dark Gray */
+    --card: hsl(0 0% 11%); /* Card background - slightly lighter than main bg */
+    --card-foreground: hsl(0 0% 95%); /* Text on cards - light */
 
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%; /* Medium Gray */
+    --border: hsl(0 0% 18%); /* Border color - subtle dark gray */
+    --input: hsl(0 0% 22%); /* Input field border - slightly more visible */
 
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+    --primary: hsl(0 0% 15%); /* Your defined primary color - dark gray */
+    --primary-foreground: hsl(
+      0 0% 98%
+    ); /* Text on primary elements - very light for contrast */
 
-    --destructive: 0 84.2% 60.2%; /* Red */
-    --destructive-foreground: 0 0% 98%;
+    --secondary: hsl(0 0% 20%); /* Secondary elements - another shade of gray */
+    --secondary-foreground: hsl(0 0% 95%); /* Text on secondary - light */
 
-    --border: 240 5.9% 90%; /* Light Gray Border */
-    --input: 240 5.9% 90%;
-    --ring: 262 80% 50%; /* Primary color for focus rings */
+    --accent: hsl(130 65% 50%); /* Accent color - 9anime-like vibrant green */
+    --accent-foreground: hsl(0 0% 100%); /* Text on accent elements - white */
 
-    --radius: 0.5rem; /* Default Shadcn radius */
+    --destructive: hsl(0 72% 51%); /* Destructive actions - red */
+    --destructive-foreground: hsl(
+      0 0% 100%
+    ); /* Text on destructive elements - white */
+
+    --ring: hsl(
+      130 65% 55%
+    ); /* Focus ring color - typically accent or primary based */
+
+    --radius: 0.5rem; /* Default border radius for components */
   }
 
   .dark {
-    /* 9anime Inspired Dark Theme */
-    --background: 240 10% 3.9%; /* Very Dark Gray/Almost Black (e.g., #0A0A0A) */
-    /* A slightly bluer dark: 224 71% 4% */
-    /* Or a more neutral dark: 0 0% 7% (like #121212) */
-    /* Let's go with a common dark theme base: */
-    --background: 220 18% 10%; /* #161A1D - A cool dark gray */
+    /* These variables are repeated for explicitness if using a class-based dark mode toggle */
+    --background: hsl(0 0% 7%);
+    --foreground: hsl(0 0% 95%);
 
-    --foreground: 0 0% 95%; /* Light Gray/Off-White (e.g., #F2F2F2) */
+    --muted: hsl(0 0% 30%);
+    --muted-foreground: hsl(0 0% 60%);
 
-    --card: 220 18% 13%; /* Slightly Lighter Dark Gray for cards (e.g., #1C2125) */
-    --card-foreground: 0 0% 95%;
+    --popover: hsl(0 0% 9%);
+    --popover-foreground: hsl(0 0% 95%);
 
-    --popover: 220 18% 10%; /* Same as background or card for popovers */
-    --popover-foreground: 0 0% 95%;
+    --card: hsl(0 0% 11%);
+    --card-foreground: hsl(0 0% 95%);
 
-    /* 9anime Purple - Adjust HSL to get the exact shade you like */
-    /* Example: #7B2CBF -> HSL(270, 60%, 45%) */
-    /* Example: #8A2BE2 (BlueViolet) -> HSL(271, 76%, 53%) */
-    /* Example: #9333ea (Tailwind purple-600) -> HSL(273, 80%, 56%) */
-    --primary: 270 70% 55%; /* Vibrant Purple (e.g., #8344D7) */
-    --primary-foreground: 0 0% 98%; /* White/Very Light Gray for text on primary */
+    --border: hsl(0 0% 18%);
+    --input: hsl(0 0% 22%);
 
-    --secondary: 220 15% 20%; /* Darker Gray for secondary elements (e.g., #2B3036) */
-    --secondary-foreground: 0 0% 80%; /* Lighter Gray for text on secondary */
+    --primary: hsl(0 0% 15%);
+    --primary-foreground: hsl(0 0% 98%);
 
-    --muted: 220 10% 25%; /* Muted Gray (e.g., #3A3F44) */
-    --muted-foreground: 0 0% 60%; /* Dimmer text color (e.g., #999999) */
+    --secondary: hsl(0 0% 20%);
+    --secondary-foreground: hsl(0 0% 95%);
 
-    --accent: 270 70% 65%; /* A slightly lighter/brighter purple for accents */
-    --accent-foreground: 0 0% 98%;
+    --accent: hsl(130 65% 50%);
+    --accent-foreground: hsl(0 0% 100%);
 
-    --destructive: 0 70% 55%; /* A slightly desaturated red for dark mode (e.g., #D94848) */
-    --destructive-foreground: 0 0% 98%;
+    --destructive: hsl(0 72% 51%);
+    --destructive-foreground: hsl(0 0% 100%);
 
-    --border: 220 15% 22%; /* Subtle border color (e.g., #2F353A) */
-    --input: 220 15% 22%; /* Input field border */
-    --ring: 270 70% 60%; /* Focus ring, often primary or a brighter version */
-
-    /* Consider a slightly more rounded feel if you like */
-    /* --radius: 0.75rem; */
+    --ring: hsl(130 65% 55%);
   }
 
   *,
