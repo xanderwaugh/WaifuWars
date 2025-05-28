@@ -15,7 +15,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
 
-    --primary: 262 80% 50%; /* A generic purple for light mode */
+    --primary: 0 0% 15%; /* A generic purple for light mode */
     --primary-foreground: 0 0% 98%; /* Almost white */
 
     --secondary: 240 4.8% 95.9%; /* Light Gray */

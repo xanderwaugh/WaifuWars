@@ -1,6 +1,5 @@
 import "./globals.css";
 
-import type { Metadata } from "next";
 import type { NextWebVitalsMetric } from "next/app";
 import { Suspense } from "react";
 import { Montserrat, Source_Code_Pro } from "next/font/google";
@@ -49,11 +48,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
 
 export default RootLayout;
 
-export const metadata: Metadata = {
-  title: "Waifu Wars",
-  description: "Vote for the best waifu!",
-  // image: "/assets/og-image.png",
-};
+export { metadata, viewport } from "~/lib/metadata";
 
 export function reportWebVitals(props: NextWebVitalsMetric) {
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition

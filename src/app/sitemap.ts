@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-import { siteURL } from "~/lib/seoConfig";
+import { siteURL } from "~/lib/metadata";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [

@@ -64,10 +64,24 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        // You can add custom 9anime-specific animations here if needed
+        // e.g., a subtle pulse for the primary color or a specific hover effect
+        "fade-in": {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
+        },
+        "slide-in-from-bottom": {
+          from: { transform: "translateY(20px)", opacity: "0" },
+          to: { transform: "translateY(0)", opacity: "1" },
+        },
       },
       animation: {
+        // Shadcn UI default animations
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        // Custom animations
+        "fade-in": "fade-in 0.5s ease-out",
+        "slide-in-from-bottom": "slide-in-from-bottom 0.5s ease-out forwards",
       },
     },
   },
