@@ -1,9 +1,9 @@
 import type { Metadata, NextPage } from "next";
 
-import Pair from "~/components/Pair";
-import Header from "~/components/Header";
-import SkipButton from "~/components/SkipButton";
-import HomeLoading from "~/components/Loading";
+import HomeLoading from "~/components/loads";
+import { Header } from "~/components/navbar";
+import { SkipButton } from "~/components/skip-button";
+import { Pair } from "~/components/waifu-pair";
 
 const Home: NextPage = () => {
   // throw new Error("This is a test error");

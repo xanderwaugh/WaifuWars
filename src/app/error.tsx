@@ -1,8 +1,9 @@
 "use client";
+
 import type { NextPage } from "next";
 
-import Header from "~/components/Header";
-import Spinner from "~/components/Spinner";
+import { Header } from "~/components/navbar";
+import { Spinner } from "~/components/spinny";
 
 const Error: NextPage<ErrorPageProps> = ({ error }) => {
   return (

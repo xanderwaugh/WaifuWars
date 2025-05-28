@@ -1,6 +1,7 @@
-import { axios } from "./axios";
-import { type AxiosError } from "axios";
 import { type PrismaClient } from "@prisma/client";
+import { type AxiosError } from "axios";
+
+import { axios } from "./axios";
 
 // Prisma Seed
 type Waifu = {
@@ -42,7 +43,7 @@ export const convertWaifu = (waifu: RandomWaifu) =>
     image: waifu.data.images.jpg.image_url,
     createdAt: new Date(),
     updatedAt: new Date(),
-  } satisfies Waifu);
+  }) satisfies Waifu;
 
 // * Fetch Waifu by ID
 export const fetchWaifuById = async (id: number) => {

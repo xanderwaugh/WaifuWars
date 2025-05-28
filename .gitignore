@@ -1,30 +1,64 @@
-# dependencies
+/.env.local
+/.next
+/.todo
+/Clark-Site.code-workspace
 /node_modules
-/.pnp
+/public/robots.txt
+/public/sitemap-0.xml
+/public/sitemap.xml
+yarn.lock
+.DS_Store
+.env
+
+tsconfig.tsbuildinfo
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+node_modules
+.pnp
 .pnp.js
 
-# database
-/prisma/db.sqlite
-/prisma/db.sqlite-journal
-/prisma/backup.sql
-/prisma/backupdb.txt
+# testing
+coverage
 
 # next.js
-/.next/
-/out/
+.next/
+out/
+next-env.d.ts
+apps/nextjs/public/sw.js
 
-/analyze/*
+# nitro
+.nitro/
+.output/
+.cache/
+.vercel/
+
+# expo
+.expo/
+expo-env.d.ts
+apps/expo/.gitignore
+apps/expo/ios
+apps/expo/android
+*.ipa
+apps/expo/build-*************.tar.gz
+apple-secret-gen.mjs
+# Reduce Expo Build Size
+assets/example*ui/*.mov
+
+# production
+build
+dist
 
 # misc
 .DS_Store
 *.pem
-/.vscode/settings.json
-/*.code-workspace
 
-# production
-/public/robots.txt
-/public/sitemap-0.xml
-/public/sitemap.xml
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
 
 # local env files
 .env
@@ -35,17 +69,12 @@
 
 # typescript
 *.tsbuildinfo
+dist/
 
-*.zip
-*.todo
+# turbo
+.turbo
 
-public/sw.js
-public/workbox-*.js
-
-
-*.code-workspace
-
-exportDB/
-drizzle/*
-
-db-backups/
+public/videos/*
+inspo/normanandyoung-home.png
+inspo/normanandyoung-listingmedia.png
+inspo/normanandyoung-meettheteam.png

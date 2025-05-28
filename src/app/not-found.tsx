@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import Header from "~/components/Header";
+import { Header } from "~/components/navbar";
 
 export default function NotFound() {
   return (

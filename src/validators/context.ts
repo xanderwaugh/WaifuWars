@@ -1,4 +1,5 @@
 import { z } from "zod";
+
 import { voteSchema } from "./vote";
 import { waifuSchema } from "./waifu";
 

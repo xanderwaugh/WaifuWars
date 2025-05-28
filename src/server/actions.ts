@@ -1,8 +1,10 @@
 "use server";
+
 import "server-only";
-import { prisma } from "./db";
-import { getRandomWaifuPair } from "~/data/helpers";
+
 import type { WaifuPair } from "~/validators/pair";
+import { getRandomWaifuPair } from "~/data/helpers";
+import { prisma } from "./db";
 
 export async function getWaifuPair() {
   // console.count("getWaifuPair");

@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 
-import Header from "~/components/Header";
-import Spinner from "~/components/Spinner";
+import { Header } from "~/components/navbar";
+import { Spinner } from "~/components/spinny";
 
 const Loading: NextPage = () => {
   return (
@@ -33,7 +33,7 @@ const Loading: NextPage = () => {
         <ul className="flex w-full max-w-2xl flex-col border">
           {Array.from({ length: 16 }).map((_, i) => (
             <li
-              key={i}
+              key={`loading-li-${i.toString()}`}
               className="relative flex h-20 animate-pulse items-center justify-between border-b bg-gray-700/5 p-1 pr-6 transition-all duration-150"
             />
           ))}

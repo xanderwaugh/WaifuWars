@@ -1,6 +1,6 @@
-import { Redis } from "@upstash/redis";
-import { Ratelimit } from "@upstash/ratelimit";
 import type { NextRequest } from "next/server";
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis";
 
 const rateLimiter = new Ratelimit({
   redis: Redis.fromEnv(),
@@ -10,8 +10,10 @@ const rateLimiter = new Ratelimit({
 const getFingerprint = (req: NextRequest) => {
   const forwarded = req.headers.get("x-forwarded-for");
   const ip = forwarded
-    ? (typeof forwarded === "string" ? forwarded : forwarded[0])?.split(/, /)[0]
-    : req.ip;
+    ? // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      (typeof forwarded === "string" ? forwarded : forwarded[0])?.split(/, /)[0]
+    : // : req.ip;
+      req.headers.get("x-real-ip");
   // : req.socket.remoteAddress;
 
   return ip ?? "127.0.0.1";

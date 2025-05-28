@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { PrismaClient } from "@prisma/client";
+
 import { ALL_WAIFUS, CUSTOM_PROPS, SKIP_ANILIST } from "../src/data/waifus";
-import { fetchWaifuById, addWaifuToDB, fetchFromAnilist } from "./utils";
+import { addWaifuToDB, fetchFromAnilist, fetchWaifuById } from "./utils";
 
 const prisma = new PrismaClient();
 

@@ -1,18 +1,29 @@
-import { env } from "~/env.mjs";
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 
-function createPrisma() {
-  return new PrismaClient({
-    log: env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
-  });
+import { env } from "../env";
+
+const DB_URL = env.DATABASE_URL;
+const IS_DEV = env.NODE_ENV === "development";
+
+if (!DB_URL) {
+  throw new Error("DATABASE_URL is not set");
 }
 
-type MyPrisma = ReturnType<typeof createPrisma>;
-
-const globalForPrisma = globalThis as unknown as {
-  prisma: MyPrisma | undefined;
+const prismaClientSingleton = () => {
+  return new PrismaClient({
+    log: IS_DEV ? ["error", "warn"] : ["error"],
+    errorFormat: "pretty",
+  });
 };
 
-export const prisma = globalForPrisma.prisma ?? createPrisma();
+type PrismaClientSingleton = ReturnType<typeof prismaClientSingleton>;
 
-if (env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+declare const globalThis: {
+  prismaGlobal: PrismaClientSingleton | undefined;
+} & typeof global;
+
+const prisma = globalThis.prismaGlobal ?? prismaClientSingleton();
+if (env.NODE_ENV !== "production") globalThis.prismaGlobal = prisma;
+
+export { prisma, Prisma };
+export default prisma;

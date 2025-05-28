@@ -1,4 +1,5 @@
 import { z } from "zod";
+
 import { waifuSchema } from "./waifu";
 
 export const pairSchema = z.object({

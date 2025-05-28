@@ -1,3 +1,4 @@
+/* eslint-disable security/detect-object-injection */
 import { ALL_WAIFUS } from "./waifus";
 
 export const getRandomWaifu: (notThisOne?: number) => number = (
@@ -10,7 +11,7 @@ export const getRandomWaifu: (notThisOne?: number) => number = (
 
   if (!ALL_WAIFUS[idx]) return getRandomWaifu(notThisOne);
 
-  return ALL_WAIFUS[idx] as number;
+  return ALL_WAIFUS[idx];
 };
 
 export const getRandomWaifuPair = () => {

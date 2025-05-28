@@ -1,28 +1,29 @@
-import "~/styles/globals.css";
-import { Suspense } from "react";
+import "./globals.css";
+
 import type { Metadata } from "next";
 import type { NextWebVitalsMetric } from "next/app";
-
-import { cn } from "~/utils/tw";
+import { Suspense } from "react";
 import { Montserrat, Source_Code_Pro } from "next/font/google";
 
-import { Providers, Analytics, TWIndicator } from "~/components/Utils";
+import { Providers } from "~/components/lib/next-providers";
+import { TWIndicator } from "~/components/lib/tw-indicator";
+import { cn } from "~/lib/tw";
 
 const mont = Montserrat({
-  display: "swap",
   variable: "--font-montserrat",
+  display: "swap",
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
 });
 
 const scp = Source_Code_Pro({
-  display: "swap",
   variable: "--font-scp",
+  display: "swap",
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
 });
 
-export default function RootLayout({ children }: RootLayoutProps) {
+const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
@@ -38,13 +39,15 @@ export default function RootLayout({ children }: RootLayoutProps) {
         </Providers>
 
         <Suspense fallback={null}>
-          <Analytics />
+          {/* <CookieBanner /> */}
           <TWIndicator />
         </Suspense>
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;
 
 export const metadata: Metadata = {
   title: "Waifu Wars",
@@ -53,6 +56,7 @@ export const metadata: Metadata = {
 };
 
 export function reportWebVitals(props: NextWebVitalsMetric) {
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (typeof window === "undefined" || !window?.gtag) return;
   const { id, name, label, value } = props;
   window.gtag("event", name, {

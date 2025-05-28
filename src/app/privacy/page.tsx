@@ -1,6 +1,6 @@
 import type { Metadata, NextPage } from "next";
 
-import Header from "~/components/Header";
+import { Header } from "~/components/navbar";
 
 const PrivacyPage: NextPage = () => {
   return (

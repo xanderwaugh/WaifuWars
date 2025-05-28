@@ -51,7 +51,7 @@ interface PrismaWaifusQuery {
     VoteAgainst: number;
   };
   id: number;
-  url: string;
+  url?: string;
   name: string;
   image: string;
   imageLarge: string | null;
@@ -62,3 +62,14 @@ interface PrismaWaifusQuery {
 type PrismaWaifuQNoBio = Omit<PrismaWaifusQuery, "bio">;
 
 type WaifusQueryResult = PrismaWaifuQNoBio[];
+
+interface Metric {
+  id: string;
+  name: string;
+  value: number;
+  rating: "good" | "nice" | "poor" | null;
+  delta: number;
+  entries: unknown;
+  navigationType: string;
+  data: number;
+}

@@ -1,0 +1,160 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* 9anime Inspired Light Theme (Optional Fallback) */
+    /* You might want to define a proper light theme if you intend to support it */
+    --background: 0 0% 100%; /* White */
+    --foreground: 240 10% 3.9%; /* Dark Gray */
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+
+    --primary: 262 80% 50%; /* A generic purple for light mode */
+    --primary-foreground: 0 0% 98%; /* Almost white */
+
+    --secondary: 240 4.8% 95.9%; /* Light Gray */
+    --secondary-foreground: 240 5.9% 10%; /* Dark Gray */
+
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%; /* Medium Gray */
+
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+
+    --destructive: 0 84.2% 60.2%; /* Red */
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 5.9% 90%; /* Light Gray Border */
+    --input: 240 5.9% 90%;
+    --ring: 262 80% 50%; /* Primary color for focus rings */
+
+    --radius: 0.5rem; /* Default Shadcn radius */
+  }
+
+  .dark {
+    /* 9anime Inspired Dark Theme */
+    --background: 240 10% 3.9%; /* Very Dark Gray/Almost Black (e.g., #0A0A0A) */
+    /* A slightly bluer dark: 224 71% 4% */
+    /* Or a more neutral dark: 0 0% 7% (like #121212) */
+    /* Let's go with a common dark theme base: */
+    --background: 220 18% 10%; /* #161A1D - A cool dark gray */
+
+    --foreground: 0 0% 95%; /* Light Gray/Off-White (e.g., #F2F2F2) */
+
+    --card: 220 18% 13%; /* Slightly Lighter Dark Gray for cards (e.g., #1C2125) */
+    --card-foreground: 0 0% 95%;
+
+    --popover: 220 18% 10%; /* Same as background or card for popovers */
+    --popover-foreground: 0 0% 95%;
+
+    /* 9anime Purple - Adjust HSL to get the exact shade you like */
+    /* Example: #7B2CBF -> HSL(270, 60%, 45%) */
+    /* Example: #8A2BE2 (BlueViolet) -> HSL(271, 76%, 53%) */
+    /* Example: #9333ea (Tailwind purple-600) -> HSL(273, 80%, 56%) */
+    --primary: 270 70% 55%; /* Vibrant Purple (e.g., #8344D7) */
+    --primary-foreground: 0 0% 98%; /* White/Very Light Gray for text on primary */
+
+    --secondary: 220 15% 20%; /* Darker Gray for secondary elements (e.g., #2B3036) */
+    --secondary-foreground: 0 0% 80%; /* Lighter Gray for text on secondary */
+
+    --muted: 220 10% 25%; /* Muted Gray (e.g., #3A3F44) */
+    --muted-foreground: 0 0% 60%; /* Dimmer text color (e.g., #999999) */
+
+    --accent: 270 70% 65%; /* A slightly lighter/brighter purple for accents */
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 70% 55%; /* A slightly desaturated red for dark mode (e.g., #D94848) */
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 220 15% 22%; /* Subtle border color (e.g., #2F353A) */
+    --input: 220 15% 22%; /* Input field border */
+    --ring: 270 70% 60%; /* Focus ring, often primary or a brighter version */
+
+    /* Consider a slightly more rounded feel if you like */
+    /* --radius: 0.75rem; */
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply min-h-screen bg-primary font-scp font-normal text-white antialiased scrollbar-thin scrollbar-track-gray-400/20 scrollbar-thumb-zinc-500;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeSpeed;
+    -webkit-text-size-adjust: 100%;
+    -ms-font-feature-settings: "kern" 1;
+    font-feature-settings: "kern";
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 0.75rem;
+    background: #888;
+  }
+  img {
+    content-visibility: auto;
+  }
+  a {
+    @apply hover:cursor-pointer;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    @apply !font-montserrat;
+  }
+}
+
+@layer components {
+  .ww-page {
+    @apply relative min-h-screen scroll-smooth bg-primary font-scp text-white antialiased;
+  }
+
+  .btn {
+    @apply relative cursor-pointer rounded-md border border-[#eaeaea] px-10 py-2 font-montserrat text-lg font-bold uppercase leading-6 tracking-widest text-white antialiased transition duration-150 ease-out hover:border-slate-500/60 hover:text-slate-500 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .link {
+    @apply text-white antialiased transition-all hover:text-slate-500;
+  }
+
+  .pixelated {
+    /* https://css-tricks.com/keep-pixelated-images-pixelated-as-they-scale/ */
+    -ms-interpolation-mode: nearest-neighbor;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -o-pixelated;
+    image-rendering: pixelated;
+  }
+
+  @keyframes fade-in {
+    from {
+      @apply opacity-0;
+    }
+    to {
+      @apply opacity-100;
+    }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.5s ease-in-out;
+  }
+}
+
+@layer utilities {
+  .safe-top {
+    padding-top: calc(env(safe-area-inset-top));
+  }
+  .safe-bottom {
+    padding-bottom: calc(env(safe-area-inset-bottom) + 20px);
+  }
+}

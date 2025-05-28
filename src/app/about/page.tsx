@@ -1,7 +1,7 @@
 import type { Metadata, NextPage } from "next";
 import Link from "next/link";
 
-import Header from "~/components/Header";
+import { Header } from "~/components/navbar";
 
 const AboutPage: NextPage = () => {
   return (

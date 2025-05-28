@@ -1,8 +1,6 @@
-import {
-  NextResponse,
-  type NextMiddleware,
-  type NextRequest,
-} from "next/server";
+import type { NextMiddleware, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+
 import { ratelimit } from "./server/ratelimit";
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));

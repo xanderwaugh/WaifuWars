@@ -1,12 +1,10 @@
+import type { Metadata, NextPage } from "next";
 import { Suspense } from "react";
-import type { NextPage, Metadata } from "next";
 
-import { prisma } from "~/server/db";
-
+import { Header } from "~/components/navbar";
+import Results from "~/components/stats";
 import { sortByVotes } from "~/data/sort";
-
-import Header from "~/components/Header";
-import Results from "~/components/Results";
+import { prisma } from "~/server/db";
 
 const ResultsPage: NextPage = async () => {
   const unsorted = await prisma.waifu.findMany({
