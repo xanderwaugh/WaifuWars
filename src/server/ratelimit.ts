@@ -14,7 +14,7 @@ const getFingerprint = (req: NextRequest) => {
     : req.ip;
   // : req.socket.remoteAddress;
 
-  return ip || "127.0.0.1";
+  return ip ?? "127.0.0.1";
 };
 
 export const ratelimit = async (req: NextRequest) => {
