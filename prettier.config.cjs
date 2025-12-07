@@ -6,9 +6,9 @@
 const config = {
   plugins: [
     "@ianvs/prettier-plugin-sort-imports",
-    // * Must Come Last
     "prettier-plugin-tailwindcss",
   ],
+  // * My Conf
   arrowParens: "always",
   printWidth: 80,
   requirePragma: false,
@@ -17,8 +17,8 @@ const config = {
   useTabs: false,
   endOfLine: "auto",
   singleQuote: false,
-  // plugins: [require.resolve("prettier-plugin-tailwindcss")],
-  // * Not my conf
+  // * Not my configs
+  tailwindFunctions: ["cn", "cva"],
   importOrder: [
     "<TYPES>",
     "^(react/(.*)$)|^(react$)|^(react-native(.*)$)",
@@ -35,6 +35,21 @@ const config = {
     "^[./]",
   ],
   importOrderParserPlugins: ["typescript", "jsx", "decorators-legacy"],
+  importOrderTypeScriptVersion: "5.0.0",
+  overrides: [
+    {
+      files: "*.json.hbs",
+      options: {
+        parser: "json",
+      },
+    },
+    {
+      files: "*.ts.hbs",
+      options: {
+        parser: "babel",
+      },
+    },
+  ],
 };
 
-module.exports = config;
+export default config;

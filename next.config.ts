@@ -1,10 +1,17 @@
 import type { NextConfig } from "next";
 
-// * Import env files to validate at build time. Use jiti so we can load .ts files in here.
 import "./src/env";
 
-/** @type {import("next").NextConfig} */
 const config: NextConfig = {
+// * Config
+  reactStrictMode: true,
+  poweredByHeader: false,
+  generateEtags: false,
+  // swcMinify: true,
+  trailingSlash: true,
+  cleanDistDir: true,
+  reactCompiler: true,
+
   // * NextJS Images
   images: {
     remotePatterns: [
@@ -20,31 +27,24 @@ const config: NextConfig = {
     formats: ["image/avif", "image/webp"],
   },
 
-  // * Config
-  reactStrictMode: true,
-  poweredByHeader: false,
-  generateEtags: false,
-  // swcMinify: true,
-  trailingSlash: true,
-  cleanDistDir: true,
-
-  /**
+ /**
    * * Optimize Package Imports
    * @see https://vercel.com/blog/how-we-optimized-package-imports-in-next-js
    */
   experimental: {
-    reactCompiler: true,
     // typedRoutes: true,
     optimizePackageImports: [
       "lucide-react",
       "react-icons",
-      "react-icons/*",
+      "hls.js",
       "date-fns",
+      "@radix-ui/react-icons",
+      "motion",
+      "superjson",
     ],
   },
 
   // * Skip ESLint and TypeScript checks on build
-  eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
 
   /**

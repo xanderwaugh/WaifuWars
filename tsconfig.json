@@ -33,11 +33,10 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"],
-      "~/public/*": ["./public/*"]
     }
   },
   "include": [
-    "eslint.config.js",
+    "eslint.config.mjs",
     "eslint.d.ts",
     "next-env.d.ts",
     "**/*.ts",
@@ -45,7 +44,6 @@
     "**/*.cjs",
     "**/*.js",
     ".next/types/**/*.ts",
-    "src/env.ts"
   ],
   "exclude": ["node_modules", ".next", "public/**/*"]
 }
