@@ -1,7 +1,5 @@
 "use server";
 
-import "server-only";
-
 import type { WaifuPair } from "~/validators/pair";
 import { getRandomWaifuPair } from "~/data/helpers";
 import { prisma } from "./db";
